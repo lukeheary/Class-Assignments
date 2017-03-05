@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-{% load tags %}
 <html lang="en">
 <head>
-	{% include 'head.html' %}
-    <title>Health Net | View Profile</title>
+	{% include 'head.html'%}
+    <title>CHANGE ME</title>
 </head>
-
+<body>
 <style>
 #sectionHeading {
     background-color: #38435B;
@@ -19,7 +18,7 @@
     background-color: #475676;
     width: 70%;
     margin: 0% 0% 0% 15.4%;
-    padding: 2% 0% 0% 0%;
+    padding: 40% 0% 0% 0%;
     float: left;
 }
 </style>
@@ -29,23 +28,15 @@
 	{% include 'navbar.html' %}
 
 	<div id="sectionHeading">
-		<h2>View Profile</h2>
+		<h2> Home </h2>
 	</div>
-
 
 	<div id="sectionText">
-        {% if patient %}
-        <h3>This {{ patient }}</h3>
-        {% else %}
-        <h3>Woops</h3>
-        {% endif %}
-        {% name = get_user_type request %}
-        <br><h3>{{ name }}</h3>
-
-
+		<p> lit </p>
 	</div>
 
 
 	</div>
-
+</div>
+</body>
 </html>

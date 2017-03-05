@@ -38,7 +38,7 @@ def login(request):
     """
     c = {}
     c.update(csrf(request))
-    return render_to_response('HNApp/login.html',c)
+    return render_to_response('HNApp/login.html', c)
 
 
 # before we have username, pass empty string ''
@@ -82,6 +82,21 @@ def user_profile(request):
     args['form']=form
 
     return render_to_response('doctor_profile.html',args)
+
+
+def get_user_type(user):
+    u_type = ""
+    if(Patient.objects.get(name="Patient") in user.groups.all()):
+        u_type = "Patient"
+    elif(Doctor.objects.get(name="Doctor") in user.groups.all()):
+        u_type = "Doctor"
+    elif(Nurse.objects.get(name="Nurse") in user.groups.all()):
+        u_type = "Nurse"
+    elif(user.is_superuser):
+        u_type = "Admin"
+    else:
+        u_type = "Unknown"
+    return u_type
 
 
 def loggedin(request):
@@ -154,10 +169,10 @@ def profile(request):
     :return:
     """
     patient = request.user
-    records = patient.MedicalRecords
+    # records = patient.MedicalRecords
     context = {
         'patient': patient,
-        'records': records
+        # 'records': records
     }
     return render(request, 'HNApp/view_profile.html', context)
 

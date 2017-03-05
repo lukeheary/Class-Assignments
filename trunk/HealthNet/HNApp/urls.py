@@ -40,7 +40,9 @@ urlpatterns = [
     # /edit_appointment
     url(r'^edit_appointment/$', views.EditAppointment.as_view(), name='edit_appointment'),
     # /edit_appointment/time_taken
-    url(r'^edit_appointment/time_taken', views.time_taken, name='time_taken')
+    url(r'^edit_appointment/time_taken', views.time_taken, name='time_taken'),
+    # /edit_medicalrecords
+    url(r'^edit_medicalrecords', views.EditMedicalRecordView.as_view(), name='edit_medicalrecords')
 ]
 
 
