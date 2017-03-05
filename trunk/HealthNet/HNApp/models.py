@@ -67,8 +67,6 @@ class MedicalRecords(models.Model):
     """
     patient = models.OneToOneField(Patient, on_delete=models.CASCADE, default="")
     current_hospital = models.CharField(max_length=100, default="")
-    #Because Patient class already has allergies
-    allergies = models.CharField(max_length=200, default="")
     current_status = models.CharField(max_length=50, default="")
     previous_hospitals = models.CharField(max_length=200, default="")
 
