@@ -254,8 +254,12 @@ class EditMedicalRecordView(View):
     form_class = EditMedicalRecordsForm
 
     def get(self, request):
-        records = forms.ModelChoiceField(queryset=MedicalRecords.objects.all().order_by('name'))
-        form = self.form_class(instance=records)
+        records = MedicalRecords.objects.get(pk=1)
+        form = self.form_class(initial={'patient': records.patient,
+                                        'allergies': records.allergies,
+                                        'current_hospital': records.current_hospital,
+                                        'previous_hospitals': records.previous_hospitals,
+                                        'current_status': records.current_status})
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
