@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include 'head.html' %}
+    <title>Health Net | Patient List</title>
+</head>
+
+<style>
+#sectionHeading {
+    background-color: #38435B;
+    width: 70%;
+    margin: 2% 0% 0% 15.4%;
+    padding: 2% 0% 0% 0%;
+    float: left;
+}
+
+#sectionText {
+    background-color: #475676;
+    width: 70%;
+    margin: 0% 0% 0% 15.4%;
+    padding: 1% 0% 0% 0%;
+    float: left;
+}
+/* Table alterations */
+
+thead {
+    border-bottom: 3px solid #7c7c7c
+    font-color: #fff;
+}
+
+tbody {
+    font-color: #fff;
+}
+
+td:hover {
+    background-color: #c4c4c4;
+    font-color: #fff;
+}
+
+td, th {
+    /*background-color: #4aa0d6 !important;*/
+    border-bottom: 1px solid #7c7c7c;
+    font-color: #fff;
+}
+</style>
+<body>
+
+<div class="wrap">
+
+	{% include 'navbar.html' %}
+	<div id="sectionHeading">
+		<h2> Appointment List </h2>
+	</div>
+
+	<div id="sectionText">
+		<div class="container">
+            <table class="table table-hover" style="width: 90%">
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if all_appointments %}
+                    {% for appointment in all_appointments %}
+                        <tr>
+                            <td><a href="/#">{{ appointment.patient.name }}</a></td>
+                            <td>{{ appointment.doctor.name }}</td>
+                            <td>{{ appointment.datetime }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                {% else %}
+                    <h3>There are no appointments</h3>
+                {% endif %}
+            </table>
+        </div>
+	</div>
+    </div>
+</body>
+
+</html>

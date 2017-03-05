@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include 'head.html' %}
+    <title>Health Net</title>
+    <title>Health Net | Create Appointment</title>
+</head>
+
+<style>
+#sectionHeading {
+    background-color: #38435B;
+    width: 70%;
+    margin: 2% 0% 0% 15.4%;
+    padding: 2% 0% 0% 0%;
+    float: left;
+}
+
+#sectionText {
+    background-color: #475676;
+    width: 70%;
+    margin: 0% 0% 0% 15.4%;
+    padding: 2% 0% 0% 0%;
+    float: left;
+}
+</style>
+
+<div class="wrap">
+
+	<div id="textArea">
+		<h1>Health<span class="greenText">Net</span></h1>
+	</div>
+
+	<ul>
+		<li> <a class="active" href="/"> Home </a></li>
+		<li><a href=""> Login </a></li>
+		<li><a href="/patient-signup"> Sign Up </a></li>
+	</ul>
+
+	<div id="sectionHeading">
+		<h2> Create Appointment </h2>
+	</div>
+
+	<div id="sectionText">
+		<div class="container">
+    <form enctype="multipart/form-data" action="" method="post">{% csrf_token %} {{ form.as_p}}
+        <input type="submit" value="Make Appointment" />
+    </form>
+</div>
+	</div>
+
+
+	</div>
+</div>
+
+</html>

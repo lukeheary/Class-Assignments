@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'head.html' %}
+    <title>Health Net</title>
+</head>
+
+<style>
+    body {
+        background-color: #81BCE1;
+    }
+
+    #sectionHeading {
+        background-color: #38435B;
+        width: 70%;
+        margin: 2% 0% 0% 15.4%;
+        padding: 2% 0% 1% 0%;
+        float: left;
+    }
+
+    #sectionText {
+        background-color: #475676;
+        width: 70%;
+        margin: 0% 2% 2% 15.4%;
+        padding: 0% 2% 5% 2%;
+        float: left;
+    }
+</style>
+
+<div class="wrap">
+
+    {% include 'navbar.html' %}
+
+    <div id="sectionHeading">
+        <h2> Home </h2>
+    </div>
+
+    <div id="sectionText">
+        <p>Welcome home</p>
+        <a href="/patient_list">Patient List</a><br>
+        <a href="/create_appointment">Create Appointment</a><br>
+        <a href="/accounts/patient_signup">Sign Up</a><br>
+        <a href="/accounts/login">Login</a><br>
+        <a href="/profile">Profile</a><br>
+        <a href="/appointment_list">Appointment List</a><br>
+    </div>
+</div>
+
+</html>

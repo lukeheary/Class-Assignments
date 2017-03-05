@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include 'head.html' %}
+    <title>Health Net | Patient List</title>
+    <style>
+    body {
+        background-color: #81BCE1;
+    }
+
+    #sectionHeading {
+        background-color: #38435B;
+        width: 70%;
+        margin: 2% 0% 0% 15.4%;
+        padding: 2% 0% 1% 0%;
+        float: left;
+    }
+
+    #sectionText {
+        background-color: #475676;
+        width: 70%;
+        margin: 0% 2% 2% 15.4%;
+        padding: 0% 2% 5% 2%;
+        float: left;
+    }
+
+    h1 {
+        font-size: 8vmin;
+        font-family: 'Khula', sans-serif;
+        color: #81BCE1;
+        padding: 3.3% 0% 1.3% 15%;
+        margin: -1% 0% 0% 0%;
+    }
+
+    .greenText {
+        color: #459F44;
+    }
+    /** Heading Fonts **/
+
+    h2 {
+        display: inline-block;
+        font-size: 4vmin;
+        font-family: 'Open Sans', sans-serif;
+        color: white;
+        padding: 0% 0% 3% 1%;
+        margin: 0% 0% 0% 0%;
+        line-height: 10%;
+    }
+
+    /* Table alterations */
+
+    thead {
+        border-bottom: 3px solid #38435B;
+        font-size: 2vmin;
+    }
+
+    tbody {
+        color: #475676;
+    }
+
+    th {
+        background-color: #475676;
+        color: #81BCE1;
+    }
+
+    td {
+        background-color: #475676;
+        border-bottom: 3px solid #38435B;
+        color: white;
+        font-size: 1.5vmin;
+    }
+
+    a, a:hover {
+        color: white;
+    }
+
+    table {
+        margin: 0% 0% 0% 15.4%;
+        word-wrap: break-word;
+        table-layout: fixed;
+    }
+
+    .table-hover tbody tr:hover td {
+        background-color: #38435B;
+    }
+    </style>
+</head>
+
+
+<body>
+
+<div class="wrap">
+
+	{% include 'navbar.html' %}
+	<div id="sectionHeading">
+		<h2> Patient List </h2>
+	</div>
+        <table class="table table-hover" style="width:70%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Birth Date</th>
+                    <th>Phone Number</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if all_patients %}
+                {% for patient in all_patients %}
+                    <tr>
+                        <td><a href="/{{ patient.name }}/profile">{{ patient.name }}</a></td>
+                        <td>{{ patient.birth_date }}</td>
+                        <td>0000000000 Fix me</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            {% else %}
+                <h3>You don't have any patients</h3>
+            {% endif %}
+        </table>
+    </div>
+</body>
+
+</html>

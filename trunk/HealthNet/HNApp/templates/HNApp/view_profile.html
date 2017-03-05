@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	{% include 'head.html' %}
+    <title>Health Net | View Profile</title>
+</head>
+
+<style>
+#sectionHeading {
+    background-color: #38435B;
+    width: 70%;
+    margin: 2% 0% 0% 15.4%;
+    padding: 2% 0% 0% 0%;
+    float: left;
+}
+
+#sectionText {
+    background-color: #475676;
+    width: 70%;
+    margin: 0% 0% 0% 15.4%;
+    padding: 2% 0% 0% 0%;
+    float: left;
+}
+</style>
+
+<div class="wrap">
+
+	{% include 'navbar.html' %}
+
+	<div id="sectionHeading">
+		<h2>View Profile</h2>
+	</div>
+
+
+	<div id="sectionText">
+        {% if patient %}
+        <h3>This {{ patient }}</h3>
+        {% else %}
+        <h3>Woops</h3>
+        {% endif %}
+
+	</div>
+
+
+	</div>
+
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'head.html' %}
+    <title>Health Net | </title>
+</head>
+
+
+<body>
+
+    {% include 'navbar.html' %}
+
+    {% block content %}
+    <h2>Hi {{full_name}} Logged in!</h2>
+    <p>Click 'Logout' to logout.</p>
+    <p> Click 'Profile' to view and update here</a>
+        {% endblock %}
+
+</body>
+
+</html>

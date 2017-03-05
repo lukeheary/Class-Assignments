@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	{% include 'head.html'%}
+    <title>CHANGE ME</title>
+</head>
+<body>
+<style>
+#sectionHeading {
+    background-color: #38435B;
+    width: 70%;
+    margin: 2% 0% 0% 15.4%;
+    padding: 2% 0% 0% 0%;
+    float: left;
+}
+
+#sectionText {
+    background-color: #475676;
+    width: 70%;
+    margin: 0% 0% 0% 15.4%;
+    padding: 40% 0% 0% 0%;
+    float: left;
+}
+</style>
+
+<div class="wrap">
+
+	{% include 'navbar.html' %}
+
+	<div id="sectionHeading">
+		<h2> Home </h2>
+	</div>
+
+	<div id="sectionText">
+		<p> lit </p>
+	</div>
+
+
+	</div>
+</div>
+</body>
+</html>

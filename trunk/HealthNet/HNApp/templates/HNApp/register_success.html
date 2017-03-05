@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'head.html' %}
+    <title>Health Net | Success</title>
+</head>
+
+
+<body>
+
+    <div id="textArea">
+        <h1>Log<span class="greenText">in</span></h1>
+    </div>
+
+    <ul>
+        <li><a href="{% url 'HNApp:index' %}"> Home </a></li>
+        <li><a href="/accounts/login"> Login </a></li>
+        <li><a href="/accounts/patient_signup"> Sign Up </a></li>
+    </ul>
+
+    {% block content %}
+    <h2>You have registered!</h2>
+    <p>Click 'Login' to login.</p>
+    {% endblock %}
+
+</body>
+
+</html>
