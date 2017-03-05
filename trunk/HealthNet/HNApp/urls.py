@@ -44,6 +44,8 @@ urlpatterns = [
     url(r'^edit_appointment/time_taken', views.time_taken, name='time_taken'),
     # /admin/admin_log
     url(r'^admin/admin_log',views.display_log, name='admin_log'),
-    # /medical_record
-    url(r'medical_records', views.EditMedicalRecordView.as_view(), name='edit_medical_record'),
+    # /edit_medical_record
+    url(r'edit_medical_records/(?P<pk>[0-9]+)', views.EditMedicalRecordView.as_view(), name='edit_medical_record'),
+    # /create_medical_record
+    url(r'create_medical_records', views.CreateMedicalRecordView.as_view(), name='create_medical_record'),
 ]
