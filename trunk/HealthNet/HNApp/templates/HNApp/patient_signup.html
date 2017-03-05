@@ -23,7 +23,7 @@
         background-color: #475676;
         width: 70%;
         margin: 0% 0% 0% 15.4%;
-        padding: 0% 0% 5% 0%;
+        padding: 0% 30% 5% 1.2%;
         float: left;
     }
     
@@ -49,10 +49,13 @@
         margin: 0% 0% 0% 0%;
         line-height: 10%;
     }
+
 </style>
 
 <body>
     {% include 'navbar.html' %}
+
+
 
     <div id="sectionHeading">
         <h2> Sign Up </h2>
@@ -61,9 +64,9 @@
     <div id="sectionText">
         {% block content %}
 
-        <div class="container">
-            <form action="/accounts/patient_signup/" method="post">{% csrf_token %} {{ form1.error}} {{ form1.non_field_errors }} {{form1}} {{ form2.error}} {{ form2.non_field_errors}}
-                {{form2}}
+        <div class="container" style="width:100%" align="justify">
+            <form action="/accounts/patient_signup/" method="post">
+                {% csrf_token %} {{ form1.error}} {{ form1.non_field_errors }} {{form1}} {{ form2.error}} {{ form2.non_field_errors}} {{form2}}
                 <input type="submit" value="Register" />
             </form>
 
