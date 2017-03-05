@@ -14,6 +14,7 @@ class Patient(models.Model):
     Patient holds personal information pertaining to the user.
     """
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    
     dob = models.DateField('Date of Birth', null=True, blank=True, default="")
     contact_info = models.CharField(max_length=10, default="")
     #first_name = models.CharField(max_length=50, default="")
@@ -39,7 +40,7 @@ class Patient(models.Model):
         __str__ defines the to string method for EmergencyContactInfo
         :return: string - "(Patient's name) Contact's Name, Contact's Number"
         """
-        name = self.user.first_name + " " + self.user.last_name
+        name = self.user.first_name  + self.user.last_name
         return name
 
 

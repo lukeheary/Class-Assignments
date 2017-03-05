@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^create/$', views.CreateTool.as_view(success_url="/"), name='create'),
     # /accounts/patient_signup/
     url(r'^accounts/patient_signup/$', views.register, name="patient_signup"),
+    url(r'^accounts/patient_signup/true$', views.register, name="patient_signup"),
     # Later on can changed by type of users
     # /accounts/register_success/
     url(r'^accounts/register_success/$', views.register_success, name="register_success"),
