@@ -3,8 +3,6 @@ from .models import *
 
 
 
-
-
 class EmergencyContactInfoInLine(admin.TabularInline):
     """
     TODO
