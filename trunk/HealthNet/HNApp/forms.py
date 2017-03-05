@@ -96,6 +96,5 @@ class EditMedicalRecordsForm(ModelForm):
     TODO
     """
     class Meta:
-        # model = MedicalRecords
-
+        model = MedicalRecords
         fields = ['patient', 'current_hospital', 'allergies', 'current_status', 'previous_hospitals']
