@@ -248,3 +248,19 @@ table {
 .table-hover tbody tr:hover td {
     background-color: #38435B;
 }
+
+    input[type=submit] {
+    	padding:5px 15px;
+    	background: white;
+    	border:0 none;
+    	cursor:pointer;
+    	-webkit-border-radius: 5px;
+		border-radius: 5px;
+	}
+
+	input:hover {
+		text-decoration: none;
+    	color: white;
+    	background-color: #81BCE1;
+    	-webkit-transition-duration: 0.3s;
+	}
