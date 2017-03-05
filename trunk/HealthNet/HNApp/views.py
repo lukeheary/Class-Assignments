@@ -224,6 +224,70 @@ def profile(request):
     return render(request, 'HNApp/view_profile.html', context)
 
 
+class EditProfileView(View):
+    """
+    TODO
+    """
+    model = User
+
+    def get(self, request):
+        me = request.user
+        meType = get_user_type(request)
+        if meType == "":
+            return handler404(request)
+        if meType.equals('Patient'):
+            form_class = EditPatientProfileForm
+            template_name = 'HNApp/edit_patient_profile.html'
+            form = self.form_class(initial={'name': me.user.name,
+                                        'contact information': me.contact_info,
+                                        'date of birth': me.dob,
+                                        'allergies': me.allergies})
+            return render(request, self.template_name, {'form': form})
+        if meType.equals('Doctor') or meType.equals('Nurse'):
+            form_class = EditStaffProfileForm
+            template_name = 'HNApp/edit_staff_profile.html'
+            form = self.form_class(initial={'first name': me.first_name,
+                                            'last_name': me.last_name,
+                                            'specialization': me.specialization,
+                                            'current hospital': me.current_hospital})
+            return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            me = request.user
+            meType = get_user_type(request)
+            if meType.equals('Patient'):
+                name = form.cleaned_data['name']
+                contact_info = form.cleaned_data['contact information']
+                dob = form.cleaned_data['date of birth']
+                allergies = form.cleaned_data['allergies']
+                me.user.name = name
+                me.contact_info = contact_info
+                me.dob = dob
+                me.allergies = allergies
+
+            if meType.equals('Doctor') or meType.equals('Nurse'):
+                first_name = form.cleaned_data['first name']
+                last_name = form.cleaned_data['last name']
+                specialization = form.cleaned_data['specialization']
+                current_hospital = form.cleaned_data['current hospital']
+                me.first_name = first_name
+                me.last_name = last_name
+                me.specialization = specialization
+                me.current_hospital = current_hospital
+
+            orig_out = sys.stdout
+            f = open('sys.txt', 'w')
+            sys.stdout = f
+            tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+            str = request.user.name + " edited their profile: " + tm + "\n"
+            print(str)
+            f.close()
+            sys.stdout = orig_out
+
+        return render(request, self.template_name, {'form': form})
+
 def patient_list(request):
     """
     TODO
