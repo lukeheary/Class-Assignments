@@ -36,17 +36,28 @@
         {% block profile %}
         {% if user == '0' %}
         <p>Name: {{patient.user.first_name}} {{patient.user.last_name}}</p>
+        <p>Username: {{ patient.user.username }}</p>
         <p>Date of Birth: {{dob}}</p>
         <p>Contact Information: {{patient.contact_info}}</p>
-        <p>Allergies: {{patient.allergies}}</p>
+
         {% elif user == '1' %}
         <p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
+        <p>Username: {{ patient.user.username }}</p>
         <p>Date of Birth: {{dob}}</p>
+
         {% elif user == '2' %}
         <p>Name: {{nurse.first_name}} {{nurse.last_name}}</p>
+        <p>Username: {{ patient.user.username }}</p>
         <p>Date of Birth: {{dob}}</p>
+
         {% else %}
         <p>It looks like you haven't logged in. Click login.</p>
+        {% endif %}
+        {% endblock %}
+        {% block medical_records %}
+        {% if user == '0' %}
+        <h2>Medical Records:</h2>
+        <p>Allergies: {{patient.allergies}}</p>
         {% endif %}
         {% endblock %}
 

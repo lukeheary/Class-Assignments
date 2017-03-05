@@ -5,19 +5,13 @@ from django.template import loader, RequestContext
 from django.views.generic import View
 from django.views.generic.edit import CreateView
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.db import IntegrityError
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 # control user log in/out
 from django.contrib import auth
 # security purpose
 from django.core.context_processors import csrf
-from django.contrib.auth.models import AnonymousUser
-f = open('sys.txt', 'w')
-sys.stdout = f
 import time
-from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -66,28 +60,6 @@ def auth_view(request):
         return HttpResponseRedirect('/accounts/invalid_login')
 
 
-# def user_profile(request):
-#     """
-#     TODO
-#     :param request:
-#     :return:
-#     """
-#     if (request.method == 'POST') :
-#         form = UserProfileForm(request.POST, instance=request.user.profile)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/accounts/loggedin')
-#     else:
-#         user = request.user
-#         profile = user.profile
-#         form = UserProfileForm(instance=profile)
-#     args = {}
-#     args.update(csrf(request))
-#     args['form']=form
-
-#     return render_to_response('doctor_profile.html',args)
-
-
 def get_user_type(request):
     if hasattr(request.user, 'patient'):
         return 'patient'
@@ -131,7 +103,7 @@ def display_log(request):
         'allStrings': allStrings
     }
     f.close()
-    f = open("sys.txt",'w')
+    f = open("sys.txt", 'w')
     sys.stdout = f
     return HttpResponse(template.render(context, request))
 
@@ -171,8 +143,8 @@ def register(request):
     else:
         return render(request, 'patient_signup.html', 
         {
-            'form1':SignUpForm(),
-            'form2':PatientSignUp()
+            'form1': SignUpForm(),
+            'form2': PatientSignUp()
         })
 
 class CreateMedicalRecordView(View):
@@ -218,8 +190,6 @@ def register_success(request):
     return render_to_response('register_success.html')
 
 
-
-
 def profile(request):
     """
     TODO
@@ -262,7 +232,11 @@ def patient_list(request):
     :param request: HTTP Request
     :return: HttpResponse
     """
-    all_patients = User.objects.all()
+    all_users = User.objects.all()
+    all_patients = []
+    for user in all_users:
+        if hasattr(user, 'patient'):
+            all_patients.append(user)
     template = loader.get_template('HNApp/patient_list.html')
     context = {
         'all_patients': all_patients

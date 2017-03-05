@@ -38,8 +38,7 @@ class Patient(models.Model):
         __str__ defines the to string method for EmergencyContactInfo
         :return: string - "(Patient's name) Contact's Name, Contact's Number"
         """
-        name = self.user.first_name  + self.user.last_name
-        return name
+        return self.user.first_name + self.user.last_name
 
 
 class EmergencyContactInfo(models.Model):
