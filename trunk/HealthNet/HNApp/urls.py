@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^accounts/invalid_login/$', views.invalid_login, name='invalid_login'),
     # /profile
     # url(r'^(?P<name>/profile)/$', views.profile, name=''),
-    url(r'^profile/$', views.profile, name='profile'),
+    url(r'^accounts/profile/$', views.profile, name='profile'),
     # /create-appointment
     url(r'^create_appointment/$', views.CreateAppointmentView.as_view(), name='create_appointment'),
     # time slot is taken
