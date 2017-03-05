@@ -3,10 +3,7 @@ from .models import *
 
 
 
-admin.site.register(Patient)
-admin.site.register(Doctor)
-admin.site.register(Nurse)
-admin.site.register(MedicalRecords)
+
 
 class EmergencyContactInfoInLine(admin.TabularInline):
     """
