@@ -39,11 +39,11 @@ urlpatterns = [
     #url(r'^(?P<appointment>[0-9]+)/edit', views.EditAppointment, name='edit_appointment')
     url(r'^appointment_list', views.appointment_list, name='appointment_list'),
     # /edit_appointment
-    url(r'^edit_appointment/$', views.EditAppointment.as_view(), name='edit_appointment'),
+    url(r'^edit_appointment//(?P<pk>[0-9]+)$', views.EditAppointment.as_view(), name='edit_appointment'),
     # /edit_appointment/time_taken
     url(r'^edit_appointment/time_taken', views.time_taken, name='time_taken'),
     # /admin/admin_log
-    url(r'^admin/admin_log',views.display_log, name='admin_log'),
+    url(r'^admin/admin_log', views.display_log, name='admin_log'),
     # /edit_medical_record
     url(r'edit_medical_records/(?P<pk>[0-9]+)', views.EditMedicalRecordView.as_view(), name='edit_medical_record'),
     # /create_medical_record
