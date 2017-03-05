@@ -13,6 +13,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import auth
 # security purpose
 from django.core.context_processors import csrf
+from django.contrib.auth.models import AnonymousUser
 f = open('sys.txt', 'w')
 sys.stdout = f
 import time
@@ -194,38 +195,32 @@ def profile(request):
     :param request:
     :return:
     """
-
-    working_user = request.user
-    context = {}
-
-    if (working_user == Admin):
+    template = loader.get_template('HNApp/view_profile.html')
+    if hasattr(request.user, 'patient'):
+        working_user = request.user.patient
+        dob = str(request.user.patient.dob)
         context = {
-            'admin': working_user,
+            'patient': working_user,
+            'dob': dob,
             'user': '0',
         }
         return HttpResponse(template.render(context, request))
-    elif (working_user == Doctor):
+    if hasattr(request.user, 'doctor'):
+        working_user = request.user.doctor
+        dob = str(request.user.doctor.dob)
         context = {
             'doctor': working_user,
-            'patient_list': Patient.objects.all(),
+            'dob': dob,
             'user': '1',
         }
         return HttpResponse(template.render(context, request))
-    elif (working_user == Nurse):
+    if hasattr(request.user, 'nurse'):
+        working_user = request.user.nurse
+        dob = str(request.user.nurse.dob)
         context = {
             'nurse': working_user,
+            'dob': dob,
             'user': '2',
-        }
-        return HttpResponse(template.render(context, request))
-    elif (working_user == Patient):
-        context = {
-            'patient': working_user,
-            'user': '3',
-        }
-        return HttpResponse(template.render(context, request))
-    else:
-        context = {
-            'user': '-1'
         }
         return HttpResponse(template.render(context, request))
 
