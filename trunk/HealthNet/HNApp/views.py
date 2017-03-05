@@ -197,23 +197,21 @@ def profile(request):
     :return:
     """
     working_user = request.user
-    
+    context = {}
     if (working_user.patient):
         context = {
         'patient': working_user,
         }
-        return render(request, 'HNApp/patient_profile.html', context)
     if (working_user.doctor):
         context = {
         'doctor': working_user,
         'patient_list': Patient.objects.all()
         }
-        return render(request, 'HNApp/doctor_profile.html', context)
     if (working_user.nurse):
         context = {
         'nurse': working_user,
         }
-        return render(request, 'HNApp/nurse_profile.html', context)
+    return render(request, 'HNApp/view_profile.html', context)
 
 
 
