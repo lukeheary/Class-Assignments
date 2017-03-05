@@ -194,8 +194,9 @@ def profile(request):
     :param request:
     :return:
     """
-    working_user = User.objects.get(username=request.user)
-    template = loader.get_template('HNApp/view_profile.html')
+
+    working_user = request.user
+    context = {}
 
     if (working_user == Admin):
         context = {
