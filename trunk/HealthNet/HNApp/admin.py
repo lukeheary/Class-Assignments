@@ -35,7 +35,7 @@ class MedicalRecordsInLine(admin.StackedInline):
 #     list_filter = ['name']
 #     search_fields = ['name']
 
-# modelsToRegister = [Appointment, Doctor, Nurse]
+modelsToRegister = [Appointment, Doctor, Nurse]
 
 # admin.site.register(Patient, PatientAdmin)
-# admin.site.register(modelsToRegister)
+admin.site.register(modelsToRegister)
