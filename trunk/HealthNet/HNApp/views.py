@@ -13,6 +13,9 @@ from django.http import HttpResponseRedirect
 from django.contrib import auth
 # security purpose
 from django.core.context_processors import csrf
+f = open('sys.txt', 'w')
+sys.stdout = f
+import time
 from django.contrib.auth.decorators import login_required
 
 
@@ -90,6 +93,9 @@ def loggedin(request):
     :param request:
     :return:
     """
+    tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+    str = request.user.username + "signed in." + tm
+    print(str)
     return render_to_response('loggedin.html', {'full_name': request.user.username})
 
 
@@ -102,6 +108,23 @@ def invalid_login(request):
     return render_to_response('invalid_login.html')
 
 
+def display_log(request):
+    f = open('sys.txt', 'r')
+    allStrings = ""
+    for line in f:
+        allStrings = allStrings + line + "\n"
+
+    template = loader.get_template('HNApp/admin_log.html')
+    context = {
+        'allStrings': allStrings
+    }
+    f.close()
+    f = open("sys.txt",'w')
+    sys.stdout = f
+    return HttpResponse(template.render(context, request))
+
+
+
 def logout(request):
     """
     TODO
@@ -109,6 +132,9 @@ def logout(request):
     :return:
     """
     auth.logout(request)
+    tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+    str = request.user.name + "logged out: " + tm
+    print(str)
     return render_to_response('logout.html')
 
 
@@ -125,7 +151,9 @@ def register(request):
         if form2.is_valid() and form1.is_valid():
             user = form1.save()
             form2.save(cUser=user)
-            
+            tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+            str = user.name + "successfully registered: " + tm
+            print(str)
             return HttpResponseRedirect('/accounts/register_success')
         else:
             
@@ -216,6 +244,9 @@ class EditMedicalRecordView(View):
             records.allergies = allergies
             records.current_status = current_status
             records.previous_hospitals = previous_hospitals
+            tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+            str = request.user.name + " edited the records of " + patient.name + ": " + tm
+            print(str)
             records.save()
 
         return render(request, self.template_name, {'form': form})
@@ -276,6 +307,9 @@ class CreateAppointmentView(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
+                tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+                str = patient.name + "made appointment with " + doctor.name + " at " + datetime + ": " + tm
+                print(str)
                 return redirect('HNApp:appointment_list')
 
         return render(request, self.template_name, {'form': form})
@@ -320,6 +354,9 @@ class EditAppointment(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
+                tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+                str = patient.name + "made appointment with " + doctor.name + " at " + datetime + ": " + tm
+                print(str)
                 return redirect('HNApp:appointment_list')
 
         return render(request, self.template_name, {'form': form})
