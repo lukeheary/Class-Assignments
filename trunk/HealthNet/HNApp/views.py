@@ -65,26 +65,26 @@ def auth_view(request):
         return HttpResponseRedirect('/accounts/invalid_login')
 
 
-def user_profile(request):
-    """
-    TODO
-    :param request:
-    :return:
-    """
-    if (request.method == 'POST') :
-        form = UserProfileForm(request.POST, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/accounts/loggedin')
-    else:
-        user = request.user
-        profile = user.profile
-        form = UserProfileForm(instance=profile)
-    args = {}
-    args.update(csrf(request))
-    args['form']=form
+# def user_profile(request):
+#     """
+#     TODO
+#     :param request:
+#     :return:
+#     """
+#     if (request.method == 'POST') :
+#         form = UserProfileForm(request.POST, instance=request.user.profile)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect('/accounts/loggedin')
+#     else:
+#         user = request.user
+#         profile = user.profile
+#         form = UserProfileForm(instance=profile)
+#     args = {}
+#     args.update(csrf(request))
+#     args['form']=form
 
-    return render_to_response('doctor_profile.html',args)
+#     return render_to_response('doctor_profile.html',args)
 
 
 def get_user_type(user):
@@ -196,13 +196,25 @@ def profile(request):
     :param request:
     :return:
     """
-    patient = request.user
-    # records = patient.MedicalRecords
-    context = {
-        'patient': patient,
-        # 'records': records
-    }
-    return render(request, 'HNApp/view_profile.html', context)
+    working_user = request.user
+    
+    if (working_user.patient):
+        context = {
+        'patient': working_user,
+        }
+        return render(request, 'HNApp/patient_profile.html', context)
+    if (working_user.doctor):
+        context = {
+        'doctor': working_user,
+        'patient_list': Patient.objects.all()
+        }
+        return render(request, 'HNApp/doctor_profile.html', context)
+    if (working_user.nurse):
+        context = {
+        'nurse': working_user,
+        }
+        return render(request, 'HNApp/nurse_profile.html', context)
+
 
 
 def patient_list(request):
@@ -242,7 +254,8 @@ class EditMedicalRecordView(View):
     form_class = EditMedicalRecordsForm
 
     def get(self, request):
-        form = self.form_class(None)
+        records = forms.ModelChoiceField(queryset=MedicalRecords.objects.all().order_by('name'))
+        form = self.form_class(instance=records)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
@@ -265,8 +278,6 @@ class EditMedicalRecordView(View):
             records.save()
 
         return render(request, self.template_name, {'form': form})
-
-
 
 
 class CreateTool(CreateView):

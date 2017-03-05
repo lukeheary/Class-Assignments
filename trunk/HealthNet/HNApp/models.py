@@ -18,6 +18,7 @@ class Patient(models.Model):
     contact_info = models.CharField(max_length=10, default="")
     # emergency_info = models.CharField(max_length=10, default="")
     allergies = models.CharField(max_length=50, default="")
+    user_type = 'Patient'
 
     #  Read about this later: https://docs.djangoproject.com/en/1.10/ref/models/fields/#field-choices
     #  A = 'HospitalA'
@@ -36,7 +37,8 @@ class Patient(models.Model):
         __str__ defines the to string method for EmergencyContactInfo
         :return: string - "(Patient's name) Contact's Name, Contact's Number"
         """
-        return self.user.first_name
+        name = self.user.first_name + " " + self.user.last_name
+        return name
 
 
 class EmergencyContactInfo(models.Model):
@@ -54,7 +56,7 @@ class EmergencyContactInfo(models.Model):
         __str__ defines the to string method for EmergencyContactInfo
         :return: string - "(Patient's name) Contact's Name, Contact's Number"
         """
-        return "(" + self.patient.name + ") " + self.name.__str__() + \
+        return "(" + self.patient.name + " " + self.name.__str__() + \
                ", " + self.phone_number.__str__()
 
 
@@ -64,7 +66,8 @@ class MedicalRecords(models.Model):
     """
     patient = models.OneToOneField(Patient, on_delete=models.CASCADE, default="")
     current_hospital = models.CharField(max_length=100, default="")
-    allergies = models.CharField(max_length=200, default="")
+    #Because Patient class already has allergies
+    #allergies = models.CharField(max_length=200, default="")
     current_status = models.CharField(max_length=50, default="")
     previous_hospitals = models.CharField(max_length=200, default="")
 
@@ -86,43 +89,55 @@ class MedicalRecords(models.Model):
         self.current_hospital = new_hospital
 
 
-class Staff(models.Model):
-    """
-    <<Abtract>> Staff
-    Useful Link: https://godjango.com/blog/django-abstract-base-class-model-inheritance/
-    """
-    current_hospital = models.CharField(max_length=100, default="")
+# class Staff(models.Model):
+#     """
+#     <<Abtract>> Staff
+#     Useful Link: https://godjango.com/blog/django-abstract-base-class-model-inheritance/
+#     """
+#     current_hospital = models.CharField(max_length=100, default="")
 
-    class Meta:
-        abstract = True
+#     class Meta:
+#         abstract = True
 
 
-class Doctor(Staff):
+class Doctor(models.Model):
     """
     Doctor TODO
     """
-    specialization = models.CharField(max_length=50)
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=50, default="")
+    last_name = models.CharField(max_length=50, default="")
+    specialization = models.CharField(max_length=50, default="")
+    current_hospital = models.CharField(max_length=50, default="")
+    user_type="Doctor"
 
     def __str__(self):
         """
         __str__ defines the to string method for Doctor
         :return: string - the doctor's name
         """
-        return self.name
+        name = self.first_name + self.last_name
+        return name
 
 
-class Nurse(Staff):
+class Nurse(models.Model):
     """
     Nurse TODO
     """
-    specialization = models.CharField(max_length=50)
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=50, default="")
+    last_name = models.CharField(max_length=50, default="")
+    specialization = models.CharField(max_length=50, default="")
+    current_hospital = models.CharField(max_length=50, default="")
+    user_type="Nurse"
     
     def __str__(self):
         """
         __str__ defines the to string method for Doctor
         :return: string - the nurse's name
         """
-        return self.name
+        name = self.first_name + self.last_name
+        return name 
 
 
 class Appointment(models.Model):

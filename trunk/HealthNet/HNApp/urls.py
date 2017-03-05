@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^accounts/invalid_login/$', views.invalid_login, name='invalid_login'),
     # /profile
     # url(r'^(?P<name>/profile)/$', views.profile, name=''),
-    url(r'^profile/$', views.profile, name='profile'),
+    url(r'^accounts/profile/$', views.profile, name='profile'),
     # /create-appointment
     url(r'^create_appointment/$', views.CreateAppointmentView.as_view(), name='create_appointment'),
     # time slot is taken
@@ -42,5 +42,7 @@ urlpatterns = [
     # /edit_appointment/time_taken
     url(r'^edit_appointment/time_taken', views.time_taken, name='time_taken'),
     # /admin/admin_log
-    url(r'^admin/admin_log',views.display_log, name='admin_log')
+    url(r'^admin/admin_log',views.display_log, name='admin_log'),
+    # /medical_record
+    url(r'medical_records', views.EditMedicalRecordView.as_view(), name='edit_medical_record'),
 ]

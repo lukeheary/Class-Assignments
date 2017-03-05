@@ -1,0 +1,69 @@
+<!DOCTYPE html> {% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Khula:700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Heebo:900|Raleway:100" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+    <title>Health Net | View Profile</title>
+</head>
+
+<style>
+    #sectionHeading {
+        background-color: #38435B;
+        width: 70%;
+        margin: 2% 0% 0% 15.4%;
+        padding: 2% 0% 0% 0%;
+        float: left;
+    }
+    
+    #sectionText {
+        background-color: #475676;
+        width: 70%;
+        margin: 0% 0% 0% 15.4%;
+        padding: 2% 0% 0% 0%;
+        float: left;
+    }
+</style>
+
+<div class="wrap">
+
+    <div id="textArea">
+        <h1>Health<span class="greenText">Net</span></h1>
+    </div>
+
+    <ul>
+        <li> <a class="active" href="/"> Home </a></li>
+        <li><a href=""> Login </a></li>
+        <li><a href="/accounts/patient-signup"> Sign Up </a></li>
+    </ul>
+
+    <div id="sectionHeading">
+        <h2>View Profile</h2>
+    </div>
+
+
+    <div id="sectionText">
+
+        <h3>Welcome {{patient.first_name}} {{patient.last_name}}!</h3>
+
+        <p>Name: {{patient.first_name}} {{patient.last_name}}</p>
+        <p>Date of Birth: {{patient.dob.strftime}}</p>
+        <p>Contact Information: {{patient.contact_info}}</p>
+        <p>Allergies: {{patient.allergies}}</p>
+
+
+
+
+
+    </div>
+
+
+</div>
+
+</html>
