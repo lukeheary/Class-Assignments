@@ -32,17 +32,21 @@
 		<h2>View Profile</h2>
 	</div>
 
-
 	<div id="sectionText">
         {% if patient %}
-        <h3>This {{ patient }}</h3>
+        <p>Name: {{patient.first_name}} {{patient.last_name}}</p>
+        <p>Date of Birth: {{patient.dob.strftime}}</p>
+        <p>Contact Information: {{patient.contact_info}}</p>
+        <p>Allergies: {{patient.allergies}}</p>
+        {% else if doctor %}
+        <p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
+        <p>Date of Birth: {{doctor.dob.strftime}}</p>
+        {% else if nurse %}
+        <p>Name: {{nurse.first_name}} {{nurse.last_name}}</p>
+        <p>Date of Birth: {{nurse.dob.strftime}}</p>
         {% else %}
-        <h3>Woops</h3>
+        <p>It looks like you haven't logged in. Click login.</p>
         {% endif %}
-        {{ (get_user_type request) }}
-        <br><h3></h3>
-
-
 	</div>
 
 

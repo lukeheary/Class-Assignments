@@ -6,6 +6,7 @@ admin.site.register(Doctor)
 admin.site.register(Nurse)
 admin.site.register(Appointment)
 
+
 class EmergencyContactInfoInLine(admin.TabularInline):
     """
     TODO
@@ -24,9 +25,5 @@ class MedicalRecordsInLine(admin.StackedInline):
     ]
     max_num = 1
 
-# modelsToRegister = [Patient, Doctor, Nurse, Appointment]
-# admin.site.register(Patient)
-# admin.site.register(Doctor)
-# admin.site.register(Nurse)
-# admin.site.register(Appointment)
+
 
