@@ -196,23 +196,38 @@ def profile(request):
     :param request:
     :return:
     """
-    working_user = request.user
-    context = {}
-    if (working_user.patient):
+    working_user = User.objects.get(username=request.user)
+    template = loader.get_template('HNApp/view_profile.html')
+    if (working_user == Admin):
         context = {
-        'patient': working_user,
+            'admin': working_user,
+            'user': '0',
         }
-    if (working_user.doctor):
+        return HttpResponse(template.render(context, request))
+    elif (working_user == Doctor):
         context = {
-        'doctor': working_user,
-        'patient_list': Patient.objects.all()
+            'doctor': working_user,
+            'patient_list': Patient.objects.all(),
+            'user': '1',
         }
-    if (working_user.nurse):
+        return HttpResponse(template.render(context, request))
+    elif (working_user == Nurse):
         context = {
-        'nurse': working_user,
+            'nurse': working_user,
+            'user': '2',
         }
-    return render(request, 'HNApp/view_profile.html', context)
-
+        return HttpResponse(template.render(context, request))
+    elif (working_user == Patient):
+        context = {
+            'patient': working_user,
+            'user': '3',
+        }
+        return HttpResponse(template.render(context, request))
+    else:
+        context = {
+            'user': '-1'
+        }
+        return HttpResponse(template.render(context, request))
 
 
 def patient_list(request):

@@ -33,20 +33,22 @@
 	</div>
 
 	<div id="sectionText">
-        {% if patient %}
+        {% block profile %}
+        {% if user == '3' %}
         <p>Name: {{patient.first_name}} {{patient.last_name}}</p>
         <p>Date of Birth: {{patient.dob.strftime}}</p>
         <p>Contact Information: {{patient.contact_info}}</p>
         <p>Allergies: {{patient.allergies}}</p>
-        {% else if doctor %}
+        {% elif user == '1' %}
         <p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
         <p>Date of Birth: {{doctor.dob.strftime}}</p>
-        {% else if nurse %}
+        {% elif user == '2' %}
         <p>Name: {{nurse.first_name}} {{nurse.last_name}}</p>
         <p>Date of Birth: {{nurse.dob.strftime}}</p>
         {% else %}
         <p>It looks like you haven't logged in. Click login.</p>
         {% endif %}
+        {% endblock %}
 	</div>
 
 
