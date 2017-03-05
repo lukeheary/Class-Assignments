@@ -196,11 +196,9 @@ def profile(request):
     """
     working_user = request.user
     context = {}
-<<<<<<< HEAD
-    if (working_user.user_type):
-=======
+
     if working_user.patient:
->>>>>>> 1f0154810c8dec73392b75c6ba6f73621855c695
+
         context = {
             'patient': working_user,
         }
