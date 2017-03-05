@@ -196,6 +196,7 @@ def profile(request):
     """
     working_user = User.objects.get(username=request.user)
     template = loader.get_template('HNApp/view_profile.html')
+
     if (working_user == Admin):
         context = {
             'admin': working_user,

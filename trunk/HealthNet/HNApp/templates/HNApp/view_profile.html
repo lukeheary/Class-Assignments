@@ -34,6 +34,7 @@
 
 	<div id="sectionText">
         {% block profile %}
+        {% %}
         {% if user == '3' %}
         <p>Name: {{patient.first_name}} {{patient.last_name}}</p>
         <p>Date of Birth: {{patient.dob.strftime}}</p>
