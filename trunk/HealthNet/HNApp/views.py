@@ -88,19 +88,15 @@ def auth_view(request):
 #     return render_to_response('doctor_profile.html',args)
 
 
-def get_user_type(user):
-    u_type = ""
-    if(Patient.objects.get(name="Patient") in user.groups.all()):
-        u_type = "Patient"
-    elif(Doctor.objects.get(name="Doctor") in user.groups.all()):
-        u_type = "Doctor"
-    elif(Nurse.objects.get(name="Nurse") in user.groups.all()):
-        u_type = "Nurse"
-    elif(user.is_superuser):
-        u_type = "Admin"
+def get_user_type(request):
+    if hasattr(request.user, 'patient'):
+        return 'patient'
+    elif hasattr(request.user, 'doctor'):
+        return 'doctor'
+    elif hasattr(request.user, 'nurse'):
+        return 'nurse'
     else:
-        u_type = "Unknown"
-    return u_type
+        return ''
 
 
 def loggedin(request):
@@ -222,6 +218,8 @@ def register_success(request):
     return render_to_response('register_success.html')
 
 
+
+
 def profile(request):
     """
     TODO
@@ -264,7 +262,7 @@ def patient_list(request):
     :param request: HTTP Request
     :return: HttpResponse
     """
-    all_patients = Patient.objects.all()
+    all_patients = User.objects.all()
     template = loader.get_template('HNApp/patient_list.html')
     context = {
         'all_patients': all_patients
