@@ -106,6 +106,8 @@ def loggedin(request):
     :param request:
     :return:
     """
+    f = open('sys.txt', 'r')
+    sys.out = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
     str = request.user.username + "signed in." + tm
     print(str)
@@ -148,7 +150,6 @@ def logout(request):
     f = open('sys.txt', 'w')
     sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
     str = request.user.username + " logged out : " + tm + "\n"
     print(str)
     f.close()
@@ -174,7 +175,7 @@ def register(request):
             sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
             dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = request.user.username + "successfully registered :" + tm + "\n"
+            str = request.user.username + " successfully registered : " + tm + "\n"
             print(str)
             f.close()
             sys.stdout = orig_out
@@ -392,7 +393,7 @@ class CreateAppointmentView(View):
                 sys.stdout = f
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.username + " made appointment with doctor" + doctor.last_name + " at " + dt + ": " + tm + "\n"
+                str = patient.user.username + " made appointment with doctor " + doctor.last_name + " at " + dt + ": " + tm + "\n"
                 print(str)
                 f.close()
                 sys.stdout = orig_out
@@ -445,7 +446,7 @@ class EditAppointment(View):
                 sys.stdout = f
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.username + " made appointment with doctor" + doctor.last_name + " at " + dt + ": " + tm + "\n"
+                str = patient.user.username + " made appointment with doctor " + doctor.last_name + " at " + dt + ": " + tm + "\n"
                 print(str)
                 f.close()
                 sys.stdout = orig_out
