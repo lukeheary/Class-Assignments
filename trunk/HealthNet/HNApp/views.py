@@ -166,8 +166,7 @@ def register(request):
             user = form1.save()
             form2.save(cUser=user)
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = user.name + "successfully registered: " + tm
-            print(str)
+            str = user.first_name + "successfully registered: " + tm
             return HttpResponseRedirect('/accounts/register_success')
         else:
             
