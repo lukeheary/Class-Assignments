@@ -39,8 +39,8 @@
         {% else %}
         <h3>Woops</h3>
         {% endif %}
-        {% name = get_user_type request %}
-        <br><h3>{{ name }}</h3>
+        {{ (get_user_type request) }}
+        <br><h3></h3>
 
 
 	</div>
