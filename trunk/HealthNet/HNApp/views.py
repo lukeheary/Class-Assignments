@@ -13,8 +13,6 @@ from django.http import HttpResponseRedirect
 from django.contrib import auth
 # security purpose
 from django.core.context_processors import csrf
-f = open('sys.txt', 'w')
-sys.stdout = f
 import time
 from django.contrib.auth.decorators import login_required
 
@@ -146,9 +144,15 @@ def logout(request):
     :return:
     """
     auth.logout(request)
+    orig_out = sys.stdout
+    f = open('sys.txt', 'w')
+    sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    str = request.user.name + "logged out: " + tm
+    dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+    str = request.user.username + " logged out : " + tm + "\n"
     print(str)
+    f.close()
+    sys.stdout = orig_out
     return render_to_response('logout.html')
 
 
@@ -165,9 +169,15 @@ def register(request):
         if form2.is_valid() and form1.is_valid():
             user = form1.save()
             form2.save(cUser=user)
+            orig_out = sys.stdout
+            f = open('sys.txt', 'w')
+            sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = user.name + "successfully registered: " + tm
+            dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+            str = request.user.username + "successfully registered :" + tm + "\n"
             print(str)
+            f.close()
+            sys.stdout = orig_out
             return HttpResponseRedirect('/accounts/register_success')
         else:
             
@@ -267,9 +277,14 @@ class CreateMedicalRecordView(View):
             records.allergies = allergies
             records.current_status = current_status
             records.previous_hospitals = previous_hospitals
+            orig_out = sys.stdout
+            f = open('sys.txt', 'w')
+            sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = request.user.name + " created the records for " + patient.name + ": " + tm
+            str = request.user.username + " created the medical records for " + patient.user.username + ": " + tm + "\n"
             print(str)
+            f.close()
+            sys.stdout = orig_out
             records.save()
 
         return render(request, self.template_name, {'form': form})
@@ -306,9 +321,14 @@ class EditMedicalRecordView(View):
             records.allergies = allergies
             records.current_status = current_status
             records.previous_hospitals = previous_hospitals
+            orig_out = sys.stdout
+            f = open('sys.txt', 'w')
+            sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = request.user.name + " edited the records of " + patient.name + ": " + tm
+            str = request.user.name + " edited the records of " + patient.user.username + ": " + tm + "\n"
             print(str)
+            f.close()
+            sys.stdout = orig_out
             records.save()
 
         return render(request, self.template_name, {'form': form})
@@ -367,9 +387,15 @@ class CreateAppointmentView(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
+                orig_out = sys.stdout
+                f = open('sys.txt', 'w')
+                sys.stdout = f
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.name + "made appointment with " + doctor.name + " at " + datetime + ": " + tm
+                dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+                str = patient.user.username + " made appointment with doctor" + doctor.last_name + " at " + dt + ": " + tm + "\n"
                 print(str)
+                f.close()
+                sys.stdout = orig_out
                 return redirect('HNApp:appointment_list')
 
         return render(request, self.template_name, {'form': form})
@@ -414,9 +440,15 @@ class EditAppointment(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
+                orig_out = sys.stdout
+                f = open('sys.txt', 'w')
+                sys.stdout = f
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.name + "made appointment with " + doctor.name + " at " + datetime + ": " + tm
+                dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+                str = patient.user.username + " made appointment with doctor" + doctor.last_name + " at " + dt + ": " + tm + "\n"
                 print(str)
+                f.close()
+                sys.stdout = orig_out
                 return redirect('HNApp:appointment_list')
 
         return render(request, self.template_name, {'form': form})

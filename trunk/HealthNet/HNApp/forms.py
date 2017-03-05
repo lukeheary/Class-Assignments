@@ -15,7 +15,7 @@ class SignUpForm(ModelForm):
     """
     class Meta:
         model = User
-        fields = ('first_name','last_name', 'username', 'password')
+        fields = ('first_name', 'last_name', 'username', 'password')
         exclude = ('email',)
 
     def save(self, commit=True):

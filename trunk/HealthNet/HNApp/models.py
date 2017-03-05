@@ -16,6 +16,8 @@ class Patient(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     dob = models.DateField('Date of Birth', null=True, blank=True, default="")
     contact_info = models.CharField(max_length=10, default="")
+    #first_name = models.CharField(max_length=50, default="")
+    #last_name = models.CharField(max_length=50, default="")
     # emergency_info = models.CharField(max_length=10, default="")
     allergies = models.CharField(max_length=50, default="")
     user_type = 'Patient'
@@ -154,7 +156,7 @@ class Appointment(models.Model):
         __str__ defines the to string method for Appointment
         :return: string - "Patient's Name seeing: Doctor's Name at Date"
         """
-        return self.patient.name + " seeing: " + self.doctor.name + \
+        return self.patient.user.username + " seeing doctor: " + self.doctor.last_name + \
             " at " + self.datetime.__str__()
 
 
