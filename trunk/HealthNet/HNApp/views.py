@@ -154,10 +154,10 @@ def profile(request):
     :return:
     """
     patient = request.user
-    # records = patient.MedicalRecords
+    records = patient.MedicalRecords
     context = {
         'patient': patient,
-        # 'records': records
+        'records': records
     }
     return render(request, 'HNApp/view_profile.html', context)
 
