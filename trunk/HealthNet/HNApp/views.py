@@ -13,6 +13,9 @@ from django.http import HttpResponseRedirect
 from django.contrib import auth
 # security purpose
 from django.core.context_processors import csrf
+from django.contrib.auth.models import AnonymousUser
+f = open('sys.txt', 'w')
+sys.stdout = f
 import time
 from django.contrib.auth.decorators import login_required
 
@@ -106,8 +109,6 @@ def loggedin(request):
     :param request:
     :return:
     """
-    f = open('sys.txt', 'r')
-    sys.out = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
     str = request.user.username + "signed in." + tm
     print(str)
@@ -146,14 +147,9 @@ def logout(request):
     :return:
     """
     auth.logout(request)
-    orig_out = sys.stdout
-    f = open('sys.txt', 'w')
-    sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    str = request.user.username + " logged out : " + tm + "\n"
+    str = request.user.name + "logged out: " + tm
     print(str)
-    f.close()
-    sys.stdout = orig_out
     return render_to_response('logout.html')
 
 
@@ -170,15 +166,8 @@ def register(request):
         if form2.is_valid() and form1.is_valid():
             user = form1.save()
             form2.save(cUser=user)
-            orig_out = sys.stdout
-            f = open('sys.txt', 'w')
-            sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = request.user.username + " successfully registered : " + tm + "\n"
-            print(str)
-            f.close()
-            sys.stdout = orig_out
+            str = user.first_name + "successfully registered: " + tm
             return HttpResponseRedirect('/accounts/register_success')
         else:
             
@@ -206,87 +195,35 @@ def profile(request):
     :param request:
     :return:
     """
-    working_user = request.user
-    context = {}
-    if working_user.patient:
+    template = loader.get_template('HNApp/view_profile.html')
+    if hasattr(request.user, 'patient'):
+        working_user = request.user.patient
+        dob = str(request.user.patient.dob)
         context = {
             'patient': working_user,
+            'dob': dob,
+            'user': '0',
         }
-    if working_user.doctor:
+        return HttpResponse(template.render(context, request))
+    if hasattr(request.user, 'doctor'):
+        working_user = request.user.doctor
+        dob = str(request.user.doctor.dob)
         context = {
             'doctor': working_user,
-            'patient_list': Patient.objects.all()
+            'dob': dob,
+            'user': '1',
         }
-    if working_user.nurse:
+        return HttpResponse(template.render(context, request))
+    if hasattr(request.user, 'nurse'):
+        working_user = request.user.nurse
+        dob = str(request.user.nurse.dob)
         context = {
             'nurse': working_user,
+            'dob': dob,
+            'user': '2',
         }
-    return render(request, 'HNApp/view_profile.html', context)
+        return HttpResponse(template.render(context, request))
 
-
-class EditProfileView(View):
-    """
-    TODO
-    """
-    model = User
-
-    def get(self, request):
-        me = request.user
-        meType = get_user_type(request)
-        if meType == "":
-            return handler404(request)
-        if meType.equals('Patient'):
-            form_class = EditPatientProfileForm
-            template_name = 'HNApp/edit_patient_profile.html'
-            form = self.form_class(initial={'name': me.user.name,
-                                        'contact information': me.contact_info,
-                                        'date of birth': me.dob,
-                                        'allergies': me.allergies})
-            return render(request, self.template_name, {'form': form})
-        if meType.equals('Doctor') or meType.equals('Nurse'):
-            form_class = EditStaffProfileForm
-            template_name = 'HNApp/edit_staff_profile.html'
-            form = self.form_class(initial={'first name': me.first_name,
-                                            'last_name': me.last_name,
-                                            'specialization': me.specialization,
-                                            'current hospital': me.current_hospital})
-            return render(request, self.template_name, {'form': form})
-
-    def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            me = request.user
-            meType = get_user_type(request)
-            if meType.equals('Patient'):
-                name = form.cleaned_data['name']
-                contact_info = form.cleaned_data['contact information']
-                dob = form.cleaned_data['date of birth']
-                allergies = form.cleaned_data['allergies']
-                me.user.name = name
-                me.contact_info = contact_info
-                me.dob = dob
-                me.allergies = allergies
-
-            if meType.equals('Doctor') or meType.equals('Nurse'):
-                first_name = form.cleaned_data['first name']
-                last_name = form.cleaned_data['last name']
-                specialization = form.cleaned_data['specialization']
-                current_hospital = form.cleaned_data['current hospital']
-                me.first_name = first_name
-                me.last_name = last_name
-                me.specialization = specialization
-                me.current_hospital = current_hospital
-
-            orig_out = sys.stdout
-            f = open('sys.txt', 'w')
-            sys.stdout = f
-            tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = request.user.name + " edited their profile: " + tm + "\n"
-            print(str)
-            f.close()
-            sys.stdout = orig_out
-
-        return render(request, self.template_name, {'form': form})
 
 def patient_list(request):
     """
@@ -386,14 +323,9 @@ class EditMedicalRecordView(View):
             records.allergies = allergies
             records.current_status = current_status
             records.previous_hospitals = previous_hospitals
-            orig_out = sys.stdout
-            f = open('sys.txt', 'w')
-            sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = request.user.name + " edited the records of " + patient.user.username + ": " + tm + "\n"
+            str = request.user.name + " edited the records of " + patient.name + ": " + tm
             print(str)
-            f.close()
-            sys.stdout = orig_out
             records.save()
 
         return render(request, self.template_name, {'form': form})
@@ -452,15 +384,9 @@ class CreateAppointmentView(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
-                orig_out = sys.stdout
-                f = open('sys.txt', 'w')
-                sys.stdout = f
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.username + " made appointment with doctor " + doctor.last_name + " at " + dt + ": " + tm + "\n"
+                str = patient.name + "made appointment with " + doctor.name + " at " + datetime + ": " + tm
                 print(str)
-                f.close()
-                sys.stdout = orig_out
                 return redirect('HNApp:appointment_list')
 
         return render(request, self.template_name, {'form': form})
@@ -505,15 +431,9 @@ class EditAppointment(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
-                orig_out = sys.stdout
-                f = open('sys.txt', 'w')
-                sys.stdout = f
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.username + " made appointment with doctor " + doctor.last_name + " at " + dt + ": " + tm + "\n"
+                str = patient.name + "made appointment with " + doctor.name + " at " + datetime + ": " + tm
                 print(str)
-                f.close()
-                sys.stdout = orig_out
                 return redirect('HNApp:appointment_list')
 
         return render(request, self.template_name, {'form': form})
