@@ -6,6 +6,7 @@
 </div>
 
 {% get_user_type request as user %}
+{% get_id request as id %}
 
 <ul>
     <li><a class="" href="/"> Home </a></li>
@@ -14,7 +15,7 @@
     {% if user == '0' %}
         <li><a class="" href="/appointment_list"> Appointment List </a></li>
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
-        <li><a class="" href="/accounts/profile"> My Profile  </a></li>
+        <li><a class="" href="/accounts/profile/{{ id }}"> My Profile  </a></li>
         <li><a class="" href="/accounts/logout"> Logout  </a></li>
 
     <!-- Doctor -->
@@ -22,14 +23,16 @@
         <li><a class="" href="/patient_list">Patient List</a></li>
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
         <li><a class="" href="/appointment_list"> Appointment List </a></li>
-        <li><a class="" href="/accounts/profile"> My Profile  </a></li>
+        <li><a class="" href="/accounts/profile/{{ id }}"> My Profile  </a></li>
+        <li><a class="" href="/accounts/logout"> Logout  </a></li>
 
      <!-- Nurse -->
     {% elif user == '2' %}
         <li><a class="" href="/patient_list">Patient List</a></li>
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
         <li><a class="" href="/appointment_list"> Appointment List </a></li>
-        <li><a class="" href="/accounts/profile"> My Profile  </a></li>
+        <li><a class="" href="/accounts/profile/{{ id }}"> My Profile  </a></li>
+        <li><a class="" href="/accounts/logout"> Logout  </a></li>
     {% else %}
 
         <li><a class="" href="/accounts/login">Login</a></li>

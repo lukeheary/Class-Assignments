@@ -39,6 +39,9 @@ class SignUpForm(ModelForm):
 This is the PatientSignUp extended form from SignUpForm
 """
 class PatientSignUp(ModelForm):
+    """
+    TODO
+    """
     class Meta:
         model = Patient
         fields = ['dob', 'contact_info', 'allergies']
@@ -90,6 +93,7 @@ class AppointmentForm(ModelForm):
         doctor = forms.ModelChoiceField(queryset=Doctor.objects.all().order_by('name'))
         fields = ['datetime', 'patient', 'doctor']
 
+
 class CreateMedicalRecordsForm(ModelForm):
     """
     TODO
@@ -115,7 +119,7 @@ class EditPatientProfileForm(ModelForm):
         emergency_info = forms.CharField()
         dob = forms.DateTimeField()
         allergies = forms.CharField()
-        fields = ['contact_info','emergency_info', 'dob', 'allergies']
+        fields = ['contact_info', 'emergency_info', 'dob', 'allergies']
 
 
 class EditStaffProfileForm(ModelForm):
