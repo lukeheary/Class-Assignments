@@ -70,7 +70,7 @@
 
         <p>Name: {{patient.user.first_name}} {{patient.user.last_name}}</p>
         <p>Username: {{ patient.user.username }}</p>
-        <p>Date of Birth: (yyyy-mm-dd) {{dob}}</p>
+        <p>Date of Birth: {{dob}}</p>
         <p>Contact Information: {{patient.contact_info}}</p>
 
         {% elif user == '1' %}
@@ -93,9 +93,11 @@
     </div>
     <div id="sectionText">
         <p>Allergies: {{patient.allergies}}</p>
+        {% endif %}
+
+    <a href="/">Edit Patient's Medical Records</a>
+    {% endblock %}
     </div>
-    {% endif %} {% if user == '1' or user == '2' %}
-    <a href="">Edit Patient's Medical Records</a> {% endif %} {% endblock %}
 
 </div>
 </div>
