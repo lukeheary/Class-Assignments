@@ -5,6 +5,9 @@ from .models import *
 
 
 class PatientModelTest(TestCase):
+    """
+    Unit tests for Patient model in models.py
+    """
     def setUp(self):
         self.u1 = User.objects.create(username="JD123",
                                       password="password",
@@ -26,7 +29,64 @@ class PatientModelTest(TestCase):
         self.u1.delete()
 
 
+class DoctorModelTest(TestCase):
+    """
+    Unit tests for Doctor model in models.py
+    """
+    def setUp(self):
+        self.u1 = User.objects.create(username="JD123",
+                                      password="password",
+                                      first_name="Jane",
+                                      last_name="Doe"
+                                      )
+
+        self.doctor = Doctor.objects.create(user=self.u1,
+                                            dob="2001-01-01",
+                                            first_name="Dr. Jane",
+                                            last_name="Doe",
+                                            specialization="Cardiology",
+                                            current_hospital="HospitalA",
+                                            )
+
+    def test_string_representation(self):
+        self.assertEqual(str(self.doctor), "Dr. Jane Doe")
+
+    def tearDown(self):
+        self.doctor.delete()
+        self.u1.delete()
+
+
+class NurseModelTest(TestCase):
+    """
+    Unit tests for Nurse model in models.py
+    """
+    def setUp(self):
+        self.u1 = User.objects.create(username="JD123",
+                                      password="password",
+                                      first_name="Jane",
+                                      last_name="Doe"
+                                      )
+
+        self.nurse = Doctor.objects.create(user=self.u1,
+                                           dob="2001-01-01",
+                                           first_name="Nurse Jane",
+                                           last_name="Doe",
+                                           specialization="Cardiology",
+                                           current_hospital="HospitalA",
+                                           )
+
+    def test_string_representation(self):
+        self.assertEqual(str(self.nurse), "Nurse Jane Doe")
+
+    def tearDown(self):
+        self.nurse.delete()
+        self.u1.delete()
+
+
 class EmergencyContactInfoModelTest(TestCase):
+    """
+    Unit tests for EmergencyContactInfo model in models.py
+    """
     def setUp(self):
         self.u1 = User.objects.create(username="JD123",
                                       password="password",
@@ -53,7 +113,10 @@ class EmergencyContactInfoModelTest(TestCase):
         self.u1.delete()
 
 
-class MedicalRecordsModelTest(TestCase):
+class AppointmentModelTest(TestCase):
+    """
+    Unit tests for Appointment model in models.py
+    """
     def setUp(self):
         self.u1 = User.objects.create(username="JD123",
                                       password="password",
@@ -67,22 +130,67 @@ class MedicalRecordsModelTest(TestCase):
                                               allergies="AllergenA, AllergenB"
                                               )
 
-        self.records = MedicalRecords.objects.create(patient=self.patient,
-                                                     current_hospital="Hospital A",
-                                                     current_status="Healthy",
-                                                     previous_hospitals="Hospital B"
-                                                     )
+        self.u2 = User.objects.create(username="AS456",
+                                      password="password2",
+                                      first_name="Aaron",
+                                      last_name="Smith"
+                                      )
+
+        self.doctor = Doctor.objects.create(user=self.u2,
+                                            dob="2001-01-01",
+                                            first_name="Dr. Aaron",
+                                            last_name="Smith",
+                                            specialization="Cardiology",
+                                            current_hospital="HospitalA",
+                                            )
+
+        self.appointment = Appointment.objects.create(datetime="2016-12-12 12:00",
+                                                      patient=self.patient,
+                                                      doctor=self.doctor)
+
+    def test_string_representation(self):
+        self.assertEqual(str(self.appointment), "JD123 seeing doctor: Smith at 2016-12-12 12:00")
+
+    def tearDown(self):
+        self.appointment.delete()
+        self.doctor.delete()
+        self.u2.delete()
+        self.patient.delete()
+        self.u1.delete()
+
+
+class MedicalRecordModelTest(TestCase):
+    """
+    Unit tests for MedicalRecord Model in models.py
+    """
+    def setUp(self):
+        self.u1 = User.objects.create(username="JD123",
+                                      password="password",
+                                      first_name="Jane",
+                                      last_name="Doe"
+                                      )
+
+        self.patient = Patient.objects.create(user=self.u1,
+                                              dob="2001-01-01",
+                                              contact_info="(123)-456-7890",
+                                              allergies="AllergenA, AllergenB"
+                                              )
+
+        self.records = MedicalRecord.objects.create(patient=self.patient,
+                                                    current_hospital="HospitalA",
+                                                    current_status="Healthy",
+                                                    previous_hospitals="HospitalB"
+                                                    )
 
     def test_string_representation(self):
         self.assertEqual(str(self.records), "Jane Doe: HospitalA, Healthy")
 
     def test_set_current_hospital(self):
-        self.records.set_current_hospital(self.records, "HospitalC")
+        self.records.set_current_hospital("HospitalC")
         self.assertEqual(self.records.current_hospital, "HospitalC")
-        self.assertEqual(self.records.previous_hospitals, "HospitalB, HospitalA")
+        self.assertEqual(self.records.previous_hospitals, "HospitalA, HospitalB")
 
     def tearDown(self):
         self.records.delete()
         self.patient.delete()
         self.u1.delete()
-

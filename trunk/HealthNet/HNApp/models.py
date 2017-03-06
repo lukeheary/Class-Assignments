@@ -64,7 +64,7 @@ class EmergencyContactInfo(models.Model):
 
 class Doctor(models.Model):
     """
-    Doctor TODO
+
     """
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50, default="")
@@ -79,7 +79,7 @@ class Doctor(models.Model):
         __str__ defines the to string method for Doctor
         :return: string - the doctor's name
         """
-        name = self.first_name + self.last_name
+        name = self.first_name + " " + self.last_name
         return name
 
 
@@ -100,7 +100,7 @@ class Nurse(models.Model):
         __str__ defines the to string method for Doctor
         :return: string - the nurse's name
         """
-        name = self.first_name + self.last_name
+        name = self.first_name + " " + self.last_name
         return name 
 
 
@@ -137,11 +137,8 @@ class MedicalRecord(models.Model):
         __str__ defines the to string method for MedicalRecords
         :return: string - "(Patient's name) Current Hospital, Current Status"
         """
-        return "(" + self.patient.user.first_name + "): " + self.current_hospital \
-               + ", " + self.current_status.__str__()
-
-    
-
+        return self.patient.user.first_name + " " + self.patient.user.last_name + ": " + self.current_hospital \
+            + ", " + self.current_status
 
     def set_current_hospital(self, new_hospital):
         """
@@ -149,9 +146,8 @@ class MedicalRecord(models.Model):
         previous current hospital to the previous_hospital list
         :param new_hospital: the new hospital the patient is at
         """
-        self.previous_hospitals.append(self.current_hospital)
+        self.previous_hospitals = self.current_hospital + ", " + self.previous_hospitals
         self.current_hospital = new_hospital
-
 
 
 class Admin(models.Model):

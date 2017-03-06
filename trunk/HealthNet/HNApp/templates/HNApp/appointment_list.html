@@ -106,7 +106,7 @@
             <tbody>
             {% for appointment in all_appointments %}
                 <tr>
-                    <td><a href="/accounts/profile/{{ appointment.patient.id }}">{{ appointment.patient.first_name }} {{ appointment.patient.first_name }}</a></td>
+                    <td><a href="/accounts/profile/{{ appointment.patient.id }}">{{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}</a></td>
                     <td>{{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</td>
                     <td><a href="{{ appointment.id }}">{{ appointment.datetime }}</a> </td>
                 </tr>
