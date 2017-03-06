@@ -80,7 +80,7 @@ def display_log(request):
     """
     Display the system log
     :param request: HTTP Request
-
+    :return: HttpResponse rendered 'HNApp/admin_log.html'
     """
     f = open('sys.txt', 'r')
     allStrings = ""
@@ -452,7 +452,7 @@ class EditAppointment(View):
     template_name = 'HNApp/edit_appointment.html'
 
     def get(self, request, pk):
-        app = Appointment.object.get(pk=pk)
+        app = Appointment.objects.get(pk=pk)
         form = self.form_class(None,
                                initial={'datetime': app.datetime, 'patient': app.patient, 'doctor': app.doctor})
         app.delete()
@@ -485,7 +485,7 @@ class EditAppointment(View):
                 sys.stdout = f
                 dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.name + "made appointment with " + doctor.last_name + " at " + dt + ": " + tm
+                str = patient.user.username + "made appointment with " + doctor.last_name + " at " + dt + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
