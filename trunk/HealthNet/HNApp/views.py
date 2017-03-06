@@ -59,43 +59,6 @@ def auth_view(request):
         return HttpResponseRedirect('/accounts/invalid_login')
 
 
-# def user_profile(request):
-#     """
-#     TODO
-#     :param request:
-#     :return:
-#     """
-#     if (request.method == 'POST') :
-#         form = UserProfileForm(request.POST, instance=request.user.profile)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/accounts/loggedin')
-#     else:
-#         user = request.user
-#         profile = user.profile
-#         form = UserProfileForm(instance=profile)
-#     args = {}
-#     args.update(csrf(request))
-#     args['form']=form
-
-#     return render_to_response('doctor_profile.html',args)
-
-
-def get_user_type(user):
-    u_type = ""
-    if Patient.objects.get(name="Patient") in user.groups.all():
-        u_type = "Patient"
-    elif Doctor.objects.get(name="Doctor") in user.groups.all():
-        u_type = "Doctor"
-    elif Nurse.objects.get(name="Nurse") in user.groups.all():
-        u_type = "Nurse"
-    elif user.is_superuser:
-        u_type = "Admin"
-    else:
-        u_type = "Unknown"
-    return u_type
-
-
 def loggedin(request):
     """
     TODO
@@ -278,8 +241,9 @@ class EditProfileView(View):
             form = self.form_class(initial={
                                         #'first name': patient.user.username,
                                         #'last name': patient.user.last_name,
-                                        'contact information': patient.contact_info,
-                                        'date of birth': patient.dob,
+                                        'emergency_info' : patient.emergency_info,
+                                        'contact_info': patient.contact_info,
+                                        'dob': patient.dob,
                                         'allergies': patient.allergies})
             return render(request, self.template_name, {'form': form})
         if hasattr(request.user, 'doctor') or hasattr(request.user, 'nurse'):
