@@ -45,6 +45,8 @@ h2 {
     padding: 0% 0% 3% 2%;
     margin: 0% 0% 0% 0%;
     line-height: 10%;
+    font-weight: bold;
+
 }
 
 h3 {
@@ -264,3 +266,5 @@ table {
     	background-color: #81BCE1;
     	-webkit-transition-duration: 0.3s;
 	}
+
+    input {font:small-caption;font-size:16px;}
