@@ -5,7 +5,6 @@ from django.views.generic import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
-# control user log in/out
 from django.contrib import auth
 # security purpose
 from django.core.context_processors import csrf
@@ -17,7 +16,7 @@ def index(request):
     """
     Brings up our home page.
     :param request: HTTP Request
-    :return: HttpResponse
+    :return: HttpResponse rendered index.html
     """
     all_patients = Patient.objects.all()
     template = loader.get_template('HNApp/index.html')
@@ -31,7 +30,7 @@ def login(request):
     """
     Brings up our login view.
     :param request: HTTP Request
-    :return: HttpResponse
+    :return: HttpResponse rendered login.html
     """
     c = {}
     c.update(csrf(request))
@@ -41,9 +40,10 @@ def login(request):
 # before we have username, pass empty string ''
 def auth_view(request):
     """
-
-    :param request:
-    :return:
+    Authenticate Registration Information
+    :param request: HTTP Request
+    :return: HttpResponseRedirect to 'accounts/loggedin' if user is existing
+    :return: HttpResponseRedirect to '/accounts/invalid_login' if user is not existing
     """
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
@@ -55,13 +55,11 @@ def auth_view(request):
     else:
         return HttpResponseRedirect('/accounts/invalid_login')
 
-
-
 def loggedin(request):
     """
-    TODO
-    :param request:
-    :return:
+    Confirm that user is loggedin and redirect them to the homepage
+    :param request: HTTP Request
+    :return: The rendered 'loggedin.html'
     """
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
     str = request.user.username + "signed in." + tm
@@ -71,14 +69,19 @@ def loggedin(request):
 
 def invalid_login(request):
     """
-
-    :param request:
-    :return:
+    Inform that the login input is not correct
+    :param request: HTTP Request
+    :return: The rendered 'invalid_login.html'
     """
     return render_to_response('invalid_login.html')
 
 
 def display_log(request):
+    """
+    Display the system log
+    :param request: HTTP Request
+
+    """
     f = open('sys.txt', 'r')
     allStrings = ""
     for line in f:
