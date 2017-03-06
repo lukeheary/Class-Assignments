@@ -1,7 +1,11 @@
 from django.test import TestCase
-from .models import *
+from .forms import *
 
 # NOTE: Run tests using this command: 'python.exe ./manage.py test HNApp.tests'
+
+"""
+Below are all of the unit tests for models.py
+"""
 
 
 class PatientModelTest(TestCase):
@@ -194,3 +198,17 @@ class MedicalRecordModelTest(TestCase):
         self.records.delete()
         self.patient.delete()
         self.u1.delete()
+
+"""
+Below are all the unit tests for forms.py
+"""
+
+
+class SignUpFormTest(TestCase):
+    def test_forms(self):
+        form_data = {'first_name': 'Jane',
+                     'last_name': 'Doe',
+                     'user_name': 'JD123',
+                     'password': 'password'}
+        form = SignUpForm(data=form_data)
+        self.assertTrue(form.is_valid())

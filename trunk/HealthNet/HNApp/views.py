@@ -15,7 +15,7 @@ from django.core.urlresolvers import reverse
 
 def index(request):
     """
-    TODO
+    Brings up our home page.
     :param request: HTTP Request
     :return: HttpResponse
     """
@@ -29,9 +29,9 @@ def index(request):
 
 def login(request):
     """
-    TODO
-    :param request:
-    :return:
+    Brings up our login view.
+    :param request: HTTP Request
+    :return: HttpResponse
     """
     c = {}
     c.update(csrf(request))
@@ -41,7 +41,7 @@ def login(request):
 # before we have username, pass empty string ''
 def auth_view(request):
     """
-    TODO
+
     :param request:
     :return:
     """
