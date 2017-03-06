@@ -14,8 +14,6 @@ from django.contrib import auth
 # security purpose
 from django.core.context_processors import csrf
 from django.contrib.auth.models import AnonymousUser
-f = open('sys.txt', 'w')
-sys.stdout = f
 import time
 from django.contrib.auth.decorators import login_required
 
@@ -135,7 +133,7 @@ def display_log(request):
         'allStrings': allStrings
     }
     f.close()
-    f = open("sys.txt",'w')
+    f = open("sys.txt", 'w')
     sys.stdout = f
     return HttpResponse(template.render(context, request))
 
@@ -150,7 +148,7 @@ def logout(request):
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
     str = request.user.name + "logged out: " + tm
     print(str)
-    return render_to_response('logout.html')
+    return render_to_response('/')
 
 
 def register(request):
@@ -162,7 +160,6 @@ def register(request):
     if request.method == 'POST':
         form1 = SignUpForm(data=request.POST)
         form2 = PatientSignUp(data=request.POST)
-      
         if form2.is_valid() and form1.is_valid():
             user = form1.save()
             form2.save(cUser=user)
@@ -171,7 +168,7 @@ def register(request):
             return HttpResponseRedirect('/accounts/register_success')
         else:
             
-            return HttpResponseRedirect(form2.is_valid())  
+            return HttpResponseRedirect(form2.is_valid())
     else:
         return render(request, 'patient_signup.html', 
         {
@@ -328,7 +325,7 @@ class EditMedicalRecordView(View):
 #             print(str)
 #             records.save()
 
-        return render(request, self.template_name, {'form': form})
+        #return render(request, self.template_name, {'form': form})
 
 
 class CreateTool(CreateView):
@@ -347,6 +344,7 @@ class LoginTool(View):
     model = User
     form_class = SignUpForm
     template_name = 'HNApp/login.html'
+
 
 class EditProfileView(View):
     """

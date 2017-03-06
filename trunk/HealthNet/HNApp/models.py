@@ -27,9 +27,6 @@ class MedicalRecords(models.Model):
         return "(" + self.patient.name + ")" + self.current_hospital \
                + ", " + self.current_status.__str__()
 
-    
-
-
     def set_current_hospital(self, new_hospital):
         """
         setCurrentHospital sets a patient's current hospital and adds the
@@ -72,7 +69,6 @@ class Patient(models.Model):
         return self.user.first_name + " " + self.user.last_name
 
 
-
 class EmergencyContactInfo(models.Model):
     """
     EmergencyContactInfo contains two lists, names and phone_number, that hold
@@ -90,7 +86,6 @@ class EmergencyContactInfo(models.Model):
         """
         return "(" + self.patient.user.first_name + " " + self.patient.user.last_name + ": " + self.name.__str__() + \
                ", " + self.phone_number.__str__()
-
 
 
 class Doctor(models.Model):

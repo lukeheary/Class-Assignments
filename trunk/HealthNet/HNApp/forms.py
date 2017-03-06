@@ -123,6 +123,7 @@ class AppointmentForm(ModelForm):
         doctor = forms.ModelChoiceField(queryset=Doctor.objects.all().order_by('name'))
         fields = ['datetime', 'patient', 'doctor']
 
+
 class EditPatientProfileForm(ModelForm):
     """
     TODO
