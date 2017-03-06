@@ -66,8 +66,9 @@
 
 
     <div id="sectionText">
-        {% block profile %} {% if user == '0' %}
+        {% block profile %}
 
+        {% if user == '0' %}
         <p>Name: {{patient.user.first_name}} {{patient.user.last_name}}</p>
         <p>Username: {{ patient.user.username }}</p>
         <p>Date of Birth: {{dob}}</p>
@@ -85,7 +86,10 @@
 
         {% else %}
         <p>It looks like you don't have a profile. Please login to a valid account.</p>
-        {% endif %} {% endblock %} {% block medical_records %} {% if user == '0' %}
+        {% endif %}
+        {% endblock %}
+        {% block medical_records %}
+        {% if user == '0' %}
     </div>
 
     <div id="sectionHeading">
@@ -94,8 +98,9 @@
     <div id="sectionText">
         <p>Allergies: {{patient.allergies}}</p>
         {% endif %}
+        {% get_id request as id %}
 
-    <a href="/">Edit Patient's Medical Records</a>
+    <a href="/edit_patient_profile/{{ id }}">Edit Profile</a>
     {% endblock %}
     </div>
 
