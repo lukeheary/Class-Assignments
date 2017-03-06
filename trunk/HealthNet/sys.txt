@@ -54,6 +54,13 @@ b
 c
 lukehearysigned in.Mon, 06 Mar 2017 17:06:21 EST(-0500)
 
+mt2915logged out: Mon, 06 Mar 2017 17:34:23 EST(-0500)
+Abigailsuccessfully registered: Mon, 06 Mar 2017 17:34:51 EST(-0500)
+b
+c
+abbytransigned in.Mon, 06 Mar 2017 17:35:00 EST(-0500)
+abbytran created the medical records for mt2916: Mon, 06 Mar 2017 17:46:08 EST(-0500)
+
 Lukemade appointment with  at Sun, 18 Jun 2017 12:00:00 EST(-0500): Mon, 06 Mar 2017 17:32:32 EST(-0500)
 lukeheary1logged out: Mon, 06 Mar 2017 17:34:40 EST(-0500)
 Mikesuccessfully registered: Mon, 06 Mar 2017 17:36:13 EST(-0500)
@@ -71,6 +78,15 @@ Mikemade appointment with  at Sun, 18 Jun 2017 06:00:00 EST(-0500): Mon, 06 Mar 
 mikeheary edited their profile: Mon, 06 Mar 2017 18:12:44 EST(-0500)
 ritmade appointment with  at Wed, 25 Oct 2017 17:00:00 Eastern Daylight Time(-0400): Mon, 06 Mar 2017 17:57:12 Eastern Standard Time(Eastern Standard Time)
 ritmade appointment with Jon at Wed, 25 Oct 2017 14:56:00 Eastern Daylight Time(-0400): Mon, 06 Mar 2017 18:07:15 Eastern Standard Time(Eastern Standard Time)
+
 Jonmade appointment with Jon at Wed, 25 Oct 2017 17:55:00 Eastern Daylight Time(-0400): Mon, 06 Mar 2017 18:15:10 Eastern Standard Time(Eastern Standard Time)
 ritmade appointment with last_name at Wed, 25 Oct 2017 14:56:00 Eastern Daylight Time(-0400): Mon, 06 Mar 2017 18:16:44 Eastern Standard Time(Eastern Standard Time)
 ritmade appointment with last_name at Wed, 25 Oct 2017 14:56:00 Eastern Daylight Time(-0400): Mon, 06 Mar 2017 18:16:48 Eastern Standard Time(Eastern Standard Time)
+<<<<<<< HEAD
+
+=======
+mikeheary logged out: Mon, 06 Mar 2017 18:29:34 EST(-0500)
+mikehearysigned in.Mon, 06 Mar 2017 18:31:35 EST(-0500)
+mikeheary logged out: Mon, 06 Mar 2017 18:31:52 EST(-0500)
+mikehearysigned in.Mon, 06 Mar 2017 18:33:11 EST(-0500)
+>>>>>>> refs/remotes/origin/master

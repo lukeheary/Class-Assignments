@@ -53,6 +53,7 @@
     p {
         background-color: #475676;
         border-bottom: 2px solid #38435B;
+        padding: 1% 0% 1% 1%;
     }
 
     a {
@@ -60,7 +61,6 @@
         padding: 0% 3% 0% 0%;
         font-family: 'Open Sans', sans-serif;
     }
-
 </style>
 
 <div class="wrap">
@@ -69,12 +69,11 @@
 
     <div id="sectionHeading">
         <h2>Profile</h2>
-        {% get_id request as id %}
-        {% if user == '0' %}
-        <a href="/accounts/profile/edit_patient_profile/{{ patient.id }}">(Edit Profile)</a>
-        {% endif %}
-        </div>
+        {% get_id request as id %} {% if user == '0' %}
+        <a href="/accounts/profile/edit_patient_profile/{{ patient.id }}">(Edit Profile)</a> {% endif %}
     </div>
+
+</div>
 
 
     <div id="sectionText">
@@ -108,10 +107,11 @@
         <h2>Medical Records:</h2>
     </div>
     <div id="sectionText">
-        <p>Allergies: {{ patient.allergies }}</p>
+        <p>Allergies: {{patient.allergies}}</p>
+        <p>Current Status: {{ patient.current_status }}</p>
+        <p>Current Hospital: {{ patient.current_hospital }}</p>
+        <p>Previous Hospital: {{ patient.previous_hospitals }}</p>
         {% endif %}
-
-    {% endblock %}
 
 </div>
 </div>

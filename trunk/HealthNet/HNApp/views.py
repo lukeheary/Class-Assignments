@@ -5,7 +5,6 @@ from django.views.generic import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
-# control user log in/out
 from django.contrib import auth
 # security purpose
 from django.core.context_processors import csrf
@@ -17,7 +16,7 @@ def index(request):
     """
     Brings up our home page.
     :param request: HTTP Request
-    :return: HttpResponse
+    :return: HttpResponse rendered index.html
     """
     all_patients = Patient.objects.all()
     template = loader.get_template('HNApp/index.html')
@@ -31,7 +30,7 @@ def login(request):
     """
     Brings up our login view.
     :param request: HTTP Request
-    :return: HttpResponse
+    :return: HttpResponse rendered login.html
     """
     c = {}
     c.update(csrf(request))
@@ -41,9 +40,10 @@ def login(request):
 # before we have username, pass empty string ''
 def auth_view(request):
     """
-
-    :param request:
-    :return:
+    Authenticate Registration Information
+    :param request: HTTP Request
+    :return: HttpResponseRedirect to 'accounts/loggedin' if user is existing
+    :return: HttpResponseRedirect to '/accounts/invalid_login' if user is not existing
     """
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
@@ -55,34 +55,11 @@ def auth_view(request):
     else:
         return HttpResponseRedirect('/accounts/invalid_login')
 
-
-# def user_profile(request):
-#     """
-#     TODO
-#     :param request:
-#     :return:
-#     """
-#     if (request.method == 'POST') :
-#         form = UserProfileForm(request.POST, instance=request.user.profile)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/accounts/loggedin')
-#     else:
-#         user = request.user
-#         profile = user.profile
-#         form = UserProfileForm(instance=profile)
-#     args = {}
-#     args.update(csrf(request))
-#     args['form']=form
-
-#     return render_to_response('doctor_profile.html',args)
-
-
 def loggedin(request):
     """
-    TODO
-    :param request:
-    :return:
+    Confirm that user is loggedin and redirect them to the homepage
+    :param request: HTTP Request
+    :return: The rendered 'loggedin.html'
     """
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
     str = request.user.username + "signed in." + tm
@@ -92,14 +69,19 @@ def loggedin(request):
 
 def invalid_login(request):
     """
-
-    :param request:
-    :return:
+    Inform that the login input is not correct
+    :param request: HTTP Request
+    :return: The rendered 'invalid_login.html'
     """
     return render_to_response('invalid_login.html')
 
 
 def display_log(request):
+    """
+    Display the system log
+    :param request: HTTP Request
+    :return: HttpResponse rendered 'HNApp/admin_log.html'
+    """
     f = open('sys.txt', 'r')
     allStrings = ""
     for line in f:
@@ -115,14 +97,14 @@ def display_log(request):
 
 def logout(request):
     """
-    TODO
-    :param request:
-    :return:
+    Log the user out
+    :param request: HTTP Request
+    :return: Redirect to the homepage
     """
     f = open('sys.txt', 'a')
     sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    str = request.user.username + " logged out: " + tm
+    str = request.user.username + "logged out: " + tm
     print(str)
     auth.logout(request)
     return redirect('/')
@@ -130,7 +112,7 @@ def logout(request):
 
 def register(request):
     """
-    TODO
+    
     :param request:
     :return:
     """
@@ -143,7 +125,7 @@ def register(request):
             f = open('sys.txt', 'a')
             sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = user.first_name + " successfully registered: " + tm
+            str = user.first_name + "successfully registered: " + tm
             print(str)
             return HttpResponseRedirect('/accounts/register_success')
         else:
@@ -166,40 +148,45 @@ def register_success(request):
     return render_to_response('register_success.html')
 
 
-def profile_patient(request, pk):
+def profile(request, pk):
+    """
+    TODO
+    :param request:
+    :return:
+    """
     template = loader.get_template('HNApp/view_profile.html')
-    user = Patient.objects.get(pk=pk)
-    dob = str(user.dob)
-    context = {
-        'patient': user,
-        'dob': dob,
-        'user': '0',
-    }
-    return HttpResponse(template.render(context, request))
-
-
-def profile_doctor(request, pk):
-    template = loader.get_template('HNApp/view_profile.html')
-    user = Doctor.objects.get(pk=pk)
-    dob = str(user.dob)
-    context = {
-        'doctor': user,
-        'dob': dob,
-        'user': '1',
-    }
-    return HttpResponse(template.render(context, request))
-
-
-def profile_nurse(request, pk):
-    template = loader.get_template('HNApp/view_profile.html')
-    user = Nurse.objects.get(pk=pk)
-    dob = str(user.dob)
-    context = {
-        'nurse': user,
-        'dob': dob,
-        'user': '2',
-    }
-    return HttpResponse(template.render(context, request))
+    if hasattr(request.user, 'patient'):
+        working_user = request.user.patient
+        dob = str(request.user.patient.dob)
+        context = {
+            'patient': working_user,
+            'dob': dob,
+            'user': '0',
+        }
+        return HttpResponse(template.render(context, request))
+    elif hasattr(request.user, 'doctor'):
+        working_user = request.user.doctor
+        dob = str(request.user.doctor.dob)
+        context = {
+            'doctor': working_user,
+            'dob': dob,
+            'user': '1',
+        }
+        return HttpResponse(template.render(context, request))
+    elif hasattr(request.user, 'nurse'):
+        working_user = request.user.nurse
+        dob = str(request.user.nurse.dob)
+        context = {
+            'nurse': working_user,
+            'dob': dob,
+            'user': '2',
+        }
+        return HttpResponse(template.render(context, request))
+    else:
+        context = {
+            'user': '3'
+        }
+        return HttpResponse(template.render(context, request))
 
 
 def patient_list(request):
@@ -334,10 +321,15 @@ class EditMedicalRecordView(View):
             current_status = form.cleaned_data['current_status']
             current_hospital = form.cleaned_data['current_hospital']
             previous_hospitals = form.cleaned_data['previous_hospitals']
+
+           
             records.allergies = allergies
             records.current_status = current_status
             records.current_hospital = current_hospital
             records.previous_hospitals = previous_hospitals
+
+           
+
             records.save()
 
             orig_out = sys.stdout
@@ -390,7 +382,7 @@ class CreateAppointmentView(View):
                 sys.stdout = f
                 dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.first_name + " made appointment with " + doctor.user.first_name + " at " + dt + ": " + tm
+                str = patient.user.first_name + "made appointment with " + doctor.user.first_name + " at " + dt + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
@@ -463,12 +455,13 @@ class EditAppointment(View):
         app = Appointment.objects.get(pk=pk)
         form = self.form_class(None,
                                initial={'datetime': app.datetime, 'patient': app.patient, 'doctor': app.doctor})
+        app.delete()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, pk):
         form = self.form_class(request.POST)
         if form.is_valid():
-            appointment = Appointment.objects.get(pk=pk)
+            appointment = form.save(commit=False)
             datetime = form.cleaned_data['datetime']
             patient = form.cleaned_data['patient']
             doctor = form.cleaned_data['doctor']
@@ -476,12 +469,11 @@ class EditAppointment(View):
             for app in all_appointments:  # loop through the doctors to see if that time has been taken
                 if app.doctor == doctor:
                     if app.datetime == datetime:
-                        if app != appointment:
-                            return HttpResponseRedirect('time_taken')
+
+                        return HttpResponseRedirect('time_taken')
                 if app.patient == patient:
                     if app.datetime == datetime:
-                        if app != appointment:
-                            return HttpResponseRedirect('time_taken')
+                        return HttpResponseRedirect('time_taken')
             appointment.datetime = datetime
             appointment.patient = patient
             appointment.doctor = doctor
@@ -493,7 +485,7 @@ class EditAppointment(View):
                 sys.stdout = f
                 dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.username + " made appointment with " + doctor.last_name + " at " + dt + ": " + tm
+                str = patient.user.username + "made appointment with " + doctor.last_name + " at " + dt + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
