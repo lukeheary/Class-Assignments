@@ -48,14 +48,11 @@ def auth_view(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
     user = auth.authenticate(username=username, password=password)
-    print("b")
     if user is not None:
-        print("c")
         auth.login(request, user)
         # Later on we can change loggedin to user_homepage, for whatever type of user is it
         return HttpResponseRedirect('/accounts/loggedin')
     else:
-        print("d")
         return HttpResponseRedirect('/accounts/invalid_login')
 
 
@@ -79,21 +76,6 @@ def auth_view(request):
 #     args['form']=form
 
 #     return render_to_response('doctor_profile.html',args)
-
-
-def get_user_type(user):
-    u_type = ""
-    if Patient.objects.get(name="Patient") in user.groups.all():
-        u_type = "Patient"
-    elif Doctor.objects.get(name="Doctor") in user.groups.all():
-        u_type = "Doctor"
-    elif Nurse.objects.get(name="Nurse") in user.groups.all():
-        u_type = "Nurse"
-    elif user.is_superuser:
-        u_type = "Admin"
-    else:
-        u_type = "Unknown"
-    return u_type
 
 
 def loggedin(request):
