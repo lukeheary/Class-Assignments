@@ -70,8 +70,9 @@
     <div id="sectionHeading">
         <h2>My Profile</h2>
         {% get_id request as id %}
-
-        <a href="/accounts/profile/edit_patient_profile/{{ patient.id }}">(Edit Profile)</a>
+        {% if user == '0' %}
+        <a href="/accounts/profile/edit_patient_profile/{{ id }}">(Edit Profile)</a>
+        {% endif %}
         </div>
     </div>
 

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+{% load tags %}
 <html lang="en">
 <head>
 	{% include 'head.html' %}
-    <title>Health Net | Patient List</title>
+    <title>Health Net | Appointment List</title>
 </head>
 
 <style>
@@ -94,6 +95,9 @@
 	<div id="sectionHeading">
 		<h2> Appointment List </h2>
 	</div>
+    {% get_user_type request as user %}
+    {% get_id request as id %}
+    {% if user == '0' or user == '1' or user == '2' %}
         {% if all_appointments %}
         <table class="table table-hover" style="width:70%">
             <thead>
@@ -104,13 +108,27 @@
                 </tr>
             </thead>
             <tbody>
-            {% for appointment in all_appointments %}
-                <tr>
-                    <td><a href="/accounts/profile/{{ appointment.patient.id }}">{{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}</a></td>
-                    <td>{{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</td>
-                    <td><a href="{{ appointment.id }}">{{ appointment.datetime }}</a> </td>
-                </tr>
-            {% endfor %}
+
+            {% if user == '0' %}
+                {% for appointment in all_appointments %}
+                    {{ user }}{{ id }}this is id:{{ appointment.patient.user.id }}
+                    {% if appointment.patient.user.id == id %}
+                    <tr>
+                        <td><a href="/accounts/profile/{{ appointment.patient.id }}">{{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}</a></td>
+                        <td>{{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</td>
+                        <td><a href="/edit_appointment/{{ appointment.id }}">{{ appointment.datetime }}</a> </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            {% elif user == '1' or user == '2' %}
+                {% for appointment in all_appointments %}
+                    <tr>
+                        <td><a href="/accounts/profile/{{ appointment.patient.user.id }}">{{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}</a></td>
+                        <td>{{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</td>
+                        <td><a href="/edit_appointment/{{ appointment.id }}">{{ appointment.datetime }}</a> </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
             </tbody>
         </table>
         {% else %}
@@ -118,7 +136,11 @@
                 <h3>You don't have any appointments</h3>
             </div>
         {% endif %}
-
+    {% else %}
+        <div id="sectionText">
+            <h3>It seems you haven't logged in.</h3>
+        </div>
+    {% endif %}
     </div>
 </body>
 </html>

@@ -48,14 +48,11 @@ def auth_view(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
     user = auth.authenticate(username=username, password=password)
-    print("b")
     if user is not None:
-        print("c")
         auth.login(request, user)
         # Later on we can change loggedin to user_homepage, for whatever type of user is it
         return HttpResponseRedirect('/accounts/loggedin')
     else:
-        print("d")
         return HttpResponseRedirect('/accounts/invalid_login')
 
 
@@ -79,21 +76,6 @@ def auth_view(request):
 #     args['form']=form
 
 #     return render_to_response('doctor_profile.html',args)
-
-
-def get_user_type(user):
-    u_type = ""
-    if Patient.objects.get(name="Patient") in user.groups.all():
-        u_type = "Patient"
-    elif Doctor.objects.get(name="Doctor") in user.groups.all():
-        u_type = "Doctor"
-    elif Nurse.objects.get(name="Nurse") in user.groups.all():
-        u_type = "Nurse"
-    elif user.is_superuser:
-        u_type = "Admin"
-    else:
-        u_type = "Unknown"
-    return u_type
 
 
 def loggedin(request):
@@ -341,7 +323,7 @@ class EditMedicalRecordView(View):
 
     def get(self, request, pk):
         records = MedicalRecord.objects.get(pk=pk)
-        form = self.form_class(initial={'patient': records.patient,
+        form = self.form_class(initial={
                                         'allergies': records.allergies,
                                         'current_hospital': records.current_hospital,
                                         'previous_hospitals': records.previous_hospitals,
@@ -353,17 +335,18 @@ class EditMedicalRecordView(View):
         if form.is_valid():
             records = MedicalRecord.objects.get(pk=pk)
 
-            patient = form.cleaned_data['patient']
             allergies = form.cleaned_data['allergies']
             current_status = form.cleaned_data['current_status']
             current_hospital = form.cleaned_data['current_hospital']
             previous_hospitals = form.cleaned_data['previous_hospitals']
 
-            records.patient = patient
+           
             records.allergies = allergies
             records.current_status = current_status
             records.current_hospital = current_hospital
             records.previous_hospitals = previous_hospitals
+
+           
 
             records.save()
 
@@ -371,7 +354,7 @@ class EditMedicalRecordView(View):
             f = open('sys.txt', 'a')
             sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = request.user.username + " edited the record of: " + patient.user.username + tm
+            str = request.user.username + " edited the record of: " + records.patient.user.username + tm
             print(str)
             f.close()
             sys.stdout = orig_out
