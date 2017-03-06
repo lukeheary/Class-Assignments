@@ -9,4 +9,11 @@ c
 jmp5327signed in.Mon, 06 Mar 2017 14:57:49 Eastern Standard Time(Eastern Standard Time)
 logged out: Mon, 06 Mar 2017 14:58:12 Eastern Standard Time(Eastern Standard Time)
 
-jmp5327signed in.Mon, 06 Mar 2017 15:23:00 Eastern Standard Time(Eastern Standard Time)
+doctorlogged out: Mon, 06 Mar 2017 15:26:13 EST(-0500)
+
+doctorlogged out: Mon, 06 Mar 2017 15:26:19 EST(-0500)
+
+doctorlogged out: Mon, 06 Mar 2017 15:28:37 EST(-0500)
+
+Brandonmade appointment with  at Wed, 25 Oct 2006 14:30:00 EST(-0500): Mon, 06 Mar 2017 15:33:55 EST(-0500)
+

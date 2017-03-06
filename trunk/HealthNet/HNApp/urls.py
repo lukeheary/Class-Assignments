@@ -28,7 +28,7 @@ urlpatterns = [
     # /accounts/invalid_login/
     url(r'^accounts/invalid_login/$', views.invalid_login, name='invalid_login'),
     # /accounts/profile/
-    url(r'^accounts/profile/$', views.profile, name='profile'),
+    url(r'^accounts/profile/(?P<pk>[0-9]+)/$', views.profile, name='profile'),
 
     # appointments...
     # /create-appointment
