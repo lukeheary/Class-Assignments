@@ -76,6 +76,11 @@
         <p>Current Status: {{record.current_status}}</p>
         <p>Current Hospital: {{record.current_hospital}}</p>
         <p>Previous Hospital: {{record.previous_hospitals}}</p>
+
+        <div>
+            <a href="/edit_medical_records/{{record.pk}}/"> Edit Medical Record</a>
+        </div>
+
         {% endblock %}
 
     </div>

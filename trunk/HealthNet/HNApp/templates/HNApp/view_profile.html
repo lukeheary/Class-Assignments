@@ -54,6 +54,13 @@
         background-color: #475676;
         border-bottom: 2px solid #38435B;
     }
+
+    a {
+        float: right;
+        padding: 0% 3% 0% 0%;
+        font-family: 'Open Sans', sans-serif;
+    }
+
 </style>
 
 <div class="wrap">
@@ -62,6 +69,10 @@
 
     <div id="sectionHeading">
         <h2>My Profile</h2>
+        {% get_id request as id %}
+
+        <a href="/accounts/profile/edit_patient_profile/{{ id }}">(Edit Profile)</a>
+        </div>
     </div>
 
 
@@ -98,11 +109,8 @@
     <div id="sectionText">
         <p>Allergies: {{patient.allergies}}</p>
         {% endif %}
-        {% get_id request as id %}
 
-    <a href="/accounts/profile/edit_patient_profile/{{ id }}">Edit Profile</a>
     {% endblock %}
-    </div>
 
 </div>
 </div>
