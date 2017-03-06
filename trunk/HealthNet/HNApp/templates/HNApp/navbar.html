@@ -13,7 +13,7 @@
 
     <!-- Patient -->
     {% if user == '0' %}
-        <li><a class="" href="/appointment_list"> Calender </a></li>
+        <li><a class="" href="/appointment_list"> Appointment List </a></li>
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
         <li><a class="" href="/accounts/profile/patient/{{ id }}"> My Profile  </a></li>
         <li><a class="" href="/accounts/logout"> Logout  </a></li>
@@ -22,15 +22,15 @@
     {% elif user == '1' %}
         <li><a class="" href="/patient_list">Patient List</a></li>
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
-        <li><a class="" href="/appointment_list"> Calender </a></li>
-        <li><a class="" href="/accounts/profile/{{ id }}"> My Profile  </a></li>
+        <li><a class="" href="/appointment_list"> Appointment List </a></li>
+        <li><a class="" href="/accounts/profile/doctor/{{ id }}"> My Profile  </a></li>
         <li><a class="" href="/accounts/logout"> Logout  </a></li>
 
      <!-- Nurse -->
     {% elif user == '2' %}
         <li><a class="" href="/patient_list">Patient List</a></li>
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
-        <li><a class="" href="/appointment_list"> Calender </a></li>
+        <li><a class="" href="/appointment_list"> Appointment List </a></li>
         <li><a class="" href="/accounts/profile/nurse/{{ id }}"> My Profile  </a></li>
         <li><a class="" href="/accounts/logout"> Logout  </a></li>
     {% else %}
