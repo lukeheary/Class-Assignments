@@ -473,13 +473,12 @@ class EditAppointment(View):
         app = Appointment.objects.get(pk=pk)
         form = self.form_class(None,
                                initial={'datetime': app.datetime, 'patient': app.patient, 'doctor': app.doctor})
-        app.delete()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, pk):
         form = self.form_class(request.POST)
         if form.is_valid():
-            appointment = form.save(commit=False)
+            appointment = Appointment.objects.get(pk=pk)
             datetime = form.cleaned_data['datetime']
             patient = form.cleaned_data['patient']
             doctor = form.cleaned_data['doctor']
@@ -487,11 +486,12 @@ class EditAppointment(View):
             for app in all_appointments:  # loop through the doctors to see if that time has been taken
                 if app.doctor == doctor:
                     if app.datetime == datetime:
-
-                        return HttpResponseRedirect('time_taken')
+                        if app != appointment:
+                            return HttpResponseRedirect('time_taken')
                 if app.patient == patient:
                     if app.datetime == datetime:
-                        return HttpResponseRedirect('time_taken')
+                        if app != appointment:
+                            return HttpResponseRedirect('time_taken')
             appointment.datetime = datetime
             appointment.patient = patient
             appointment.doctor = doctor
