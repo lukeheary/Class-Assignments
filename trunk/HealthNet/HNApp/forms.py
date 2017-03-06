@@ -6,6 +6,8 @@ import sys
 
 
 class SignUpForm(ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    
     """
     Form used for user sign-up.
     """
@@ -117,4 +119,4 @@ class EditMedicalRecordsForm(ModelForm):
     """
     class Meta:
         model = MedicalRecord
-        fields = ['patient', 'current_hospital', 'current_status', 'previous_hospitals']
+        fields = [ 'allergies','current_hospital', 'current_status', 'previous_hospitals']
