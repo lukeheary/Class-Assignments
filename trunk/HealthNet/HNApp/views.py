@@ -97,9 +97,9 @@ def display_log(request):
 
 def logout(request):
     """
-    TODO
-    :param request:
-    :return:
+    Log the user out
+    :param request: HTTP Request
+    :return: Redirect to the homepage
     """
     f = open('sys.txt', 'a')
     sys.stdout = f
@@ -112,7 +112,7 @@ def logout(request):
 
 def register(request):
     """
-    TODO
+    
     :param request:
     :return:
     """
