@@ -133,7 +133,6 @@ def display_log(request):
     context = {
         'allStrings': allStrings
     }
-    f.close()
     f = open("sys.txt", 'w')
     sys.stdout = f
     return HttpResponse(template.render(context, request))
@@ -145,10 +144,12 @@ def logout(request):
     :param request:
     :return:
     """
-    auth.logout(request)
+    f = open('sys.txt', 'w')
+    sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    str = request.user.name + "logged out: " + tm
+    str = request.user.name + "logged out: " + tm + "\n"
     print(str)
+    auth.logout(request)
     return render_to_response('/')
 
 
@@ -409,9 +410,11 @@ class CreateAppointmentView(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
+                f = open('sys.txt', 'w')
+                sys.stdout = f
+                dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.first_name + "made appointment with " + doctor.user.first_name 
-                # + " at " + datetime + ": " + tm
+                str = patient.user.first_name + "made appointment with " + doctor.user.first_name + " at " + dt + ": " + tm + '\n'
                 print(str)
                 return redirect('HNApp:appointment_list')
 
@@ -548,8 +551,11 @@ class EditAppointment(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
+                f = open('sys.txt', 'w')
+                sys.stdout = f
+                dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.name + "made appointment with " + doctor.name + " at " + datetime + ": " + tm
+                str = patient.user.name + "made appointment with " + doctor.last_name + " at " + dt + ": " + tm + "\n"
                 print(str)
                 return redirect('HNApp:appointment_list')
 
