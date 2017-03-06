@@ -53,6 +53,7 @@
     p {
         background-color: #475676;
         border-bottom: 2px solid #38435B;
+        padding: 1% 0% 1% 1%;
     }
 
     a {
@@ -109,6 +110,9 @@
     </div>
     <div id="sectionText">
         <p>Allergies: {{patient.allergies}}</p>
+        <p>Current Status: {{ patient.current_status }}</p>
+        <p>Current Hospital: {{ patient.current_hospital }}</p>
+        <p>Previous Hospital: {{ patient.previous_hospitals }}</p>
         {% endif %}
 
     {% endblock %}
