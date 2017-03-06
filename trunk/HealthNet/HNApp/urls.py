@@ -36,7 +36,7 @@ urlpatterns = [
     # time slot is taken
     url(r'^create_appointment/time_taken$', views.time_taken, name='time_taken'),
     # /edit_appointment
-    url(r'^edit_appointment//(?P<pk>[0-9]+)/$', views.EditAppointment.as_view(), name='edit_appointment'),
+    url(r'^edit_appointment/(?P<pk>[0-9]+)/$', views.EditAppointment.as_view(), name='edit_appointment'),
     # /edit_appointment/time_taken
     url(r'^edit_appointment/time_taken/$', views.time_taken, name='time_taken'),
 

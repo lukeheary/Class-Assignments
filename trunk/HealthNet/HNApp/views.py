@@ -122,7 +122,7 @@ def logout(request):
     f = open('sys.txt', 'a')
     sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    str = request.user.username + "logged out: " + tm
+    str = request.user.username + " logged out: " + tm
     print(str)
     auth.logout(request)
     return redirect('/')
@@ -143,7 +143,7 @@ def register(request):
             f = open('sys.txt', 'a')
             sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = user.first_name + "successfully registered: " + tm
+            str = user.first_name + " successfully registered: " + tm
             print(str)
             return HttpResponseRedirect('/accounts/register_success')
         else:
@@ -400,7 +400,7 @@ class CreateAppointmentView(View):
                 sys.stdout = f
                 dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.first_name + "made appointment with " + doctor.user.first_name + " at " + dt + ": " + tm
+                str = patient.user.first_name + " made appointment with " + doctor.user.first_name + " at " + dt + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
@@ -470,16 +470,15 @@ class EditAppointment(View):
     template_name = 'HNApp/edit_appointment.html'
 
     def get(self, request, pk):
-        app = Appointment.object.get(pk=pk)
+        app = Appointment.objects.get(pk=pk)
         form = self.form_class(None,
                                initial={'datetime': app.datetime, 'patient': app.patient, 'doctor': app.doctor})
-        app.delete()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, pk):
         form = self.form_class(request.POST)
         if form.is_valid():
-            appointment = form.save(commit=False)
+            appointment = Appointment.objects.get(pk=pk)
             datetime = form.cleaned_data['datetime']
             patient = form.cleaned_data['patient']
             doctor = form.cleaned_data['doctor']
@@ -487,11 +486,12 @@ class EditAppointment(View):
             for app in all_appointments:  # loop through the doctors to see if that time has been taken
                 if app.doctor == doctor:
                     if app.datetime == datetime:
-
-                        return HttpResponseRedirect('time_taken')
+                        if app != appointment:
+                            return HttpResponseRedirect('time_taken')
                 if app.patient == patient:
                     if app.datetime == datetime:
-                        return HttpResponseRedirect('time_taken')
+                        if app != appointment:
+                            return HttpResponseRedirect('time_taken')
             appointment.datetime = datetime
             appointment.patient = patient
             appointment.doctor = doctor
@@ -503,7 +503,7 @@ class EditAppointment(View):
                 sys.stdout = f
                 dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.name + "made appointment with " + doctor.last_name + " at " + dt + ": " + tm
+                str = patient.user.username + " made appointment with " + doctor.last_name + " at " + dt + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
