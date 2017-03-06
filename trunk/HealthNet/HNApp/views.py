@@ -299,15 +299,6 @@ class EditMedicalRecordView(View):
         #return render(request, self.template_name, {'form': form})
 
 
-class CreateTool(CreateView):
-    """
-    TODO
-    """
-    model = Patient
-    template_name = 'HNApp/tool_form.html'
-    form_class = ToolForm
-
-
 class LoginTool(View):
     """
     TODO
