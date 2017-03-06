@@ -76,7 +76,7 @@ class PatientSignUp(ModelForm):
         model = Patient
         fields = ['dob', 'contact_info','emergency_info', 'allergies']
 
-    def save(self, cUser, sRecord, commit=True):
+    def save(self, cUser, commit=True):
         """
         TODO
         :param cUser:
@@ -88,11 +88,10 @@ class PatientSignUp(ModelForm):
         """
         user = super(PatientSignUp, self).save(commit=False)
         user.user = cUser
-        user.record = cRecord
+        # user.record = cRecord
         user.dob = self.cleaned_data['dob']
         user.contact_info = self.cleaned_data['contact_info']
         user.emergency_info = self.cleaned_data['emergency_info']
-        # user.emergency_info = self.cleaned_data['emergency_info']
         user.allergies = self.cleaned_data['allergies']
         # user.preferred_hospital = self.cleaned_data['preferred_hospital']
         if (commit):

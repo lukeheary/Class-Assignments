@@ -12,7 +12,7 @@ urlpatterns = [
     # /accounts/patient_signup/
     url(r'^accounts/patient_signup/$', views.register, name="patient_signup"),
     # /accounts/patient_signup/true/
-    url(r'^accounts/patient_signup/True/$', views.loggedin, name="valid_login"),
+    url(r'^accounts/patient_signup/True/$', views.register, name="register"),
     # /accounts/patient_signup/false
     url(r'^accounts/patient_signup/False/$', views.invalid_login, name="invalid_login"),
     # /accounts/register_success/

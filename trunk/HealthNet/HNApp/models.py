@@ -45,7 +45,7 @@ class Patient(models.Model):
     Patient holds personal information pertaining to the user.
     """
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    medical_record = models.OneToOneField(MedicalRecords, on_delete=models.CASCADE)
+    #medical_record = models.OneToOneField(MedicalRecords, on_delete=models.CASCADE)
     dob = models.DateField('Date of Birth', null=True, blank=True, default="")
     contact_info = models.CharField(max_length=10, default="")
     emergency_info = models.CharField(max_length=10, default="")

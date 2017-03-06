@@ -141,23 +141,24 @@ def register(request):
     if request.method == 'POST':
         form1 = SignUpForm(data=request.POST)
         form2 = PatientSignUp(data=request.POST)
-        form3 = CreateMedicalRecordsForm(data=request.POST)
-        form3.fields['status'].initial = 'None'
-        form3.fields['current_hospital'].initial = 'None'
-        form3.fields['current_status'].initial = 'None'
-        form3.fields['previous_hospitals'].initial = 'None'
-        if form2.is_valid() and form1.is_valid() and form3.is_valid():
+        # form3 = CreateMedicalRecordsForm()
+        # form3.fields['status'].initial = 'None'
+        # form3.fields['current_hospital'].initial = 'None'
+        # form3.fields['current_status'].initial = 'None'
+        # form3.fields['previous_hospitals'].initial = 'None'
+        if form2.is_valid() and form1.is_valid():
             user = form1.save()
-            record = form3.save()
+            # record = form3.save()
             form2.save(cUser=user)
-            form3.save(cRecord=record)
+            # form3.save(cRecord=record)
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
             str = user.first_name + "successfully registered: " + tm
             return HttpResponseRedirect('/accounts/register_success')
         else:
             
-            return HttpResponseRedirect(form2.is_valid())  
+            return HttpResponse(form1.is_valid())  
     else:
+        print("Haha")
         return render(request, 'patient_signup.html', 
         {
             'form1':SignUpForm(),
