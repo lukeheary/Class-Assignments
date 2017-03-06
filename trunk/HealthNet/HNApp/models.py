@@ -56,7 +56,7 @@ class EmergencyContactInfo(models.Model):
         __str__ defines the to string method for EmergencyContactInfo
         :return: string - "(Patient's name) Contact's Name, Contact's Number"
         """
-        return "(" + self.patient.name + " " + self.name.__str__() + \
+        return "(" + self.patient.user.first_name + " " + self.patient.user.last_name + ": " + self.name.__str__() + \
                ", " + self.phone_number.__str__()
 
 
