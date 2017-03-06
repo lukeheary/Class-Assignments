@@ -87,27 +87,14 @@ def auth_view(request):
 #     return render_to_response('doctor_profile.html',args)
 
 
-def get_user_type(user):
-    u_type = ""
-    if(Patient.objects.get(name="Patient") in user.groups.all()):
-        u_type = "Patient"
-    elif(Doctor.objects.get(name="Doctor") in user.groups.all()):
-        u_type = "Doctor"
-    elif(Nurse.objects.get(name="Nurse") in user.groups.all()):
-        u_type = "Nurse"
-    elif(user.is_superuser):
-        u_type = "Admin"
-    else:
-        u_type = "Unknown"
-    return u_type
-
-
 def loggedin(request):
     """
     TODO
     :param request:
     :return:
     """
+    f = open('sys.txt', 'a')
+    sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
     str = request.user.username + "signed in." + tm
     print(str)
@@ -143,21 +130,14 @@ def logout(request):
     :param request:
     :return:
     """
-<<<<<<< HEAD
-    
-=======
+
     f = open('sys.txt', 'a')
     sys.stdout = f
->>>>>>> 198f6ce899257b98104b73c6b2839c7b0f47169f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
     str = request.user.username + "logged out: " + tm + "\n"
     print(str)
     auth.logout(request)
-<<<<<<< HEAD
-    return render_to_response('/')
-=======
     return redirect('/')
->>>>>>> 198f6ce899257b98104b73c6b2839c7b0f47169f
 
 
 def register(request):
@@ -326,45 +306,38 @@ class EditProfileView(View):
     TODO
     """
     model = User
-
-    def get(self, request):
-        me = request.user
-        meType = get_user_type(request)
-        if meType == "":
-            return handler404(request)
-        if meType.equals('Patient'):
+    form_class = EditPatientProfileForm
+    template_name = 'HNApp/edit_patient_profile.html'
+    def get(self, request, pk):
+        if hasattr(request.user, 'patient'):
+            patient = Patient.objects.get(pk=pk)
             form_class = EditPatientProfileForm
             template_name = 'HNApp/edit_patient_profile.html'
-            form = self.form_class(initial={'name': me.user.name,
-                                        'contact information': me.contact_info,
-                                        'date of birth': me.dob,
-                                        'allergies': me.allergies})
+            form = self.form_class(initial={
+                                        'contact information': patient.contact_info,
+                                        'date of birth': patient.dob,
+                                        'allergies': patient.allergies})
             return render(request, self.template_name, {'form': form})
-        if meType.equals('Doctor') or meType.equals('Nurse'):
-            form_class = EditStaffProfileForm
-            template_name = 'HNApp/edit_staff_profile.html'
-            form = self.form_class(initial={'first name': me.first_name,
-                                            'last_name': me.last_name,
-                                            'specialization': me.specialization,
-                                            'current hospital': me.current_hospital})
+        if hasattr(request.user, 'doctor') or hasattr(request.user, 'nurse'):
+
+            form = self.form_class(initial={'first name': request.user.first_name,
+                                            'last_name': request.user.last_name,
+                                            'specialization': request.user.specialization,
+                                            'current hospital': request.user.current_hospital})
             return render(request, self.template_name, {'form': form})
 
-    def post(self, request):
+    def post(self, request, pk):
         form = self.form_class(request.POST)
         if form.is_valid():
-            me = request.user
-            meType = get_user_type(request)
-            if meType.equals('Patient'):
-                name = form.cleaned_data['name']
-                contact_info = form.cleaned_data['contact information']
-                dob = form.cleaned_data['date of birth']
-                allergies = form.cleaned_data['allergies']
-                me.user.name = name
-                me.contact_info = contact_info
-                me.dob = dob
-                me.allergies = allergies
+            patient = Patient.objects.get(pk=pk)
+            contact_info = form.cleaned_data['contact information']
+            dob = form.cleaned_data['date of birth']
+            allergies = form.cleaned_data['allergies']
+            patient.contact_info = contact_info
+            patient.dob = dob
+            patient.allergies = allergies
 
-            if meType.equals('Doctor') or meType.equals('Nurse'):
+            """if meType.equals('Doctor') or meType.equals('Nurse'):
                 first_name = form.cleaned_data['first name']
                 last_name = form.cleaned_data['last name']
                 specialization = form.cleaned_data['specialization']
@@ -373,7 +346,8 @@ class EditProfileView(View):
                 me.last_name = last_name
                 me.specialization = specialization
                 me.current_hospital = current_hospital
-
+            """
+            patient.save()
             orig_out = sys.stdout
             f = open('sys.txt', 'a')
             sys.stdout = f
@@ -531,9 +505,8 @@ class EditAppointment(View):
     form_class = AppointmentForm
     template_name = 'HNApp/edit_appointment.html'
 
-    def get(self, request):
-        apps = Appointment.objects.all()
-        old = apps[0]
+    def get(self, request, pk):
+        old = Appointment.objects.get(pk=pk)
         form = self.form_class(None,
                                initial={'datetime': old.datetime, 'patient': old.patient, 'doctor': old.doctor})
         old.delete()
