@@ -69,8 +69,7 @@ class Patient(models.Model):
         __str__ defines the to string method for EmergencyContactInfo
         :return: string - "(Patient's name) Contact's Name, Contact's Number"
         """
-        name = self.user.first_name  + self.user.last_name
-        return name
+        return self.user.first_name + " " + self.user.last_name
 
 
 
@@ -89,19 +88,9 @@ class EmergencyContactInfo(models.Model):
         __str__ defines the to string method for EmergencyContactInfo
         :return: string - "(Patient's name) Contact's Name, Contact's Number"
         """
-        return "(" + self.patient.name + " " + self.name.__str__() + \
+        return "(" + self.patient.user.first_name + " " + self.patient.user.last_name + ": " + self.name.__str__() + \
                ", " + self.phone_number.__str__()
 
-
-# class Staff(models.Model):
-#     """
-#     <<Abtract>> Staff
-#     Useful Link: https://godjango.com/blog/django-abstract-base-class-model-inheritance/
-#     """
-#     current_hospital = models.CharField(max_length=100, default="")
-
-#     class Meta:
-#         abstract = True
 
 
 class Doctor(models.Model):
@@ -114,7 +103,7 @@ class Doctor(models.Model):
     dob = models.DateField('Date of Birth', null=True, blank=True, default="")
     specialization = models.CharField(max_length=50, default="")
     current_hospital = models.CharField(max_length=50, default="")
-    user_type="Doctor"
+    user_type = "Doctor"
 
     def __str__(self):
         """
@@ -135,7 +124,7 @@ class Nurse(models.Model):
     dob = models.DateField('Date of Birth', null=True, blank=True, default="")
     specialization = models.CharField(max_length=50, default="")
     current_hospital = models.CharField(max_length=50, default="")
-    user_type="Nurse"
+    user_type = "Nurse"
     
     def __str__(self):
         """
@@ -160,7 +149,7 @@ class Appointment(models.Model):
         __str__ defines the to string method for Appointment
         :return: string - "Patient's Name seeing: Doctor's Name at Date"
         """
-        return self.patient.name + " seeing: " + self.doctor.name + \
+        return self.patient.user.username + " seeing doctor: " + self.doctor.last_name + \
             " at " + self.datetime.__str__()
 
 

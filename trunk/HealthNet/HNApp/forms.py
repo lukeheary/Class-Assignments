@@ -15,7 +15,7 @@ class SignUpForm(ModelForm):
     """
     class Meta:
         model = User
-        fields = ('first_name','last_name', 'username', 'password')
+        fields = ('first_name', 'last_name', 'username', 'password')
         exclude = ('email',)
 
     def save(self, commit=True):
@@ -128,4 +128,38 @@ class AppointmentForm(ModelForm):
         fields = ['datetime', 'patient', 'doctor']
 
 
+# class EditPatientProfileForm(ModelForm):
+#     """
+#     TODO
+#     """
+#     class Meta:
+#         model = User
+#         name = forms.CharField()
+#         contact_information = forms.CharField()
+#         dob = forms.DateTimeField()
+#         allergies = forms.CharField()
+#         fields = ['name', 'contact information', 'date of birth', 'allergies']
+
+
+class EditStaffProfileForm(ModelForm):
+    """
+    TODO
+    """
+
+    class Meta:
+        model = Doctor
+        first_name = forms.CharField()
+        last_name = forms.CharField()
+        specialization = forms.CharField()
+        current_hospital = forms.CharField()
+        fields = ['first_name', 'last_name', 'specialization', 'current_hospital']
+
+
+class EditMedicalRecordsForm(ModelForm):
+    """
+    TODO
+    """
+    class Meta:
+        model = MedicalRecords
+        fields = ['patient', 'current_hospital', 'current_status', 'previous_hospitals']
 

@@ -107,16 +107,19 @@
             {% if all_patients %}
                 {% for patient in all_patients %}
                     <tr>
-                        <td><a href="/{{ patient.name }}/profile">{{ patient.name }}</a></td>
+                        <td><a href="/{{ patient.first_name }}{{ patient.last_name }}/profile">{{ patient.first_name }} {{ patient.last_name }}</a></td>
                         <td>{{ patient.birth_date }}</td>
-                        <td>0000000000 Fix me</td>
+                        <td>{{ patient.contact_info }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
-            {% else %}
-                <h3>You don't have any patients</h3>
-            {% endif %}
+
         </table>
+            {% else %}
+                <div id="sectionText">
+                    <h3>You don't have any patients</h3>
+                </div>
+            {% endif %}
     </div>
 </body>
 

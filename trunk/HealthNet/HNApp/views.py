@@ -66,37 +66,20 @@ def auth_view(request):
         return HttpResponseRedirect('/accounts/invalid_login')
 
 
-# def user_profile(request):
-#     """
-#     TODO
-#     :param request:
-#     :return:
-#     """
-#     if (request.method == 'POST') :
-#         form = UserProfileForm(request.POST, instance=request.user.profile)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/accounts/loggedin')
-#     else:
-#         user = request.user
-#         profile = user.profile
-#         form = UserProfileForm(instance=profile)
-#     args = {}
-#     args.update(csrf(request))
-#     args['form']=form
 
-#     return render_to_response('doctor_profile.html',args)
-
-
-def get_user_type(request):
-    if hasattr(request.user, 'patient'):
-        return 'patient'
-    elif hasattr(request.user, 'doctor'):
-        return 'doctor'
-    elif hasattr(request.user, 'nurse'):
-        return 'nurse'
+def get_user_type(user):
+    u_type = ""
+    if(Patient.objects.get(name="Patient") in user.groups.all()):
+        u_type = "Patient"
+    elif(Doctor.objects.get(name="Doctor") in user.groups.all()):
+        u_type = "Doctor"
+    elif(Nurse.objects.get(name="Nurse") in user.groups.all()):
+        u_type = "Nurse"
+    elif(user.is_superuser):
+        u_type = "Admin"
     else:
-        return ''
+        u_type = "Unknown"
+    return u_type
 
 
 def loggedin(request):
@@ -181,6 +164,7 @@ def register(request):
             'form2':PatientSignUp()
         })
 
+
 # class CreateMedicalRecordView(View):
 #     """
 #     TODO
@@ -225,6 +209,7 @@ def register(request):
     #     return render(request, self.template_name, {'form': form})
 
 
+
 def register_success(request):
     """
     TODO
@@ -232,8 +217,6 @@ def register_success(request):
     :return:
     """
     return render_to_response('register_success.html')
-
-
 
 
 def profile(request):
@@ -278,7 +261,7 @@ def patient_list(request):
     :param request: HTTP Request
     :return: HttpResponse
     """
-    all_patients = User.objects.all()
+    all_patients = Patient.objects.all()
     template = loader.get_template('HNApp/patient_list.html')
     context = {
         'all_patients': all_patients
@@ -300,7 +283,43 @@ def appointment_list(request):
     return HttpResponse(template.render(context, request))
 
 
+class CreateMedicalRecordView(View):
+    """
+    TODO
+    """
+    model = MedicalRecords
+    template_name = 'HNApp/create_medical_records.html'
+    form_class = EditMedicalRecordsForm
 
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            records = form.save(commit=False)
+            patient = form.cleaned_data['patient']
+            current_hospital = form.cleaned_data['current_hospital']
+            allergies = form.cleaned_data['allergies']
+            current_status = form.cleaned_data['current_status']
+            previous_hospitals = form.cleaned_data['previous_hospitals']
+            records.patient = patient
+            records.current_hospital = current_hospital
+            records.allergies = allergies
+            records.current_status = current_status
+            records.previous_hospitals = previous_hospitals
+            orig_out = sys.stdout
+            f = open('sys.txt', 'w')
+            sys.stdout = f
+            tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+            str = request.user.username + " created the medical records for " + patient.user.username + ": " + tm + "\n"
+            print(str)
+            f.close()
+            sys.stdout = orig_out
+            records.save()
+
+        return render(request, self.template_name, {'form': form})
 
 
 # class EditMedicalRecordView(View):
@@ -359,6 +378,70 @@ class LoginTool(View):
     form_class = SignUpForm
     template_name = 'HNApp/login.html'
 
+class EditProfileView(View):
+    """
+    TODO
+    """
+    model = User
+
+    def get(self, request):
+        me = request.user
+        meType = get_user_type(request)
+        if meType == "":
+            return handler404(request)
+        if meType.equals('Patient'):
+            form_class = EditPatientProfileForm
+            template_name = 'HNApp/edit_patient_profile.html'
+            form = self.form_class(initial={'name': me.user.name,
+                                        'contact information': me.contact_info,
+                                        'date of birth': me.dob,
+                                        'allergies': me.allergies})
+            return render(request, self.template_name, {'form': form})
+        if meType.equals('Doctor') or meType.equals('Nurse'):
+            form_class = EditStaffProfileForm
+            template_name = 'HNApp/edit_staff_profile.html'
+            form = self.form_class(initial={'first name': me.first_name,
+                                            'last_name': me.last_name,
+                                            'specialization': me.specialization,
+                                            'current hospital': me.current_hospital})
+            return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            me = request.user
+            meType = get_user_type(request)
+            if meType.equals('Patient'):
+                name = form.cleaned_data['name']
+                contact_info = form.cleaned_data['contact information']
+                dob = form.cleaned_data['date of birth']
+                allergies = form.cleaned_data['allergies']
+                me.user.name = name
+                me.contact_info = contact_info
+                me.dob = dob
+                me.allergies = allergies
+
+            if meType.equals('Doctor') or meType.equals('Nurse'):
+                first_name = form.cleaned_data['first name']
+                last_name = form.cleaned_data['last name']
+                specialization = form.cleaned_data['specialization']
+                current_hospital = form.cleaned_data['current hospital']
+                me.first_name = first_name
+                me.last_name = last_name
+                me.specialization = specialization
+                me.current_hospital = current_hospital
+
+            orig_out = sys.stdout
+            f = open('sys.txt', 'w')
+            sys.stdout = f
+            tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+            str = request.user.name + " edited their profile: " + tm + "\n"
+            print(str)
+            f.close()
+            sys.stdout = orig_out
+
+        return render(request, self.template_name, {'form': form})
+
 
 class CreateAppointmentView(View):
     """
@@ -411,9 +494,8 @@ class EditAppointment(View):
     form_class = AppointmentForm
     template_name = 'HNApp/edit_appointment.html'
 
-    def get(self, request):
-        apps = Appointment.objects.all()
-        old = apps[0]
+    def get(self, request,pk):
+        old = Appointment.objects.get(pk=pk)
         form = self.form_class(None,
                                initial={'datetime': old.datetime, 'patient': old.patient, 'doctor': old.doctor})
         old.delete()
