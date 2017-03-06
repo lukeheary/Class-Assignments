@@ -67,7 +67,7 @@
     <div id="sectionText">
         {% block profile %}
         <p>Name: {{record.patient.user.first_name}} {{record.patient.user.last_name}}</p>
-        <p>Date of Birth: (yyyy-mm-dd) {{record.patient.user.dob}}</p>
+        <p>Date of Birth: {{record.patient.dob}}</p>
         <p>Contact Information: {{record.patient.contact_info}}</p>
         <p>Emergency Information: {{record.patient.emergency_info}}</p>
 
