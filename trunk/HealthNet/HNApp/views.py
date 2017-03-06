@@ -128,12 +128,11 @@ def display_log(request):
     allStrings = ""
     for line in f:
         allStrings = allStrings + line + "\n"
-
     template = loader.get_template('HNApp/admin_log.html')
     context = {
         'allStrings': allStrings
     }
-    f = open("sys.txt", 'w')
+    f = open("sys.txt", 'a')
     sys.stdout = f
     return HttpResponse(template.render(context, request))
 
@@ -144,13 +143,13 @@ def logout(request):
     :param request:
     :return:
     """
-    f = open('sys.txt', 'w')
+    f = open('sys.txt', 'a')
     sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    str = request.user.name + "logged out: " + tm + "\n"
+    str = request.user.username + "logged out: " + tm + "\n"
     print(str)
     auth.logout(request)
-    return render_to_response('/')
+    return redirect('/')
 
 
 def register(request):
@@ -368,7 +367,7 @@ class EditProfileView(View):
                 me.current_hospital = current_hospital
 
             orig_out = sys.stdout
-            f = open('sys.txt', 'w')
+            f = open('sys.txt', 'a')
             sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
             str = request.user.name + " edited their profile: " + tm + "\n"
@@ -414,7 +413,7 @@ class CreateAppointmentView(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
-                f = open('sys.txt', 'w')
+                f = open('sys.txt', 'a')
                 sys.stdout = f
                 dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
@@ -464,7 +463,7 @@ class CreateMedicalRecordView(View):
             records.save()
             if records is not None:
                 orig_out = sys.stdout
-                f = open('sys.txt', 'w')
+                f = open('sys.txt', 'a')
                 sys.stdout = f
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 str = request.user.username + " created the medical records for " + patient.user.username + ": " + tm + "\n"
@@ -555,7 +554,7 @@ class EditAppointment(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
-                f = open('sys.txt', 'w')
+                f = open('sys.txt', 'a')
                 sys.stdout = f
                 dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
