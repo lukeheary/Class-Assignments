@@ -110,22 +110,13 @@ def logout(request):
     :param request:
     :return:
     """
-<<<<<<< HEAD
-    
-=======
     f = open('sys.txt', 'a')
     sys.stdout = f
->>>>>>> f33027cc2bd6f42387eb039a9056bdc0a3861bbe
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
     str = request.user.name + "logged out: " + tm
     print(str)
     auth.logout(request)
-<<<<<<< HEAD
-    return render_to_response('/')
-=======
     return redirect('/')
->>>>>>> f33027cc2bd6f42387eb039a9056bdc0a3861bbe
-
 
 def register(request):
     """
@@ -229,36 +220,36 @@ def appointment_list(request):
     }
     return HttpResponse(template.render(context, request))
 
-class EditMedicalRecordView(View):
-    """
-    TODO
-    """
-    model = MedicalRecord
-    template_name = 'HNApp/edit_medical_records.html'
-    form_class = EditMedicalRecordsForm
+# class EditMedicalRecordView(View):
+#     """
+#     TODO
+#     """
+#     model = MedicalRecord
+#     template_name = 'HNApp/edit_medical_records.html'
+#     form_class = EditMedicalRecordsForm
 
-    def get(self, request, pk):
-        records = MedicalRecord.objects.get(pk=pk)
-        form = self.form_class(initial={'patient': records.patient,
-                                        'allergies': records.allergies,
-                                        'current_hospital': records.current_hospital,
-                                        'previous_hospitals': records.previous_hospitals,
-                                        'current_status': records.current_status})
-        return render(request, self.template_name, {'form': form})
+#     def get(self, request, pk):
+#         records = MedicalRecord.objects.get(pk=pk)
+#         form = self.form_class(initial={'patient': records.patient,
+#                                         'allergies': records.allergies,
+#                                         'current_hospital': records.current_hospital,
+#                                         'previous_hospitals': records.previous_hospitals,
+#                                         'current_status': records.current_status})
+#         return render(request, self.template_name, {'form': form})
 
 
-def get_user_type(request):
-    if hasattr(request, 'user'):
-        if hasattr(request.user, 'patient'):
-            return '0'
-        elif hasattr(request.user, 'doctor'):
-            return '1'
-        elif hasattr(request.user, 'nurse'):
-            return '2'
-        else:
-            return ''
-    else:
-        return ''
+# def get_user_type(request):
+#     if hasattr(request, 'user'):
+#         if hasattr(request.user, 'patient'):
+#             return '0'
+#         elif hasattr(request.user, 'doctor'):
+#             return '1'
+#         elif hasattr(request.user, 'nurse'):
+#             return '2'
+#         else:
+#             return ''
+#     else:
+#         return ''
 
 
 class CreateTool(CreateView):
