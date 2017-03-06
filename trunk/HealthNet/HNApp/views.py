@@ -1,23 +1,16 @@
 from django.http import HttpResponse
-from .models import *
 from .forms import *
 from django.template import loader, RequestContext
 from django.views.generic import View
-from django.views.generic.edit import CreateView
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
-from django.db import IntegrityError
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 # control user log in/out
 from django.contrib import auth
 # security purpose
 from django.core.context_processors import csrf
-from django.contrib.auth.models import AnonymousUser
 import time
-from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from .templatetags import tags
 
 
 def index(request):
@@ -90,13 +83,13 @@ def auth_view(request):
 
 def get_user_type(user):
     u_type = ""
-    if(Patient.objects.get(name="Patient") in user.groups.all()):
+    if Patient.objects.get(name="Patient") in user.groups.all():
         u_type = "Patient"
-    elif(Doctor.objects.get(name="Doctor") in user.groups.all()):
+    elif Doctor.objects.get(name="Doctor") in user.groups.all():
         u_type = "Doctor"
-    elif(Nurse.objects.get(name="Nurse") in user.groups.all()):
+    elif Nurse.objects.get(name="Nurse") in user.groups.all():
         u_type = "Nurse"
-    elif(user.is_superuser):
+    elif user.is_superuser:
         u_type = "Admin"
     else:
         u_type = "Unknown"
@@ -128,7 +121,7 @@ def display_log(request):
     f = open('sys.txt', 'r')
     allStrings = ""
     for line in f:
-        allStrings = allStrings + line + "\n"
+        allStrings = allStrings + line
     template = loader.get_template('HNApp/admin_log.html')
     context = {
         'allStrings': allStrings
@@ -260,37 +253,6 @@ def appointment_list(request):
     return HttpResponse(template.render(context, request))
 
 
-#     def post(self, request):
-#         form = self.form_class(request.POST)
-#         if form.is_valid():
-#             records = form.save(commit=False)
-#             patient = form.cleaned_data['patient']
-#             current_hospital = form.cleaned_data['current_hospital']
-#             allergies = form.cleaned_data['allergies']
-#             current_status = form.cleaned_data['current_status']
-#             previous_hospitals = form.cleaned_data['previous_hospitals']
-#             records.patient = patient
-#             records.current_hospital = current_hospital
-#             records.allergies = allergies
-#             records.current_status = current_status
-#             records.previous_hospitals = previous_hospitals
-#             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-#             str = request.user.name + " edited the records of " + patient.name + ": " + tm
-#             print(str)
-#             records.save()
-
-        #return render(request, self.template_name, {'form': form})
-
-
-class CreateTool(CreateView):
-    """
-    TODO
-    """
-    model = Patient
-    template_name = 'HNApp/tool_form.html'
-    form_class = ToolForm
-
-
 class LoginTool(View):
     """
     TODO
@@ -307,6 +269,7 @@ class EditProfileView(View):
     model = User
     form_class = EditPatientProfileForm
     template_name = 'HNApp/edit_patient_profile.html'
+
     def get(self, request, pk):
         if hasattr(request.user, 'patient'):
             patient = Patient.objects.get(pk=pk)
@@ -364,6 +327,7 @@ class EditProfileView(View):
 
         return redirect('/accounts/profile/' + pk)
 
+
 class EditMedicalRecordView(View):
     """
     TODO
@@ -380,6 +344,7 @@ class EditMedicalRecordView(View):
                                         'previous_hospitals': records.previous_hospitals,
                                         'current_status': records.current_status})
         return render(request, self.template_name, {'form': form})
+
     def post(self, request, pk):
         form = self.form_class(request.POST)
         if form.is_valid():
@@ -409,8 +374,6 @@ class EditMedicalRecordView(View):
             f.close()
             sys.stdout = orig_out
         return redirect('/medical_record/' + pk)
-            
-
 
 
 class CreateAppointmentView(View):
@@ -458,6 +421,7 @@ class CreateAppointmentView(View):
 
         return render(request, self.template_name, {'form': form})
 
+
 def medical_record(request, pk):
     """
     TODO
@@ -468,6 +432,7 @@ def medical_record(request, pk):
     record = get_object_or_404(MedicalRecord, pk = pk)
     return render( request, template, {'record':record})
 
+
 class CreateMedicalRecordView(View):
     """
     TODO
@@ -475,6 +440,7 @@ class CreateMedicalRecordView(View):
     model = MedicalRecord
     template_name = 'HNApp/create_medical_records.html'
     form_class = CreateMedicalRecordsForm
+
     def get(self, request):
         form = self.form_class(None)
         return render(request, self.template_name, {'form': form})
@@ -510,11 +476,6 @@ class CreateMedicalRecordView(View):
         return render(request, self.template_name, {'form': form})
 
 
-
-
-
-
-
 class EditAppointment(View):
     """
     TODO
@@ -523,15 +484,14 @@ class EditAppointment(View):
     form_class = AppointmentForm
     template_name = 'HNApp/edit_appointment.html'
 
-    def get(self, request):
-        apps = Appointment.objects.all()
-        old = apps[0]
+    def get(self, request, pk):
+        app = Appointment.object.get(pk=pk)
         form = self.form_class(None,
-                               initial={'datetime': old.datetime, 'patient': old.patient, 'doctor': old.doctor})
-        old.delete()
+                               initial={'datetime': app.datetime, 'patient': app.patient, 'doctor': app.doctor})
+        app.delete()
         return render(request, self.template_name, {'form': form})
 
-    def post(self, request):
+    def post(self, request, pk):
         form = self.form_class(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)

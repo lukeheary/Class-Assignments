@@ -4,17 +4,12 @@ from django.forms import ModelForm
 from django.contrib.auth.models import User
 import sys
 
-from datetime import datetime
 
-
-"""
-This SignUpForm has to be made specifically for the User built-in class
-"""
 class SignUpForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     
     """
-    TODO
+    Form used for user sign-up.
     """
     class Meta:
         model = User
@@ -23,9 +18,8 @@ class SignUpForm(ModelForm):
 
     def save(self, commit=True):
         """
-        TODO
-        :param commit:
-        :return:
+        Saves the information filled out in the form to a new user model in the database.
+        :return: the new user
         """
         user = super(SignUpForm, self).save(commit=False)
         user.first_name = self.cleaned_data['first_name']
@@ -38,12 +32,9 @@ class SignUpForm(ModelForm):
         return user
 
 
-"""
-This is the PatientSignUp extended form from SignUpForm
-"""
 class PatientSignUp(ModelForm):
     """
-    TODO
+    Form used for patient sign-up, extends SignUpForm.
     """
     class Meta:
         model = Patient
@@ -51,10 +42,9 @@ class PatientSignUp(ModelForm):
 
     def save(self, cUser, commit=True):
         """
-        TODO
-        :param cUser:
-        :param commit:
-        :return:
+        Saves the information filled out by a new user.
+        :param cUser: the current user
+        :return: the new user (patient)
         """
         """
         Because 'cUser' is a User class and a foreign key, it has to be saved as attribute 'user'
@@ -66,28 +56,14 @@ class PatientSignUp(ModelForm):
         user.emergency_info = self.cleaned_data['emergency_info']
         user.allergies = self.cleaned_data['allergies']
         # user.preferred_hospital = self.cleaned_data['preferred_hospital']
-        if (commit):
+        if commit:
             user.save()
         return user
 
 
-class ToolForm(ModelForm):
-    """
-    TODO
-    """
-    name = forms.CharField()
-    birth_date = forms.DateField()
-    appointment_list = forms.DateTimeField()
-
-    class Meta:
-        model = Patient
-        
-        fields = ['name', 'birth_date', 'appointment_list']
-
-
 class AppointmentForm(ModelForm):
     """
-    TODO
+    Form used for filling out appointments, which are associated with a doctor and a patient.
     """
     class Meta:
         model = Appointment
@@ -99,7 +75,7 @@ class AppointmentForm(ModelForm):
 
 class CreateMedicalRecordsForm(ModelForm):
     """
-    TODO
+    Form used for creating medical records, which are associated with a patient.
     """
     class Meta:
         model = MedicalRecord
@@ -113,7 +89,7 @@ class CreateMedicalRecordsForm(ModelForm):
 
 class EditPatientProfileForm(ModelForm):
     """
-    TODO
+    Form used for editing a given patient's profile.
     """
     class Meta:
         model = Patient
@@ -126,9 +102,8 @@ class EditPatientProfileForm(ModelForm):
 
 class EditStaffProfileForm(ModelForm):
     """
-    TODO
+    Form used for editing a given staff member's profile.
     """
-
     class Meta:
         model = Doctor
         first_name = forms.CharField()
@@ -140,7 +115,7 @@ class EditStaffProfileForm(ModelForm):
 
 class EditMedicalRecordsForm(ModelForm):
     """
-    TODO
+    Form used for editing a given patient's medical records.
     """
     class Meta:
         model = MedicalRecord
