@@ -54,3 +54,8 @@ b
 c
 lukehearysigned in.Mon, 06 Mar 2017 17:06:21 EST(-0500)
 
+Lukemade appointment with  at Sun, 18 Jun 2017 12:00:00 EST(-0500): Mon, 06 Mar 2017 17:32:32 EST(-0500)
+lukeheary1logged out: Mon, 06 Mar 2017 17:34:40 EST(-0500)
+Mikesuccessfully registered: Mon, 06 Mar 2017 17:36:13 EST(-0500)
+mikehearysigned in.Mon, 06 Mar 2017 17:36:24 EST(-0500)
+Mikemade appointment with  at Sun, 18 Jun 2017 11:00:00 EST(-0500): Mon, 06 Mar 2017 17:36:36 EST(-0500)

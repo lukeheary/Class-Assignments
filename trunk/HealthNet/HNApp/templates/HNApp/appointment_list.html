@@ -111,8 +111,7 @@
 
             {% if user == '0' %}
                 {% for appointment in all_appointments %}
-                    {{ user }}{{ id }}this is id:{{ appointment.patient.user.id }}
-                    {% if appointment.patient.user.id == id %}
+                    {% if appointment.patient.user.id == request.user.id %}
                     <tr>
                         <td><a href="/accounts/profile/{{ appointment.patient.id }}">{{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}</a></td>
                         <td>{{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</td>
