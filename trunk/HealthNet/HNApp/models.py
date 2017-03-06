@@ -9,15 +9,46 @@ from django import forms
 - User class already has: first_name, last_name, username, password
 - Patient class extends with: dob, contact_info, emergency_info, allergies, preferred_hospital(currently not working)
 """
+class MedicalRecords(models.Model):
+    """
+    MedicalRecords holds information pertinent to the user's medical history.
+    """
+    #patient = models.OneToOneField(Patient, on_delete=models.CASCADE, default="")
+    status = models.CharField(max_length=100, default="")
+    current_hospital = models.CharField(max_length=100, default="")
+    current_status = models.CharField(max_length=50, default="")
+    previous_hospitals = models.CharField(max_length=200, default="")
+
+    def __str__(self):
+        """
+        __str__ defines the to string method for MedicalRecords
+        :return: string - "(Patient's name) Current Hospital, Current Status"
+        """
+        return "(" + self.patient.name + ")" + self.current_hospital \
+               + ", " + self.current_status.__str__()
+
+    
+
+
+    def set_current_hospital(self, new_hospital):
+        """
+        setCurrentHospital sets a patient's current hospital and adds the
+        previous current hospital to the previous_hospital list
+        :param new_hospital: the new hospital the patient is at
+        """
+        self.previous_hospitals.append(self.current_hospital)
+        self.current_hospital = new_hospital
+
+
 class Patient(models.Model):
     """
     Patient holds personal information pertaining to the user.
     """
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    
+    medical_record = models.OneToOneField(MedicalRecords, on_delete=models.CASCADE)
     dob = models.DateField('Date of Birth', null=True, blank=True, default="")
     contact_info = models.CharField(max_length=10, default="")
-    # emergency_info = models.CharField(max_length=10, default="")
+    emergency_info = models.CharField(max_length=10, default="")
     allergies = models.CharField(max_length=50, default="")
     user_type = 'Patient'
 
@@ -42,6 +73,7 @@ class Patient(models.Model):
         return name
 
 
+
 class EmergencyContactInfo(models.Model):
     """
     EmergencyContactInfo contains two lists, names and phone_number, that hold
@@ -59,33 +91,6 @@ class EmergencyContactInfo(models.Model):
         """
         return "(" + self.patient.name + " " + self.name.__str__() + \
                ", " + self.phone_number.__str__()
-
-
-class MedicalRecords(models.Model):
-    """
-    MedicalRecords holds information pertinent to the user's medical history.
-    """
-    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, default="")
-    current_hospital = models.CharField(max_length=100, default="")
-    current_status = models.CharField(max_length=50, default="")
-    previous_hospitals = models.CharField(max_length=200, default="")
-
-    def __str__(self):
-        """
-        __str__ defines the to string method for MedicalRecords
-        :return: string - "(Patient's name) Current Hospital, Current Status"
-        """
-        return "(" + self.patient.name + ")" + self.current_hospital \
-               + ", " + self.current_status.__str__()
-
-    def set_current_hospital(self, new_hospital):
-        """
-        setCurrentHospital sets a patient's current hospital and adds the
-        previous current hospital to the previous_hospital list
-        :param new_hospital: the new hospital the patient is at
-        """
-        self.previous_hospitals.append(self.current_hospital)
-        self.current_hospital = new_hospital
 
 
 # class Staff(models.Model):
@@ -106,6 +111,7 @@ class Doctor(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50, default="")
     last_name = models.CharField(max_length=50, default="")
+    dob = models.DateField('Date of Birth', null=True, blank=True, default="")
     specialization = models.CharField(max_length=50, default="")
     current_hospital = models.CharField(max_length=50, default="")
     user_type="Doctor"
@@ -126,6 +132,7 @@ class Nurse(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50, default="")
     last_name = models.CharField(max_length=50, default="")
+    dob = models.DateField('Date of Birth', null=True, blank=True, default="")
     specialization = models.CharField(max_length=50, default="")
     current_hospital = models.CharField(max_length=50, default="")
     user_type="Nurse"
