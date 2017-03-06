@@ -25,3 +25,7 @@ firstsuccessfully registered: Mon, 06 Mar 2017 16:54:01 Eastern Standard Time(Ea
 b
 c
 firstlastsigned in.Mon, 06 Mar 2017 16:54:10 Eastern Standard Time(Eastern Standard Time)
+doctorlogged out: Mon, 06 Mar 2017 17:12:04 Eastern Standard Time(Eastern Standard Time)
+b
+c
+doctorsigned in.Mon, 06 Mar 2017 17:12:14 Eastern Standard Time(Eastern Standard Time)
