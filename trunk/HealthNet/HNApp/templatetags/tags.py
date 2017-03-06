@@ -15,11 +15,14 @@ def active(request, pattern):
 
 @register.assignment_tag
 def get_user_type(request):
-    if hasattr(request.user, 'patient'):
-        return '0'
-    elif hasattr(request.user, 'doctor'):
-        return '1'
-    elif hasattr(request.user, 'nurse'):
-        return '2'
+    if hasattr(request, 'user'):
+        if hasattr(request.user, 'patient'):
+            return '0'
+        elif hasattr(request.user, 'doctor'):
+            return '1'
+        elif hasattr(request.user, 'nurse'):
+            return '2'
+        else:
+            return ''
     else:
         return ''

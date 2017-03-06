@@ -34,6 +34,39 @@ class SignUpForm(ModelForm):
             user.save()
         return user
 
+class CreateMedicalRecordsForm(ModelForm):
+    """
+    TODO
+    """
+    class Meta:
+        model = MedicalRecords
+        fields = [ 'status', 'current_hospital', 'current_status', 'previous_hospitals'] 
+
+    def save(self, commit=True):
+        """
+        """
+        record = super(CreateMedicalRecordsForm, self).save(commit=False)
+        record.status = self.cleaned_date['status']
+        record.current_hospital = self.cleaned_data['current_hospital']
+        record.current_status = self.cleaned_date['current_status']
+        record.previous_hospitals = self.cleaned_data['previous_hospitals']
+        if (commit):
+            record.save()
+        return record
+
+    # def __init__(self, *args, **kwargs):
+    #     instance = kwargs.get('instance', None)
+
+    #     kwargs.update(initial={
+    #         # 'field': 'value'
+    #         'status' : 'None',
+    #         'current_hospital': 'None',
+    #         'current_status' : 'None',
+    #         'previous_hospital' : 'None',
+    #     })
+    #     super(MedicalRecords, self).__init__(*args, **kwargs)
+
+    
 
 """
 This is the PatientSignUp extended form from SignUpForm
@@ -41,9 +74,9 @@ This is the PatientSignUp extended form from SignUpForm
 class PatientSignUp(ModelForm):
     class Meta:
         model = Patient
-        fields = ['dob', 'contact_info', 'allergies']
+        fields = ['dob', 'contact_info','emergency_info', 'allergies']
 
-    def save(self, cUser, commit=True):
+    def save(self, cUser, sRecord, commit=True):
         """
         TODO
         :param cUser:
@@ -55,14 +88,18 @@ class PatientSignUp(ModelForm):
         """
         user = super(PatientSignUp, self).save(commit=False)
         user.user = cUser
+        user.record = cRecord
         user.dob = self.cleaned_data['dob']
         user.contact_info = self.cleaned_data['contact_info']
+        user.emergency_info = self.cleaned_data['emergency_info']
         # user.emergency_info = self.cleaned_data['emergency_info']
         user.allergies = self.cleaned_data['allergies']
         # user.preferred_hospital = self.cleaned_data['preferred_hospital']
         if (commit):
             user.save()
         return user
+
+
 
 
 class ToolForm(ModelForm):
@@ -125,3 +162,4 @@ class EditMedicalRecordsForm(ModelForm):
     class Meta:
         model = MedicalRecords
         fields = ['patient', 'current_hospital', 'current_status', 'previous_hospitals']
+
