@@ -1,6 +1,8 @@
 from django.test import TestCase
 from .models import *
 
+# NOTE: Run tests using this command: 'python.exe ./manage.py test HNApp.tests'
+
 
 class PatientModelTest(TestCase):
     def setUp(self):
