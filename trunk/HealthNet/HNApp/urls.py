@@ -12,9 +12,9 @@ urlpatterns = [
     # /accounts/patient_signup/
     url(r'^accounts/patient_signup/$', views.register, name="patient_signup"),
     # /accounts/patient_signup/true/
-    url(r'^accounts/patient_signup/true/$', views.loggedin, name="valid_login"),
+    url(r'^accounts/patient_signup/True/$', views.register, name="register"),
     # /accounts/patient_signup/false
-    url(r'^accounts/patient_signup/false/$', views.invalid_login, name="invalid_login"),
+    url(r'^accounts/patient_signup/False/$', views.invalid_login, name="invalid_login"),
     # /accounts/register_success/
     url(r'^accounts/register_success/$', views.register_success, name="register_success"),
     # /accounts/login/
@@ -53,7 +53,7 @@ urlpatterns = [
 
 
     # /edit_medical_record
-    url(r'edit_medical_records/(?P<pk>[0-9]+)/$', views.EditMedicalRecordView.as_view(), name='edit_medical_record'),
+    #url(r'edit_medical_records/(?P<pk>[0-9]+)/$', views.EditMedicalRecordView.as_view(), name='edit_medical_record'),
     # /create_medical_record
-    url(r'create_medical_records/$', views.CreateMedicalRecordView.as_view(), name='create_medical_record'),
+    #url(r'create_medical_records/$', views.CreateMedicalRecordView.as_view(), name='create_medical_record'),
 ]

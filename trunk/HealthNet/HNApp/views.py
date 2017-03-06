@@ -109,10 +109,8 @@ def loggedin(request):
     :param request:
     :return:
     """
-    f = open('sys.txt', 'w')
-    sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    str = request.user.username + "signed in." + tm + "\n"
+    str = request.user.username + "signed in." + tm
     print(str)
     return render_to_response('loggedin.html', {'full_name': request.user.username})
 
@@ -136,6 +134,7 @@ def display_log(request):
     context = {
         'allStrings': allStrings
     }
+    f.close()
     f = open("sys.txt",'w')
     sys.stdout = f
     return HttpResponse(template.render(context, request))
@@ -148,10 +147,8 @@ def logout(request):
     :return:
     """
     auth.logout(request)
-    f = open('sys.txt', 'w')
-    sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    str = request.user.name + "logged out: " + tm + "\n"
+    str = request.user.name + "logged out: " + tm
     print(str)
     return render_to_response('logout.html')
 
@@ -312,26 +309,24 @@ class EditMedicalRecordView(View):
                                         'current_status': records.current_status})
         return render(request, self.template_name, {'form': form})
 
-    def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            records = form.save(commit=False)
-            patient = form.cleaned_data['patient']
-            current_hospital = form.cleaned_data['current_hospital']
-            allergies = form.cleaned_data['allergies']
-            current_status = form.cleaned_data['current_status']
-            previous_hospitals = form.cleaned_data['previous_hospitals']
-            records.patient = patient
-            records.current_hospital = current_hospital
-            records.allergies = allergies
-            records.current_status = current_status
-            records.previous_hospitals = previous_hospitals
-            f = open('sys.txt', 'w')
-            sys.stdout = f
-            tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = request.user.name + " edited the records of " + patient.user.username + ": " + tm
-            print(str)
-            records.save()
+#     def post(self, request):
+#         form = self.form_class(request.POST)
+#         if form.is_valid():
+#             records = form.save(commit=False)
+#             patient = form.cleaned_data['patient']
+#             current_hospital = form.cleaned_data['current_hospital']
+#             allergies = form.cleaned_data['allergies']
+#             current_status = form.cleaned_data['current_status']
+#             previous_hospitals = form.cleaned_data['previous_hospitals']
+#             records.patient = patient
+#             records.current_hospital = current_hospital
+#             records.allergies = allergies
+#             records.current_status = current_status
+#             records.previous_hospitals = previous_hospitals
+#             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+#             str = request.user.name + " edited the records of " + patient.name + ": " + tm
+#             print(str)
+#             records.save()
 
         return render(request, self.template_name, {'form': form})
 
@@ -453,11 +448,8 @@ class CreateAppointmentView(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
-                f = open('sys.txt', 'w')
-                sys.stdout = f
-                dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.username + "made appointment with " + doctor.last_name + " at " + dt + ": " + tm + "\n"
+                str = patient.name + "made appointment with " + doctor.name + " at " + datetime + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
@@ -503,11 +495,8 @@ class EditAppointment(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
-                f = open('sys.txt', 'w')
-                sys.stdout = f
-                dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.username + "made appointment with " + doctor.last_name + " at " + dt + ": " + tm + "\n"
+                str = patient.name + "made appointment with " + doctor.name + " at " + datetime + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
