@@ -15,7 +15,7 @@ from django.core.urlresolvers import reverse
 
 def index(request):
     """
-    TODO
+    Brings up our home page.
     :param request: HTTP Request
     :return: HttpResponse
     """
@@ -29,9 +29,9 @@ def index(request):
 
 def login(request):
     """
-    TODO
-    :param request:
-    :return:
+    Brings up our login view.
+    :param request: HTTP Request
+    :return: HttpResponse
     """
     c = {}
     c.update(csrf(request))
@@ -41,22 +41,20 @@ def login(request):
 # before we have username, pass empty string ''
 def auth_view(request):
     """
-    TODO
+
     :param request:
     :return:
     """
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
     user = auth.authenticate(username=username, password=password)
-    print("b")
     if user is not None:
-        print("c")
         auth.login(request, user)
         # Later on we can change loggedin to user_homepage, for whatever type of user is it
         return HttpResponseRedirect('/accounts/loggedin')
     else:
-        print("d")
         return HttpResponseRedirect('/accounts/invalid_login')
+
 
 
 def loggedin(request):
@@ -260,11 +258,13 @@ class EditProfileView(View):
             patient = Patient.objects.get(pk=pk)
             #first_name = form.cleaned_data['patient.user.username']
             #last_name = form.cleaned_data['user.last_name']
+            emergency_info = form.cleaned_data['emergency_info']
             contact_info = form.cleaned_data['contact_info']
             dob = form.cleaned_data['dob']
             allergies = form.cleaned_data['allergies']
             #patient.user.username = first_name
             #patient.user.last_name = last_name
+            patient.emergency_info = emergency_info
             patient.contact_info = contact_info
             patient.dob = dob
             patient.allergies = allergies
