@@ -155,11 +155,5 @@ class EditStaffProfileForm(ModelForm):
         fields = ['first_name', 'last_name', 'specialization', 'current_hospital']
 
 
-class EditMedicalRecordsForm(ModelForm):
-    """
-    TODO
-    """
-    class Meta:
-        model = MedicalRecords
-        fields = ['patient', 'current_hospital', 'current_status', 'previous_hospitals']
+
 
