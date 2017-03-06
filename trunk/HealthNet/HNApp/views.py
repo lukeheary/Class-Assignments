@@ -145,10 +145,11 @@ def logout(request):
     :param request:
     :return:
     """
-    auth.logout(request)
+    
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
     str = request.user.name + "logged out: " + tm
     print(str)
+    auth.logout(request)
     return render_to_response('/')
 
 
@@ -371,7 +372,7 @@ class EditProfileView(View):
             f.close()
             sys.stdout = orig_out
 
-        return render(request, self.template_name, {'form': form})
+        return redirect('HNApp:profile')
 
 
 class CreateAppointmentView(View):

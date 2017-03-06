@@ -111,10 +111,11 @@ class EditPatientProfileForm(ModelForm):
     class Meta:
         model = Patient
         #name = forms.CharField()
-        contact_information = forms.CharField()
+        contact_info = forms.CharField()
+        emergency_info = forms.CharField()
         dob = forms.DateTimeField()
         allergies = forms.CharField()
-        fields = ['contact_info', 'dob', 'allergies']
+        fields = ['contact_info','emergency_info', 'dob', 'allergies']
 
 
 class EditStaffProfileForm(ModelForm):

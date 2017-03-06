@@ -65,6 +65,7 @@
     </div>
 
     <div id="sectionText">
+
         {% block profile %} {% if user == '0' %}
         <p>Name: {{patient.user.first_name}} {{patient.user.last_name}}</p>
         <p>Username: {{ patient.user.username }}</p>
@@ -72,12 +73,12 @@
         <p>Contact Information: {{patient.contact_info}}</p>
 
         {% elif user == '1' %}
-        <p>Name: {{doctor.user.first_name}} {{doctor.user.last_name}}</p>
+        <p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
         <p>Username: {{ doctor.user.username }}</p>
         <p>Date of Birth: {{dob}}</p>
 
         {% elif user == '2' %}
-        <p>Name: {{nurse.user.first_name}} {{nurse.user.last_name}}</p>
+        <p>Name: {{nurse.first_name}} {{nurse.last_name}}</p>
         <p>Username: {{ nurse.user.username }}</p>
         <p>Date of Birth: {{dob}}</p>
 
