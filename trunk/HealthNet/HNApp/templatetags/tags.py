@@ -37,7 +37,7 @@ def get_sys_log(request):
 
 @register.assignment_tag
 def get_id(request):
-    if hasattr(register, 'id'):
-        return str(request.id)
+    if hasattr(request, 'user'):
+        return str(request.user.id)
     else:
         return ''

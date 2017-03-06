@@ -3,7 +3,7 @@ from .models import *
 from .forms import *
 from django.template import loader, RequestContext
 from django.views.generic import View
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.db import IntegrityError
@@ -63,27 +63,6 @@ def auth_view(request):
         return HttpResponseRedirect('/accounts/invalid_login')
 
 
-# def user_profile(request):
-#     """
-#     TODO
-#     :param request:
-#     :return:
-#     """
-#     if (request.method == 'POST') :
-#         form = UserProfileForm(request.POST, instance=request.user.profile)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/accounts/loggedin')
-#     else:
-#         user = request.user
-#         profile = user.profile
-#         form = UserProfileForm(instance=profile)
-#     args = {}
-#     args.update(csrf(request))
-#     args['form']=form
-
-#     return render_to_response('doctor_profile.html',args)
-
 
 def loggedin(request):
     """
@@ -111,11 +90,13 @@ def display_log(request):
     allStrings = ""
     for line in f:
         allStrings = allStrings + line + "\n"
+
     template = loader.get_template('HNApp/admin_log.html')
     context = {
         'allStrings': allStrings
     }
-    f = open("sys.txt", 'a')
+    f.close()
+    f = open("sys.txt", 'w')
     sys.stdout = f
     return HttpResponse(template.render(context, request))
 
@@ -129,11 +110,10 @@ def logout(request):
     f = open('sys.txt', 'a')
     sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    str = request.user.username + "logged out: " + tm + "\n"
+    str = request.user.name + "logged out: " + tm
     print(str)
     auth.logout(request)
     return redirect('/')
-
 
 def register(request):
     """
@@ -161,6 +141,7 @@ def register(request):
         })
 
 
+
 def register_success(request):
     """
     TODO
@@ -177,6 +158,7 @@ def profile(request, pk):
     :return:
     """
     template = loader.get_template('HNApp/view_profile.html')
+    pk_id = request.user.id
     if hasattr(request.user, 'patient'):
         working_user = get_object_or_404(Patient, pk=pk)
         dob = str(request.user.patient.dob)
@@ -184,6 +166,7 @@ def profile(request, pk):
             'patient': working_user,
             'dob': dob,
             'user': '0',
+            
         }
         return HttpResponse(template.render(context, request))
     elif hasattr(request.user, 'doctor'):
@@ -195,6 +178,7 @@ def profile(request, pk):
             'user': '1',
         }
         return HttpResponse(template.render(context, request))
+
     elif hasattr(request.user, 'nurse'):
         working_user = get_object_or_404(Nurse, pk=pk)
         dob = str(request.user.nurse.dob)
@@ -202,11 +186,6 @@ def profile(request, pk):
             'nurse': working_user,
             'dob': dob,
             'user': '2',
-        }
-        return HttpResponse(template.render(context, request))
-    else:
-        context = {
-            'user': '3'
         }
         return HttpResponse(template.render(context, request))
 
@@ -238,37 +217,36 @@ def appointment_list(request):
     }
     return HttpResponse(template.render(context, request))
 
+# class EditMedicalRecordView(View):
+#     """
+#     TODO
+#     """
+#     model = MedicalRecord
+#     template_name = 'HNApp/edit_medical_records.html'
+#     form_class = EditMedicalRecordsForm
 
-class EditMedicalRecordView(View):
-    """
-    TODO
-    """
-    model = MedicalRecord
-    template_name = 'HNApp/edit_medical_records.html'
-    form_class = EditMedicalRecordsForm
-
-    def get(self, request, pk):
-        records = MedicalRecord.objects.get(pk=pk)
-        form = self.form_class(initial={'patient': records.patient,
-                                        'allergies': records.allergies,
-                                        'current_hospital': records.current_hospital,
-                                        'previous_hospitals': records.previous_hospitals,
-                                        'current_status': records.current_status})
-        return render(request, self.template_name, {'form': form})
+#     def get(self, request, pk):
+#         records = MedicalRecord.objects.get(pk=pk)
+#         form = self.form_class(initial={'patient': records.patient,
+#                                         'allergies': records.allergies,
+#                                         'current_hospital': records.current_hospital,
+#                                         'previous_hospitals': records.previous_hospitals,
+#                                         'current_status': records.current_status})
+#         return render(request, self.template_name, {'form': form})
 
 
-def get_user_type(request):
-    if hasattr(request, 'user'):
-        if hasattr(request.user, 'patient'):
-            return '0'
-        elif hasattr(request.user, 'doctor'):
-            return '1'
-        elif hasattr(request.user, 'nurse'):
-            return '2'
-        else:
-            return ''
-    else:
-        return ''
+# def get_user_type(request):
+#     if hasattr(request, 'user'):
+#         if hasattr(request.user, 'patient'):
+#             return '0'
+#         elif hasattr(request.user, 'doctor'):
+#             return '1'
+#         elif hasattr(request.user, 'nurse'):
+#             return '2'
+#         else:
+#             return ''
+#     else:
+#         return ''
 
 
 class CreateTool(CreateView):
@@ -343,7 +321,7 @@ class EditProfileView(View):
                 me.current_hospital = current_hospital
 
             orig_out = sys.stdout
-            f = open('sys.txt', 'a')
+            f = open('sys.txt', 'w')
             sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
             str = request.user.name + " edited their profile: " + tm + "\n"
@@ -389,11 +367,9 @@ class CreateAppointmentView(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
-                f = open('sys.txt', 'a')
-                sys.stdout = f
-                dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.first_name + "made appointment with " + doctor.user.first_name + " at " + dt + ": " + tm + '\n'
+                str = patient.user.first_name + "made appointment with " + doctor.user.first_name 
+                # + " at " + datetime + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
@@ -442,7 +418,7 @@ class CreateMedicalRecordView(View):
             records.save()
             if records is not None:
                 orig_out = sys.stdout
-                f = open('sys.txt', 'a')
+                f = open('sys.txt', 'w')
                 sys.stdout = f
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 str = request.user.username + " created the medical records for " + patient.user.username + ": " + tm + "\n"
@@ -452,6 +428,50 @@ class CreateMedicalRecordView(View):
                 return redirect(reverse('HNApp:medical_record', args=[records.id]))
                 
         return render(request, self.template_name, {'form': form})
+
+class EditMedicalRecordView(UpdateView):
+ 
+    model = MedicalRecord
+    template_name = 'HNApp/create_medical_records.html'
+    form_class = CreateMedicalRecordsForm
+
+# class EditMedicalRecordView(View):
+#     """
+#     TODO
+#     """
+#     model = MedicalRecords
+#     template_name = 'HNApp/edit_medical_records.html'
+#     form_class = EditMedicalRecordsForm
+
+#     def get(self, request, pk):
+#         records = MedicalRecords.objects.get(pk=pk)
+#         form = self.form_class(initial={'patient': records.patient,
+#                                         'allergies': records.allergies,
+#                                         'current_hospital': records.current_hospital,
+#                                         'previous_hospitals': records.previous_hospitals,
+#                                         'current_status': records.current_status})
+#         return render(request, self.template_name, {'form': form})
+
+#     def post(self, request):
+#         form = self.form_class(request.POST)
+#         if form.is_valid():
+#             records = form.save(commit=False)
+#             patient = form.cleaned_data['patient']
+#             current_hospital = form.cleaned_data['current_hospital']
+#             allergies = form.cleaned_data['allergies']
+#             current_status = form.cleaned_data['current_status']
+#             previous_hospitals = form.cleaned_data['previous_hospitals']
+#             records.patient = patient
+#             records.current_hospital = current_hospital
+#             records.allergies = allergies
+#             records.current_status = current_status
+#             records.previous_hospitals = previous_hospitals
+#             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+#             str = request.user.name + " edited the records of " + patient.name + ": " + tm
+#             print(str)
+#             records.save()
+
+#         return render(request, self.template_name, {'form': form})
 
 
 class EditMedicalRecordView(View):
@@ -532,11 +552,8 @@ class EditAppointment(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
-                f = open('sys.txt', 'a')
-                sys.stdout = f
-                dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.name + "made appointment with " + doctor.last_name + " at " + dt + ": " + tm + "\n"
+                str = patient.name + "made appointment with " + doctor.name + " at " + datetime + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
