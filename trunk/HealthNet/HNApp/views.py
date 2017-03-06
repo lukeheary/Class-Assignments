@@ -464,9 +464,8 @@ class EditAppointment(View):
     form_class = AppointmentForm
     template_name = 'HNApp/edit_appointment.html'
 
-    def get(self, request):
-        apps = Appointment.objects.all()
-        old = apps[0]
+    def get(self, request,pk):
+        old = Appointment.objects.get(pk=pk)
         form = self.form_class(None,
                                initial={'datetime': old.datetime, 'patient': old.patient, 'doctor': old.doctor})
         old.delete()
