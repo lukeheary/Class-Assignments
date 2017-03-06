@@ -137,11 +137,8 @@ class MedicalRecord(models.Model):
         __str__ defines the to string method for MedicalRecords
         :return: string - "(Patient's name) Current Hospital, Current Status"
         """
-        return "(" + self.patient.user.first_name + "): " + self.current_hospital \
-               + ", " + self.current_status.__str__()
-
-    
-
+        return self.patient.user.first_name + " " + self.patient.user.last_name + ": " + self.current_hospital \
+            + ", " + self.current_status
 
     def set_current_hospital(self, new_hospital):
         """
@@ -149,9 +146,8 @@ class MedicalRecord(models.Model):
         previous current hospital to the previous_hospital list
         :param new_hospital: the new hospital the patient is at
         """
-        self.previous_hospitals.append(self.current_hospital)
+        self.previous_hospitals = self.current_hospital + ", " + self.previous_hospitals
         self.current_hospital = new_hospital
-
 
 
 class Admin(models.Model):
