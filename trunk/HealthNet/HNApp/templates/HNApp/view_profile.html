@@ -55,7 +55,7 @@
         border-bottom: 2px solid #38435B;
         padding: 1% 0% 1% 1%;
     }
-    
+
     a {
         float: right;
         padding: 0% 3% 0% 0%;
@@ -75,33 +75,35 @@
 
 </div>
 
-ß
-</div>
 
+    <div id="sectionText">
+        {% block profile %}
 
-<div id="sectionText">
-    {% block profile %} {% if user == '0' %}
-    <p>Name: {{patient.user.first_name}} {{patient.user.last_name}}</p>
-    <p>Username: {{ patient.user.username }}</p>
-    <p>Date of Birth: {{dob}}</p>
-    <p>Contact Information: {{patient.contact_info}}</p>
+        {% if user == '0' %}
+        <p>Name: {{patient.user.first_name}} {{patient.user.last_name}}</p>
+        <p>Username: {{ patient.user.username }}</p>
+        <p>Date of Birth: {{dob}}</p>
+        <p>Contact Information: {{patient.contact_info}}</p>
 
-    {% elif user == '1' %}
-    <p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
-    <p>Username: {{ doctor.user.username }}</p>
-    <p>Date of Birth: {{dob}}</p>
+        {% elif user == '1' %}
+        <p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
+        <p>Username: {{ doctor.user.username }}</p>
+        <p>Date of Birth: {{dob}}</p>
 
-    {% elif user == '2' %}
-    <p>Name: {{nurse.first_name}} {{nurse.last_name}}</p>
-    <p>Username: {{ nurse.user.username }}</p>
-    <p>Date of Birth: {{dob}}</p>
+        {% elif user == '2' %}
+        <p>Name: {{nurse.first_name}} {{nurse.last_name}}</p>
+        <p>Username: {{ nurse.user.username }}</p>
+        <p>Date of Birth: {{dob}}</p>
 
-<<<<<<< HEAD
-    {% else %}
-    <p>It looks like you don't have a profile. Please login to a valid account.</p>
-    {% endif %} {% endblock %} {% block medical_records %} {% if user == '0' %}
-</div>
-=======
+        {% else %}
+        <p>It looks like you don't have a profile. Please login to a valid account.</p>
+        {% endif %}
+        {% endblock %}
+
+        {% block medical_records %}
+        {% if user == '0' %}
+    </div>
+
     <div id="sectionHeading">
         <h2>Medical Records:</h2>
     </div>
@@ -111,14 +113,7 @@
         <p>Current Hospital: {{ patient.current_hospital }}</p>
         <p>Previous Hospital: {{ patient.previous_hospitals }}</p>
         {% endif %}
->>>>>>> refs/remotes/origin/master
-
-<div id="sectionHeading">
-    <h2>Medical Records:</h2>
-</div>
-<div id="sectionText">
-    <p>Allergies: {{patient.allergies}}</p>
-    {% endif %} {% endblock %}
+        {% endblock %}
 
 </div>
 </div>
