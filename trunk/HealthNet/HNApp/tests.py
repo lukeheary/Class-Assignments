@@ -144,12 +144,12 @@ class AppointmentModelTest(TestCase):
                                             current_hospital="HospitalA",
                                             )
 
-        self.appointment = Appointment.objects.create(datetime="2017-12-12 12:00",
-                                                      patient=self.u1,
-                                                      doctor=self.u2)
+        self.appointment = Appointment.objects.create(datetime="2016-12-12 12:00",
+                                                      patient=self.patient,
+                                                      doctor=self.doctor)
 
     def test_string_representation(self):
-        self.assertEqual(str(self.appointment), "JD123 seeing doctor: Smith at 2017-12-12 12:00")
+        self.assertEqual(str(self.appointment), "JD123 seeing doctor: Smith at 2016-12-12 12:00")
 
     def tearDown(self):
         self.appointment.delete()
