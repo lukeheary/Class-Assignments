@@ -153,7 +153,3 @@ class EditStaffProfileForm(ModelForm):
         specialization = forms.CharField()
         current_hospital = forms.CharField()
         fields = ['first_name', 'last_name', 'specialization', 'current_hospital']
-
-
-
-
