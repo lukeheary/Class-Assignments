@@ -256,12 +256,12 @@ class EditMedicalRecordView(View):
     """
     TODO
     """
-    model = MedicalRecords
+    model = MedicalRecord
     template_name = 'HNApp/edit_medical_records.html'
     form_class = EditMedicalRecordsForm
 
     def get(self, request, pk):
-        records = MedicalRecords.objects.get(pk=pk)
+        records = MedicalRecord.objects.get(pk=pk)
         form = self.form_class(initial={'patient': records.patient,
                                         'allergies': records.allergies,
                                         'current_hospital': records.current_hospital,
