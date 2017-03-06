@@ -374,7 +374,7 @@ class EditMedicalRecordView(View):
 
     def get(self, request, pk):
         records = MedicalRecord.objects.get(pk=pk)
-        form = self.form_class(initial={'patient': records.patient,
+        form = self.form_class(initial={
                                         'allergies': records.allergies,
                                         'current_hospital': records.current_hospital,
                                         'previous_hospitals': records.previous_hospitals,
@@ -385,17 +385,18 @@ class EditMedicalRecordView(View):
         if form.is_valid():
             records = MedicalRecord.objects.get(pk=pk)
 
-            patient = form.cleaned_data['patient']
             allergies = form.cleaned_data['allergies']
             current_status = form.cleaned_data['current_status']
             current_hospital = form.cleaned_data['current_hospital']
             previous_hospitals = form.cleaned_data['previous_hospitals']
 
-            records.patient = patient
+           
             records.allergies = allergies
             records.current_status = current_status
             records.current_hospital = current_hospital
             records.previous_hospitals = previous_hospitals
+
+           
 
             records.save()
 
@@ -403,7 +404,7 @@ class EditMedicalRecordView(View):
             f = open('sys.txt', 'a')
             sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = request.user.username + " edited the record of: " + patient.user.username + tm
+            str = request.user.username + " edited the record of: " + records.patient.user.username + tm
             print(str)
             f.close()
             sys.stdout = orig_out

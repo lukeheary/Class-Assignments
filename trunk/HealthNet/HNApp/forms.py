@@ -11,6 +11,8 @@ from datetime import datetime
 This SignUpForm has to be made specifically for the User built-in class
 """
 class SignUpForm(ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    
     """
     TODO
     """
@@ -142,4 +144,4 @@ class EditMedicalRecordsForm(ModelForm):
     """
     class Meta:
         model = MedicalRecord
-        fields = ['patient', 'current_hospital', 'current_status', 'previous_hospitals']
+        fields = [ 'allergies','current_hospital', 'current_status', 'previous_hospitals']
