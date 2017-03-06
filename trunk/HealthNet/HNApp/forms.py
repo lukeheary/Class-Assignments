@@ -35,15 +35,13 @@ class SignUpForm(ModelForm):
         return user
 
 
-    
-
 """
 This is the PatientSignUp extended form from SignUpForm
 """
 class PatientSignUp(ModelForm):
     class Meta:
         model = Patient
-        fields = ['dob', 'contact_info','emergency_info', 'allergies']
+        fields = ['dob', 'contact_info', 'allergies']
 
     def save(self, cUser, commit=True):
         """
@@ -57,17 +55,14 @@ class PatientSignUp(ModelForm):
         """
         user = super(PatientSignUp, self).save(commit=False)
         user.user = cUser
-        # user.record = cRecord
         user.dob = self.cleaned_data['dob']
         user.contact_info = self.cleaned_data['contact_info']
-        user.emergency_info = self.cleaned_data['emergency_info']
+        # user.emergency_info = self.cleaned_data['emergency_info']
         user.allergies = self.cleaned_data['allergies']
         # user.preferred_hospital = self.cleaned_data['preferred_hospital']
         if (commit):
             user.save()
         return user
-
-
 
 
 class ToolForm(ModelForm):
@@ -109,17 +104,17 @@ class CreateMedicalRecordsForm(ModelForm):
         fields = [ 'patient', 'allergies','current_status','current_hospital',  'previous_hospitals'] 
 
 
-# class EditPatientProfileForm(ModelForm):
-#     """
-#     TODO
-#     """
-#     class Meta:
-#         model = User
-#         name = forms.CharField()
-#         contact_information = forms.CharField()
-#         dob = forms.DateTimeField()
-#         allergies = forms.CharField()
-#         fields = ['name', 'contact information', 'date of birth', 'allergies']
+class EditPatientProfileForm(ModelForm):
+    """
+    TODO
+    """
+    class Meta:
+        model = Patient
+        #name = forms.CharField()
+        contact_information = forms.CharField()
+        dob = forms.DateTimeField()
+        allergies = forms.CharField()
+        fields = ['contact_info', 'dob', 'allergies']
 
 
 class EditStaffProfileForm(ModelForm):
@@ -134,3 +129,12 @@ class EditStaffProfileForm(ModelForm):
         specialization = forms.CharField()
         current_hospital = forms.CharField()
         fields = ['first_name', 'last_name', 'specialization', 'current_hospital']
+
+
+class EditMedicalRecordsForm(ModelForm):
+    """
+    TODO
+    """
+    class Meta:
+        model = MedicalRecords
+        fields = ['patient', 'current_hospital', 'current_status', 'previous_hospitals']
