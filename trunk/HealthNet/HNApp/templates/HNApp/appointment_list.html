@@ -108,20 +108,18 @@
             {% if all_appointments %}
                 {% for appointment in all_appointments %}
                     <tr>
-                        <td><a href="/{{ patient.name }}/profile">{{ appointment.patient.name }}</a></td>
-                        <td>{{ appointment.doctor.name }}</td>
+                        <td><a href="/accounts/profile/{{ appointment.patient.id }}">{{ appointment.patient.first_name }} {{ appointment.patient.first_name }}</a></td>
+                        <td>{{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</td>
                         <td><a href="{{ appointment.id }}">{{ appointment.datetime }}</a> </td>
                     </tr>
                 {% endfor %}
             </tbody>
             {% else %}
                 <div id="sectionText">
-                    <h3>You don't have any patients</h3>
+                    <h3>You don't have any appointments</h3>
                 </div>
             {% endif %}
         </table>
     </div>
-
-
-
+</body>
 </html>
