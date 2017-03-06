@@ -121,6 +121,7 @@ class Appointment(models.Model):
         return self.patient.user.username + " seeing doctor: " + self.doctor.last_name + \
             " at " + self.datetime.__str__()
 
+
 class MedicalRecord(models.Model):
     """
     MedicalRecords holds information pertinent to the user's medical history.

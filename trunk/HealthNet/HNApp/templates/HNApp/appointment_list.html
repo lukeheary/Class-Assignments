@@ -105,12 +105,12 @@
                 </tr>
             </thead>
             <tbody>
-            {% if all_patients %}
-                {% for patient in all_patients %}
+            {% if all_appointments %}
+                {% for appointment in all_appointments %}
                     <tr>
                         <td><a href="/{{ patient.name }}/profile">{{ appointment.patient.name }}</a></td>
                         <td>{{ appointment.doctor.name }}</td>
-                        <td>{{ appointment.datetime</td>
+                        <td><a href="{{ appointment.id }}">{{ appointment.datetime }}</a> </td>
                     </tr>
                 {% endfor %}
             </tbody>
