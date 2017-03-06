@@ -429,50 +429,6 @@ class CreateMedicalRecordView(View):
                 
         return render(request, self.template_name, {'form': form})
 
-class EditMedicalRecordView(UpdateView):
- 
-    model = MedicalRecord
-    template_name = 'HNApp/create_medical_records.html'
-    form_class = CreateMedicalRecordsForm
-
-# class EditMedicalRecordView(View):
-#     """
-#     TODO
-#     """
-#     model = MedicalRecords
-#     template_name = 'HNApp/edit_medical_records.html'
-#     form_class = EditMedicalRecordsForm
-
-#     def get(self, request, pk):
-#         records = MedicalRecords.objects.get(pk=pk)
-#         form = self.form_class(initial={'patient': records.patient,
-#                                         'allergies': records.allergies,
-#                                         'current_hospital': records.current_hospital,
-#                                         'previous_hospitals': records.previous_hospitals,
-#                                         'current_status': records.current_status})
-#         return render(request, self.template_name, {'form': form})
-
-#     def post(self, request):
-#         form = self.form_class(request.POST)
-#         if form.is_valid():
-#             records = form.save(commit=False)
-#             patient = form.cleaned_data['patient']
-#             current_hospital = form.cleaned_data['current_hospital']
-#             allergies = form.cleaned_data['allergies']
-#             current_status = form.cleaned_data['current_status']
-#             previous_hospitals = form.cleaned_data['previous_hospitals']
-#             records.patient = patient
-#             records.current_hospital = current_hospital
-#             records.allergies = allergies
-#             records.current_status = current_status
-#             records.previous_hospitals = previous_hospitals
-#             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-#             str = request.user.name + " edited the records of " + patient.name + ": " + tm
-#             print(str)
-#             records.save()
-
-#         return render(request, self.template_name, {'form': form})
-
 
 class EditMedicalRecordView(View):
     """

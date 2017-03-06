@@ -44,7 +44,7 @@ class PatientSignUp(ModelForm):
     """
     class Meta:
         model = Patient
-        fields = ['dob', 'contact_info', 'allergies']
+        fields = ['dob', 'contact_info', 'emergency_info', 'allergies']
 
     def save(self, cUser, commit=True):
         """
@@ -60,7 +60,7 @@ class PatientSignUp(ModelForm):
         user.user = cUser
         user.dob = self.cleaned_data['dob']
         user.contact_info = self.cleaned_data['contact_info']
-        # user.emergency_info = self.cleaned_data['emergency_info']
+        user.emergency_info = self.cleaned_data['emergency_info']
         user.allergies = self.cleaned_data['allergies']
         # user.preferred_hospital = self.cleaned_data['preferred_hospital']
         if (commit):
