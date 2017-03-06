@@ -55,14 +55,11 @@ def auth_view(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
     user = auth.authenticate(username=username, password=password)
-    print("b")
     if user is not None:
-        print("c")
         auth.login(request, user)
         # Later on we can change loggedin to user_homepage, for whatever type of user is it
         return HttpResponseRedirect('/accounts/loggedin')
     else:
-        print("d")
         return HttpResponseRedirect('/accounts/invalid_login')
 
 
