@@ -144,14 +144,12 @@ def logout(request):
     :param request:
     :return:
     """
-
     f = open('sys.txt', 'a')
     sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
     str = request.user.username + "logged out: " + tm
     print(str)
     auth.logout(request)
-    return render_to_response('/')
     return redirect('/')
 
 
