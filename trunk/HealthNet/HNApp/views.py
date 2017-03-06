@@ -522,15 +522,14 @@ class EditAppointment(View):
     form_class = AppointmentForm
     template_name = 'HNApp/edit_appointment.html'
 
-    def get(self, request):
-        apps = Appointment.objects.all()
-        old = apps[0]
+    def get(self, request, pk):
+        app = Appointment.object.get(pk=pk)
         form = self.form_class(None,
-                               initial={'datetime': old.datetime, 'patient': old.patient, 'doctor': old.doctor})
-        old.delete()
+                               initial={'datetime': app.datetime, 'patient': app.patient, 'doctor': app.doctor})
+        app.delete()
         return render(request, self.template_name, {'form': form})
 
-    def post(self, request):
+    def post(self, request, pk):
         form = self.form_class(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
