@@ -9,35 +9,6 @@ from django import forms
 - User class already has: first_name, last_name, username, password
 - Patient class extends with: dob, contact_info, emergency_info, allergies, preferred_hospital(currently not working)
 """
-class MedicalRecords(models.Model):
-    """
-    MedicalRecords holds information pertinent to the user's medical history.
-    """
-    #patient = models.OneToOneField(Patient, on_delete=models.CASCADE, default="")
-    status = models.CharField(max_length=100, default="")
-    current_hospital = models.CharField(max_length=100, default="")
-    current_status = models.CharField(max_length=50, default="")
-    previous_hospitals = models.CharField(max_length=200, default="")
-
-    def __str__(self):
-        """
-        __str__ defines the to string method for MedicalRecords
-        :return: string - "(Patient's name) Current Hospital, Current Status"
-        """
-        return "(" + self.patient.name + ")" + self.current_hospital \
-               + ", " + self.current_status.__str__()
-
-    
-
-
-    def set_current_hospital(self, new_hospital):
-        """
-        setCurrentHospital sets a patient's current hospital and adds the
-        previous current hospital to the previous_hospital list
-        :param new_hospital: the new hospital the patient is at
-        """
-        self.previous_hospitals.append(self.current_hospital)
-        self.current_hospital = new_hospital
 
 
 class Patient(models.Model):
@@ -151,6 +122,37 @@ class Appointment(models.Model):
         """
         return self.patient.user.username + " seeing doctor: " + self.doctor.last_name + \
             " at " + self.datetime.__str__()
+
+class MedicalRecord(models.Model):
+    """
+    MedicalRecords holds information pertinent to the user's medical history.
+    """
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, default="")
+    allergies = models.CharField(max_length=50, default="") 
+    current_status = models.CharField(max_length=50, default="")
+    current_hospital = models.CharField(max_length=100, default="")
+    previous_hospitals = models.CharField(max_length=200, default="")
+
+    def __str__(self):
+        """
+        __str__ defines the to string method for MedicalRecords
+        :return: string - "(Patient's name) Current Hospital, Current Status"
+        """
+        return "(" + self.patient.user.first_name + "): " + self.current_hospital \
+               + ", " + self.current_status.__str__()
+
+    
+
+
+    def set_current_hospital(self, new_hospital):
+        """
+        setCurrentHospital sets a patient's current hospital and adds the
+        previous current hospital to the previous_hospital list
+        :param new_hospital: the new hospital the patient is at
+        """
+        self.previous_hospitals.append(self.current_hospital)
+        self.current_hospital = new_hospital
+
 
 
 class Admin(models.Model):

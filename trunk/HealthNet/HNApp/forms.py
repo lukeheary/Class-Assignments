@@ -34,37 +34,6 @@ class SignUpForm(ModelForm):
             user.save()
         return user
 
-class CreateMedicalRecordsForm(ModelForm):
-    """
-    TODO
-    """
-    class Meta:
-        model = MedicalRecords
-        fields = [ 'status', 'current_hospital', 'current_status', 'previous_hospitals'] 
-
-    def save(self, commit=True):
-        """
-        """
-        record = super(CreateMedicalRecordsForm, self).save(commit=False)
-        record.status = self.cleaned_date['status']
-        record.current_hospital = self.cleaned_data['current_hospital']
-        record.current_status = self.cleaned_date['current_status']
-        record.previous_hospitals = self.cleaned_data['previous_hospitals']
-        if (commit):
-            record.save()
-        return record
-
-    # def __init__(self, *args, **kwargs):
-    #     instance = kwargs.get('instance', None)
-
-    #     kwargs.update(initial={
-    #         # 'field': 'value'
-    #         'status' : 'None',
-    #         'current_hospital': 'None',
-    #         'current_status' : 'None',
-    #         'previous_hospital' : 'None',
-    #     })
-    #     super(MedicalRecords, self).__init__(*args, **kwargs)
 
     
 
@@ -125,6 +94,19 @@ class AppointmentForm(ModelForm):
         patient = forms.ModelChoiceField(queryset=Patient.objects.all().order_by('name'))
         doctor = forms.ModelChoiceField(queryset=Doctor.objects.all().order_by('name'))
         fields = ['datetime', 'patient', 'doctor']
+
+class CreateMedicalRecordsForm(ModelForm):
+    """
+    TODO
+    """
+    class Meta:
+        model = MedicalRecord
+        patient = forms.ModelChoiceField(queryset=Patient.objects.all().order_by('name'))
+        current_status = forms.CharField()
+        allergies = forms.CharField()
+        current_hospital = forms.CharField()
+        previous_hospitals = forms.CharField()
+        fields = [ 'patient', 'allergies','current_status','current_hospital',  'previous_hospitals'] 
 
 
 # class EditPatientProfileForm(ModelForm):

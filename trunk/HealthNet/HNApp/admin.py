@@ -5,7 +5,7 @@ admin.site.register(Patient)
 admin.site.register(Doctor)
 admin.site.register(Nurse)
 admin.site.register(Appointment)
-
+admin.site.register(MedicalRecord)
 
 class EmergencyContactInfoInLine(admin.TabularInline):
     """
@@ -19,7 +19,7 @@ class MedicalRecordsInLine(admin.StackedInline):
     """
     TODO
     """
-    model = MedicalRecords
+    model = MedicalRecord
     fieldsets = [
         (None, {'fields': ['current_hospital', 'current_status', 'allergies']}),
     ]

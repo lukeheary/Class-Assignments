@@ -4,7 +4,7 @@ from .forms import *
 from django.template import loader, RequestContext
 from django.views.generic import View
 from django.views.generic.edit import CreateView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.db import IntegrityError
 from django.shortcuts import render_to_response
@@ -18,6 +18,7 @@ f = open('sys.txt', 'w')
 sys.stdout = f
 import time
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 
 
 def index(request):
@@ -158,56 +159,11 @@ def register(request):
             
             return HttpResponse(form1.is_valid())  
     else:
-        print("Haha")
         return render(request, 'patient_signup.html', 
         {
             'form1':SignUpForm(),
             'form2':PatientSignUp()
         })
-
-
-# class CreateMedicalRecordView(View):
-#     """
-#     TODO
-#     """
-#     if request.method == 'POST':
-#         form1 = CreateMedicalRecordsForm(data=request.POST)
-
-#         if form.is_valid():
-#             user = form.save()
-#             return HttpResponseRedirect('accounts/profile')
-#         else:
-#             return HttpResponse(form.is_valid())
-#     else:
-#         return render(request, '
-    # model = MedicalRecords
-    # template_name = 'HNApp/create_medical_records.html'
-    # form_class = EditMedicalRecordsForm
-
-    # def get(self, request):
-    #     form = self.form_class(None)
-    #     return render(request, self.template_name, {'form': form})
-
-    # def post(self, request):
-    #     form = self.form_class(request.POST)
-    #     if form.is_valid():
-    #         records = form.save(commit=False)
-    #         patient = form.cleaned_data['patient']
-    #         current_hospital = form.cleaned_data['current_hospital']
-    #         allergies = form.cleaned_data['allergies']
-    #         current_status = form.cleaned_data['current_status']
-    #         previous_hospitals = form.cleaned_data['previous_hospitals']
-    #         records.patient = patient
-    #         records.current_hospital = current_hospital
-    #         records.allergies = allergies
-    #         records.current_status = current_status
-    #         records.previous_hospitals = previous_hospitals
-    #         tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    #         str = request.user.name + " created the records for " + patient.name + ": " + tm
-    #         print(str)
-    #         records.save()
-
-    #     return render(request, self.template_name, {'form': form})
 
 
 
@@ -218,6 +174,7 @@ def register_success(request):
     :return:
     """
     return render_to_response('register_success.html')
+
 
 
 def profile(request):
@@ -282,84 +239,6 @@ def appointment_list(request):
         'all_appointments': all_appointments
     }
     return HttpResponse(template.render(context, request))
-
-
-class CreateMedicalRecordView(View):
-    """
-    TODO
-    """
-    model = MedicalRecords
-    template_name = 'HNApp/create_medical_records.html'
-    # form_class = EditMedicalRecordsForm
-
-    def get(self, request):
-        form = self.form_class(None)
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            records = form.save(commit=False)
-            patient = form.cleaned_data['patient']
-            current_hospital = form.cleaned_data['current_hospital']
-            allergies = form.cleaned_data['allergies']
-            current_status = form.cleaned_data['current_status']
-            previous_hospitals = form.cleaned_data['previous_hospitals']
-            records.patient = patient
-            records.current_hospital = current_hospital
-            records.allergies = allergies
-            records.current_status = current_status
-            records.previous_hospitals = previous_hospitals
-            orig_out = sys.stdout
-            f = open('sys.txt', 'w')
-            sys.stdout = f
-            tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = request.user.username + " created the medical records for " + patient.user.username + ": " + tm + "\n"
-            print(str)
-            f.close()
-            sys.stdout = orig_out
-            records.save()
-
-        return render(request, self.template_name, {'form': form})
-
-
-# class EditMedicalRecordView(View):
-#     """
-#     TODO
-#     """
-#     model = MedicalRecords
-#     template_name = 'HNApp/edit_medical_records.html'
-#     form_class = EditMedicalRecordsForm
-
-#     def get(self, request, pk):
-#         records = MedicalRecords.objects.get(pk=pk)
-#         form = self.form_class(initial={'patient': records.patient,
-#                                         'allergies': records.allergies,
-#                                         'current_hospital': records.current_hospital,
-#                                         'previous_hospitals': records.previous_hospitals,
-#                                         'current_status': records.current_status})
-#         return render(request, self.template_name, {'form': form})
-
-#     def post(self, request):
-#         form = self.form_class(request.POST)
-#         if form.is_valid():
-#             records = form.save(commit=False)
-#             patient = form.cleaned_data['patient']
-#             current_hospital = form.cleaned_data['current_hospital']
-#             allergies = form.cleaned_data['allergies']
-#             current_status = form.cleaned_data['current_status']
-#             previous_hospitals = form.cleaned_data['previous_hospitals']
-#             records.patient = patient
-#             records.current_hospital = current_hospital
-#             records.allergies = allergies
-#             records.current_status = current_status
-#             records.previous_hospitals = previous_hospitals
-#             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-#             str = request.user.name + " edited the records of " + patient.name + ": " + tm
-#             print(str)
-#             records.save()
-
-#         return render(request, self.template_name, {'form': form})
 
 
 class CreateTool(CreateView):
@@ -481,11 +360,103 @@ class CreateAppointmentView(View):
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.name + "made appointment with " + doctor.name + " at " + datetime + ": " + tm
+                str = patient.user.first_name + "made appointment with " + doctor.user.first_name 
+                # + " at " + datetime + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
         return render(request, self.template_name, {'form': form})
+
+def medical_record(request, pk):
+    """
+    TODO
+    :param request:
+    :return:
+    """
+    template = 'HNApp/view_medical_record.html'
+    record = get_object_or_404(MedicalRecord, pk = pk)
+    return render( request, template, {'record':record})
+
+class CreateMedicalRecordView(View):
+    """
+    TODO
+    """
+    model = MedicalRecord
+    template_name = 'HNApp/create_medical_records.html'
+    form_class = CreateMedicalRecordsForm
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            records = form.save(commit=False)
+
+            patient = form.cleaned_data['patient']
+            allergies = form.cleaned_data['allergies']
+            current_status = form.cleaned_data['current_status']
+            current_hospital = form.cleaned_data['current_hospital']
+            previous_hospitals = form.cleaned_data['previous_hospitals']
+
+            records.patient = patient
+            records.allergies = allergies
+            records.current_status = current_status
+            records.current_hospital = current_hospital
+            records.previous_hospitals = previous_hospitals
+            records.save()
+            if records is not None:
+                orig_out = sys.stdout
+                f = open('sys.txt', 'w')
+                sys.stdout = f
+                tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+                str = request.user.username + " created the medical records for " + patient.user.username + ": " + tm + "\n"
+                print(str)
+                f.close()
+                sys.stdout = orig_out
+                return redirect(reverse('HNApp:medical_record', args=[records.id]))
+                
+        return render(request, self.template_name, {'form': form})
+
+# class EditMedicalRecordView(View):
+#     """
+#     TODO
+#     """
+#     model = MedicalRecords
+#     template_name = 'HNApp/edit_medical_records.html'
+#     form_class = EditMedicalRecordsForm
+
+#     def get(self, request, pk):
+#         records = MedicalRecords.objects.get(pk=pk)
+#         form = self.form_class(initial={'patient': records.patient,
+#                                         'allergies': records.allergies,
+#                                         'current_hospital': records.current_hospital,
+#                                         'previous_hospitals': records.previous_hospitals,
+#                                         'current_status': records.current_status})
+#         return render(request, self.template_name, {'form': form})
+
+#     def post(self, request):
+#         form = self.form_class(request.POST)
+#         if form.is_valid():
+#             records = form.save(commit=False)
+#             patient = form.cleaned_data['patient']
+#             current_hospital = form.cleaned_data['current_hospital']
+#             allergies = form.cleaned_data['allergies']
+#             current_status = form.cleaned_data['current_status']
+#             previous_hospitals = form.cleaned_data['previous_hospitals']
+#             records.patient = patient
+#             records.current_hospital = current_hospital
+#             records.allergies = allergies
+#             records.current_status = current_status
+#             records.previous_hospitals = previous_hospitals
+#             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
+#             str = request.user.name + " edited the records of " + patient.name + ": " + tm
+#             print(str)
+#             records.save()
+
+#         return render(request, self.template_name, {'form': form})
+
+
 
 
 class EditAppointment(View):

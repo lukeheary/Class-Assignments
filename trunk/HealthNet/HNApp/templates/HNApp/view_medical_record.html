@@ -1,10 +1,9 @@
-<!DOCTYPE html>
+<!DOCTYPE html> {% load tags %}
 <html lang="en">
 
 <head>
     {% include 'head.html' %}
-    <title>Health Net</title>
-    <title>Health Net | Create Appointment</title>
+    <title>Health Net | View Profile</title>
 </head>
 
 <style>
@@ -24,7 +23,7 @@
         background-color: #475676;
         width: 70%;
         margin: 0% 0% 0% 15.4%;
-        padding: 0% 38% 30% 0%;
+        padding: 0% 0% 0% 0%;
         float: left;
     }
     
@@ -52,31 +51,34 @@
     }
     
     p {
-        color: #38435B;
+        background-color: #475676;
+        border-bottom: 2px solid #38435B;
     }
 </style>
 
 <div class="wrap">
 
-
-
     {% include 'navbar.html' %}
 
-
     <div id="sectionHeading">
-        <h2> Create Medical Recordß </h2>
+        <h2>Medical Record</h2>
     </div>
 
     <div id="sectionText">
-        <div class="container" style="width:500px">
-            <form enctype="multipart/form-data" action="" method="post">{% csrf_token %} {{ form.as_p}}
-                <input type="submit" value="Make Medical Record" />
-            </form>
-        </div>
+        {% block profile %}
+        <p>Name: {{record.patient.user.first_name}} {{record.patient.user.last_name}}</p>
+        <p>Date of Birth: (yyyy-mm-dd) {{record.patient.user.dob}}</p>
+        <p>Contact Information: {{record.patient.contact_info}}</p>
+        <p>Emergency Information: {{record.patient.emergency_info}}</p>
+
+        <h4>Medical Information</h4>
+        <p>Allergies: {{record.patient.allergies}}</p>
+        <p>Current Status: {{record.current_status}}</p>
+        <p>Current Hospital: {{record.current_hospital}}</p>
+        <p>Previous Hospital: {{record.previous_hospitals}}</p>
+        {% endblock %}
+
     </div>
-
-
-</div>
 </div>
 
 </html>
