@@ -64,7 +64,7 @@ class EmergencyContactInfo(models.Model):
 
 class Doctor(models.Model):
     """
-    Doctor TODO
+
     """
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50, default="")
@@ -79,7 +79,7 @@ class Doctor(models.Model):
         __str__ defines the to string method for Doctor
         :return: string - the doctor's name
         """
-        name = self.first_name + self.last_name
+        name = self.first_name + " " + self.last_name
         return name
 
 
@@ -100,7 +100,7 @@ class Nurse(models.Model):
         __str__ defines the to string method for Doctor
         :return: string - the nurse's name
         """
-        name = self.first_name + self.last_name
+        name = self.first_name + " " + self.last_name
         return name 
 
 
