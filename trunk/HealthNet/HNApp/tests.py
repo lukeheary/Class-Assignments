@@ -205,10 +205,33 @@ Below are all the unit tests for forms.py
 
 
 class SignUpFormTest(TestCase):
-    def test_forms(self):
-        form_data = {'first_name': 'Jane',
-                     'last_name': 'Doe',
-                     'user_name': 'JD123',
-                     'password': 'password'}
-        form = SignUpForm(data=form_data)
-        self.assertTrue(form.is_valid())
+    """
+    Unit tests for SignUpForm
+    """
+    def setUp(self):
+        self.form_data = {'first_name': 'Jane',
+                          'last_name': 'Doe',
+                          'username': 'JD123',
+                          'password': 'password'}
+
+        self.SUF = SignUpForm(data=self.form_data)
+
+    def test_validity(self):
+        self.assertTrue(self.SUF.is_valid())
+
+
+class PatientSignUpTest(TestCase):
+    """
+    Unit tests for PatientSignUp
+    """
+    def setUp(self):
+        self.form_data = {'dob': '2001-01-01',
+                          'contact_info': '123-4567',
+                          'emergency_info': 'info',
+                          'allergies': 'AllergenA, AllergenB'}
+
+        self.PSU = PatientSignUp(data=self.form_data)
+
+    def test_validity(self):
+        self.assertTrue(self.PSU.is_valid())
+
