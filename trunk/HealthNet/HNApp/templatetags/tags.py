@@ -13,16 +13,13 @@ def active(request, pattern):
         return 'active'
     return ''
 
-@register.simple_tag
+@register.assignment_tag
 def get_user_type(request):
-    user = request.user
-    if user == AnonymousUser:
-        return "You must first login to view your profile."
-    elif user == Patient:
-        return "Patient"
-    elif user == Doctor:
-        return "Doctor"
-    elif user == Nurse:
-        return "Nurse"
+    if hasattr(request.user, 'patient'):
+        return '0'
+    elif hasattr(request.user, 'doctor'):
+        return '1'
+    elif hasattr(request.user, 'nurse'):
+        return '2'
     else:
-        return ""
+        return ''

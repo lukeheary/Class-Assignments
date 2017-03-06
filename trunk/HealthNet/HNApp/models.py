@@ -107,7 +107,7 @@ class Doctor(models.Model):
     last_name = models.CharField(max_length=50, default="")
     specialization = models.CharField(max_length=50, default="")
     current_hospital = models.CharField(max_length=50, default="")
-    user_type="Doctor"
+    user_type = "Doctor"
 
     def __str__(self):
         """
@@ -127,7 +127,7 @@ class Nurse(models.Model):
     last_name = models.CharField(max_length=50, default="")
     specialization = models.CharField(max_length=50, default="")
     current_hospital = models.CharField(max_length=50, default="")
-    user_type="Nurse"
+    user_type = "Nurse"
     
     def __str__(self):
         """

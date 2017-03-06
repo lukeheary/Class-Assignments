@@ -90,17 +90,18 @@ class AppointmentForm(ModelForm):
         doctor = forms.ModelChoiceField(queryset=Doctor.objects.all().order_by('name'))
         fields = ['datetime', 'patient', 'doctor']
 
-class EditPatientProfileForm(ModelForm):
-    """
-    TODO
-    """
-    class Meta:
-        model = Patient
-        name = forms.CharField()
-        contact_information = forms.CharField()
-        dob = forms.DateTimeField()
-        allergies = forms.CharField()
-        fields = ['name', 'contact information', 'date of birth', 'allergies']
+
+# class EditPatientProfileForm(ModelForm):
+#     """
+#     TODO
+#     """
+#     class Meta:
+#         model = User
+#         name = forms.CharField()
+#         contact_information = forms.CharField()
+#         dob = forms.DateTimeField()
+#         allergies = forms.CharField()
+#         fields = ['name', 'contact information', 'date of birth', 'allergies']
 
 
 class EditStaffProfileForm(ModelForm):
