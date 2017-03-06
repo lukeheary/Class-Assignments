@@ -26,3 +26,13 @@ def get_user_type(request):
             return ''
     else:
         return ''
+
+@register.assignment_tag
+def get_sys_log(request):
+    all_lines = []
+    if hasattr(request, 'admin'):
+        pass
+    else:
+        all_lines.append("It seems you are not an admin, "
+                         "please login with the correct credentials.")
+        return all_lines
