@@ -148,7 +148,7 @@ def logout(request):
     f = open('sys.txt', 'a')
     sys.stdout = f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    str = request.user.username + "logged out: " + tm + "\n"
+    str = request.user.username + "logged out: " + tm
     print(str)
     auth.logout(request)
     return render_to_response('/')
@@ -167,8 +167,11 @@ def register(request):
         if form2.is_valid() and form1.is_valid():
             user = form1.save()
             form2.save(cUser=user)
+            f = open('sys.txt', 'a')
+            sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
             str = user.first_name + "successfully registered: " + tm
+            print(str)
             return HttpResponseRedirect('/accounts/register_success')
         else:
             
@@ -345,8 +348,8 @@ class EditProfileView(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             patient = Patient.objects.get(pk=pk)
-            contact_info = form.cleaned_data['contact information']
-            dob = form.cleaned_data['date of birth']
+            contact_info = form.cleaned_data['contact_info']
+            dob = form.cleaned_data['dob']
             allergies = form.cleaned_data['allergies']
             patient.contact_info = contact_info
             patient.dob = dob
@@ -367,12 +370,12 @@ class EditProfileView(View):
             f = open('sys.txt', 'a')
             sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = request.user.name + " edited their profile: " + tm + "\n"
+            str = request.user.username + " edited their profile: " + tm
             print(str)
             f.close()
             sys.stdout = orig_out
 
-        return redirect('HNApp:profile')
+        return redirect('/accounts/profile/' + pk)
 
 
 class CreateAppointmentView(View):
@@ -414,7 +417,7 @@ class CreateAppointmentView(View):
                 sys.stdout = f
                 dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.first_name + "made appointment with " + doctor.user.first_name + " at " + dt + ": " + tm + '\n'
+                str = patient.user.first_name + "made appointment with " + doctor.user.first_name + " at " + dt + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
@@ -463,7 +466,7 @@ class CreateMedicalRecordView(View):
                 f = open('sys.txt', 'a')
                 sys.stdout = f
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = request.user.username + " created the medical records for " + patient.user.username + ": " + tm + "\n"
+                str = request.user.username + " created the medical records for " + patient.user.username + ": " + tm
                 print(str)
                 f.close()
                 sys.stdout = orig_out
@@ -555,7 +558,7 @@ class EditAppointment(View):
                 sys.stdout = f
                 dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.name + "made appointment with " + doctor.last_name + " at " + dt + ": " + tm + "\n"
+                str = patient.user.name + "made appointment with " + doctor.last_name + " at " + dt + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
