@@ -53,7 +53,7 @@ class EmergencyContactInfoModelTest(TestCase):
         self.u1.delete()
 
 
-class MedicalRecordsModelTest(TestCase):
+class MedicalRecordModelTest(TestCase):
     def setUp(self):
         self.u1 = User.objects.create(username="JD123",
                                       password="password",
@@ -67,19 +67,19 @@ class MedicalRecordsModelTest(TestCase):
                                               allergies="AllergenA, AllergenB"
                                               )
 
-        self.records = MedicalRecords.objects.create(patient=self.patient,
-                                                     current_hospital="Hospital A",
-                                                     current_status="Healthy",
-                                                     previous_hospitals="Hospital B"
-                                                     )
+        self.records = MedicalRecord.objects.create(patient=self.patient,
+                                                    current_hospital="HospitalA",
+                                                    current_status="Healthy",
+                                                    previous_hospitals="HospitalB"
+                                                    )
 
     def test_string_representation(self):
         self.assertEqual(str(self.records), "Jane Doe: HospitalA, Healthy")
 
     def test_set_current_hospital(self):
-        self.records.set_current_hospital(self.records, "HospitalC")
+        self.records.set_current_hospital("HospitalC")
         self.assertEqual(self.records.current_hospital, "HospitalC")
-        self.assertEqual(self.records.previous_hospitals, "HospitalB, HospitalA")
+        self.assertEqual(self.records.previous_hospitals, "HospitalA, HospitalB")
 
     def tearDown(self):
         self.records.delete()
