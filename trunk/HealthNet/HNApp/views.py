@@ -128,7 +128,7 @@ def display_log(request):
     f = open('sys.txt', 'r')
     allStrings = ""
     for line in f:
-        allStrings = allStrings + line + "\n"
+        allStrings = allStrings + line
     template = loader.get_template('HNApp/admin_log.html')
     context = {
         'allStrings': allStrings
