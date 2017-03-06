@@ -53,14 +53,14 @@ urlpatterns = [
 
 
     # /edit_medical_record
-    #url(r'edit_medical_records/(?P<pk>[0-9]+)/$', views.EditMedicalRecordView.as_view(), name='edit_medical_record'),
+    url(r'edit_medical_records/(?P<pk>[0-9]+)/$', views.EditMedicalRecordView.as_view(), name='edit_medical_record'),
     #create_medical_record
     url(r'create_medical_records/$', views.CreateMedicalRecordView.as_view(), name='create_medical_record'),
     #accounts/view_medical_record
     url(r'medical_record/(?P<pk>[0-9]+)/$', views.medical_record, name='medical_record'),
 
-    url(r'edit_patient_profile/(?P<pk>[0-9]+)/$', views.EditPatientProfileForm.as_view(), name='edit_patient_profile'),
-    url(r'edit_staff_profile/(?P<pk>[0-9]+)/$', views.EditStaffProfileForm.as_view(), name='edit_staff_profile')
+    url(r'edit_patient_profile/(?P<pk>[0-9]+)/$', views.EditProfileView.as_view(), name='edit_patient_profile'),
+    url(r'edit_staff_profile/(?P<pk>[0-9]+)/$', views.EditProfileView.as_view(), name='edit_staff_profile')
 
     
 ]

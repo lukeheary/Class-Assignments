@@ -110,7 +110,6 @@ class EditPatientProfileForm(ModelForm):
     """
     class Meta:
         model = Patient
-        #name = forms.CharField()
         contact_info = forms.CharField()
         emergency_info = forms.CharField()
         dob = forms.DateTimeField()

@@ -3,7 +3,7 @@ from .models import *
 from .forms import *
 from django.template import loader, RequestContext
 from django.views.generic import View
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.db import IntegrityError
@@ -65,27 +65,6 @@ def auth_view(request):
         return HttpResponseRedirect('/accounts/invalid_login')
 
 
-# def user_profile(request):
-#     """
-#     TODO
-#     :param request:
-#     :return:
-#     """
-#     if (request.method == 'POST') :
-#         form = UserProfileForm(request.POST, instance=request.user.profile)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/accounts/loggedin')
-#     else:
-#         user = request.user
-#         profile = user.profile
-#         form = UserProfileForm(instance=profile)
-#     args = {}
-#     args.update(csrf(request))
-#     args['form']=form
-
-#     return render_to_response('doctor_profile.html',args)
-
 
 def get_user_type(user):
     u_type = ""
@@ -128,11 +107,13 @@ def display_log(request):
     allStrings = ""
     for line in f:
         allStrings = allStrings + line + "\n"
+
     template = loader.get_template('HNApp/admin_log.html')
     context = {
         'allStrings': allStrings
     }
-    f = open("sys.txt", 'a')
+    f.close()
+    f = open("sys.txt", 'w')
     sys.stdout = f
     return HttpResponse(template.render(context, request))
 
@@ -143,21 +124,12 @@ def logout(request):
     :param request:
     :return:
     """
-<<<<<<< HEAD
     
-=======
-    f = open('sys.txt', 'a')
-    sys.stdout = f
->>>>>>> 198f6ce899257b98104b73c6b2839c7b0f47169f
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-    str = request.user.username + "logged out: " + tm + "\n"
+    str = request.user.name + "logged out: " + tm
     print(str)
     auth.logout(request)
-<<<<<<< HEAD
     return render_to_response('/')
-=======
-    return redirect('/')
->>>>>>> 198f6ce899257b98104b73c6b2839c7b0f47169f
 
 
 def register(request):
@@ -186,6 +158,7 @@ def register(request):
         })
 
 
+
 def register_success(request):
     """
     TODO
@@ -195,6 +168,7 @@ def register_success(request):
     return render_to_response('register_success.html')
 
 
+
 def profile(request):
     """
     TODO
@@ -202,6 +176,7 @@ def profile(request):
     :return:
     """
     template = loader.get_template('HNApp/view_profile.html')
+    pk_id = request.user.id
     if hasattr(request.user, 'patient'):
         working_user = request.user.patient
         dob = str(request.user.patient.dob)
@@ -209,9 +184,10 @@ def profile(request):
             'patient': working_user,
             'dob': dob,
             'user': '0',
+            
         }
         return HttpResponse(template.render(context, request))
-    elif hasattr(request.user, 'doctor'):
+    if hasattr(request.user, 'doctor'):
         working_user = request.user.doctor
         dob = str(request.user.doctor.dob)
         context = {
@@ -220,18 +196,13 @@ def profile(request):
             'user': '1',
         }
         return HttpResponse(template.render(context, request))
-    elif hasattr(request.user, 'nurse'):
+    if hasattr(request.user, 'nurse'):
         working_user = request.user.nurse
         dob = str(request.user.nurse.dob)
         context = {
             'nurse': working_user,
             'dob': dob,
             'user': '2',
-        }
-        return HttpResponse(template.render(context, request))
-    else:
-        context = {
-            'user': '3'
         }
         return HttpResponse(template.render(context, request))
 
@@ -262,7 +233,6 @@ def appointment_list(request):
         'all_appointments': all_appointments
     }
     return HttpResponse(template.render(context, request))
-
 
 class EditMedicalRecordView(View):
     """
@@ -375,7 +345,7 @@ class EditProfileView(View):
                 me.current_hospital = current_hospital
 
             orig_out = sys.stdout
-            f = open('sys.txt', 'a')
+            f = open('sys.txt', 'w')
             sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
             str = request.user.name + " edited their profile: " + tm + "\n"
@@ -421,11 +391,9 @@ class CreateAppointmentView(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
-                f = open('sys.txt', 'a')
-                sys.stdout = f
-                dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.first_name + "made appointment with " + doctor.user.first_name + " at " + dt + ": " + tm + '\n'
+                str = patient.user.first_name + "made appointment with " + doctor.user.first_name 
+                # + " at " + datetime + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
@@ -471,7 +439,7 @@ class CreateMedicalRecordView(View):
             records.save()
             if records is not None:
                 orig_out = sys.stdout
-                f = open('sys.txt', 'a')
+                f = open('sys.txt', 'w')
                 sys.stdout = f
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 str = request.user.username + " created the medical records for " + patient.user.username + ": " + tm + "\n"
@@ -481,6 +449,12 @@ class CreateMedicalRecordView(View):
                 return redirect(reverse('HNApp:medical_record', args=[records.id]))
                 
         return render(request, self.template_name, {'form': form})
+
+class EditMedicalRecordView(UpdateView):
+ 
+    model = MedicalRecord
+    template_name = 'HNApp/create_medical_records.html'
+    form_class = CreateMedicalRecordsForm
 
 # class EditMedicalRecordView(View):
 #     """
@@ -562,11 +536,8 @@ class EditAppointment(View):
 
             if appointment is not None:
                 # will redirect to a profile page or a view calender page once that is made
-                f = open('sys.txt', 'a')
-                sys.stdout = f
-                dt = datetime.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
                 tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-                str = patient.user.name + "made appointment with " + doctor.last_name + " at " + dt + ": " + tm + "\n"
+                str = patient.name + "made appointment with " + doctor.name + " at " + datetime + ": " + tm
                 print(str)
                 return redirect('HNApp:appointment_list')
 
