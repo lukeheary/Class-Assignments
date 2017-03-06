@@ -105,7 +105,7 @@ class EmergencyContactInfoModelTest(TestCase):
                                                        phone_number="(111)-222-3333")
 
     def test_string_representation(self):
-        self.assertEqual(str(self.EMC), "(Jane Doe: John Doe, (111)-222-3333")
+        self.assertEqual(str(self.EMC), "Jane Doe: John Doe, (111)-222-3333")
 
     def tearDown(self):
         self.EMC.delete()

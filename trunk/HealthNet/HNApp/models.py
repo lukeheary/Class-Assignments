@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
-from django import forms
 
 
 """
@@ -13,27 +12,14 @@ from django import forms
 
 class Patient(models.Model):
     """
-    Patient holds personal information pertaining to the user.
+    Holds personal information related to a Patient user.
     """
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    #medical_record = models.OneToOneField(MedicalRecords, on_delete=models.CASCADE)
     dob = models.DateField('Date of Birth', null=True, blank=True, default="")
     contact_info = models.CharField(max_length=10, default="")
     emergency_info = models.CharField(max_length=10, default="")
     allergies = models.CharField(max_length=50, default="")
     user_type = 'Patient'
-
-    #  Read about this later: https://docs.djangoproject.com/en/1.10/ref/models/fields/#field-choices
-    #  A = 'HospitalA'
-    #  B = 'HospitalB'
-    #  HOSPITAL_CHOICES = (
-    #     (A, 'HospitalA'),
-    #     (B, 'HospitalB')
-    #  )
-    #  preferred_hospital = models.CharField(max_length=2, choices=HOSPITAL_CHOICES, default=A)
-    #  preferred_hospital = models.ChoiceField([('HospitalA', 'Hospital A'), ('HospitalB', 'Hospital B'), ])
-
-    #  user_type = 'Patient'
 
     def __str__(self):
         """
@@ -45,8 +31,8 @@ class Patient(models.Model):
 
 class EmergencyContactInfo(models.Model):
     """
-    EmergencyContactInfo contains two lists, names and phone_number, that hold
-    the necessary information to get in contact with a patient's emergency contact
+    EmergencyContactInfo contains two fields, names and phone_number, that hold
+    the necessary information to get in contact with a patient's emergency contact.
     """
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, default="")
     name = models.CharField(max_length=100, default="")
@@ -56,15 +42,15 @@ class EmergencyContactInfo(models.Model):
     def __str__(self):
         """
         __str__ defines the to string method for EmergencyContactInfo
-        :return: string - "(Patient's name) Contact's Name, Contact's Number"
+        :return: string - "Patient's name: Contact's Name, Contact's Number"
         """
-        return "(" + self.patient.user.first_name + " " + self.patient.user.last_name + ": " + self.name.__str__() + \
-               ", " + self.phone_number.__str__()
+        return self.patient.user.first_name + " " + self.patient.user.last_name \
+            + ": " + self.name + ", " + self.phone_number
 
 
 class Doctor(models.Model):
     """
-
+    Holds personal information related to a Doctor user.
     """
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50, default="")
@@ -77,7 +63,7 @@ class Doctor(models.Model):
     def __str__(self):
         """
         __str__ defines the to string method for Doctor
-        :return: string - the doctor's name
+        :return: string - Doctor's name
         """
         name = self.first_name + " " + self.last_name
         return name
@@ -85,7 +71,7 @@ class Doctor(models.Model):
 
 class Nurse(models.Model):
     """
-    Nurse TODO
+    Holds personal information related to a Nurse user.
     """
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50, default="")
@@ -98,7 +84,7 @@ class Nurse(models.Model):
     def __str__(self):
         """
         __str__ defines the to string method for Doctor
-        :return: string - the nurse's name
+        :return: string - Nurse's name
         """
         name = self.first_name + " " + self.last_name
         return name 
@@ -135,7 +121,7 @@ class MedicalRecord(models.Model):
     def __str__(self):
         """
         __str__ defines the to string method for MedicalRecords
-        :return: string - "(Patient's name) Current Hospital, Current Status"
+        :return: string - "Patient's name: Current Hospital, Current Status"
         """
         return self.patient.user.first_name + " " + self.patient.user.last_name + ": " + self.current_hospital \
             + ", " + self.current_status
@@ -152,6 +138,6 @@ class MedicalRecord(models.Model):
 
 class Admin(models.Model):
     """
-    Admin TODO
+    May be implemented in the future
     """
     pass
