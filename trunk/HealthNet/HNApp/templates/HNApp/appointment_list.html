@@ -113,8 +113,8 @@
                 {% for appointment in all_appointments %}
                     {% if appointment.patient.user.id == request.user.id %}
                     <tr>
-                        <td><a href="/accounts/profile/{{ appointment.patient.id }}">{{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}</a></td>
-                        <td>{{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</td>
+                        <td><a href="/accounts/profile/patient/{{ appointment.patient.id }}">{{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}</a></td>
+                        <td><a href="/accounts/profile/doctor/{{ appointment.doctor.id }}"> {{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</a></td>
                         <td><a href="/edit_appointment/{{ appointment.id }}">{{ appointment.datetime }}</a> </td>
                     </tr>
                     {% endif %}
@@ -122,8 +122,8 @@
             {% elif user == '1' or user == '2' %}
                 {% for appointment in all_appointments %}
                     <tr>
-                        <td><a href="/accounts/profile/{{ appointment.patient.user.id }}">{{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}</a></td>
-                        <td>{{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</td>
+                        <td><a href="/accounts/profile/patient/{{ appointment.patient.id }}">{{ appointment.patient.user.first_name }} {{ appointment.patient.user.last_name }}</a></td>
+                        <td><a href="/accounts/profile/doctor/{{ appointment.doctor.id }}"> {{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</a></td>
                         <td><a href="/edit_appointment/{{ appointment.id }}">{{ appointment.datetime }}</a> </td>
                     </tr>
                 {% endfor %}

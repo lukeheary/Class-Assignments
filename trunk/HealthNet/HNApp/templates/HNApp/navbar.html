@@ -15,7 +15,7 @@
     {% if user == '0' %}
         <li><a class="" href="/appointment_list"> Calender </a></li>
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
-        <li><a class="" href="/accounts/profile/{{ id }}"> My Profile  </a></li>
+        <li><a class="" href="/accounts/profile/patient/{{ id }}"> My Profile  </a></li>
         <li><a class="" href="/accounts/logout"> Logout  </a></li>
 
     <!-- Doctor -->
@@ -31,7 +31,7 @@
         <li><a class="" href="/patient_list">Patient List</a></li>
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
         <li><a class="" href="/appointment_list"> Calender </a></li>
-        <li><a class="" href="/accounts/profile/{{ id }}"> My Profile  </a></li>
+        <li><a class="" href="/accounts/profile/nurse/{{ id }}"> My Profile  </a></li>
         <li><a class="" href="/accounts/logout"> Logout  </a></li>
     {% else %}
 
