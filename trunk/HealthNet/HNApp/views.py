@@ -330,6 +330,8 @@ class EditProfileView(View):
             form_class = EditPatientProfileForm
             template_name = 'HNApp/edit_patient_profile.html'
             form = self.form_class(initial={
+                                        #'first name': patient.user.username,
+                                        #'last name': patient.user.last_name,
                                         'contact information': patient.contact_info,
                                         'date of birth': patient.dob,
                                         'allergies': patient.allergies})
@@ -346,9 +348,13 @@ class EditProfileView(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             patient = Patient.objects.get(pk=pk)
+            #first_name = form.cleaned_data['patient.user.username']
+            #last_name = form.cleaned_data['user.last_name']
             contact_info = form.cleaned_data['contact_info']
             dob = form.cleaned_data['dob']
             allergies = form.cleaned_data['allergies']
+            #patient.user.username = first_name
+            #patient.user.last_name = last_name
             patient.contact_info = contact_info
             patient.dob = dob
             patient.allergies = allergies
