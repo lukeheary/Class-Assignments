@@ -1,10 +1,48 @@
 <!DOCTYPE html>
+{% load tags %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	{% include 'head.html'%}
+    <title>Health Net | System Log</title>
 </head>
 <body>
+<style>
+#sectionHeading {
+    background-color: #38435B;
+    width: 70%;
+    margin: 2% 0% 0% 15.4%;
+    padding: 2% 0% 0% 0%;
+    float: left;
+}
 
+#sectionText {
+    background-color: #475676;
+    width: 70%;
+    margin: 0% 0% 0% 15.4%;
+    padding: 40% 0% 0% 0%;
+    float: left;
+}
+</style>
+
+<div class="wrap">
+
+	{% include 'navbar.html' %}
+
+	<div id="sectionHeading">
+		<h2> System Log </h2>
+	</div>
+
+	<div id="sectionText">
+        {% block log %}
+		{% get_sys_log request as all_log %}
+        {% for line in all_log %}
+            <p>{{ line }}</p>
+        {% endfor %}
+        {% endblock %}
+	</div>
+
+
+	</div>
+</div>
 </body>
 </html>

@@ -179,7 +179,6 @@ def register(request):
         })
 
 
-
 def register_success(request):
     """
     TODO
@@ -187,7 +186,6 @@ def register_success(request):
     :return:
     """
     return render_to_response('register_success.html')
-
 
 
 def profile(request):
@@ -206,7 +204,7 @@ def profile(request):
             'user': '0',
         }
         return HttpResponse(template.render(context, request))
-    if hasattr(request.user, 'doctor'):
+    elif hasattr(request.user, 'doctor'):
         working_user = request.user.doctor
         dob = str(request.user.doctor.dob)
         context = {
@@ -215,13 +213,18 @@ def profile(request):
             'user': '1',
         }
         return HttpResponse(template.render(context, request))
-    if hasattr(request.user, 'nurse'):
+    elif hasattr(request.user, 'nurse'):
         working_user = request.user.nurse
         dob = str(request.user.nurse.dob)
         context = {
             'nurse': working_user,
             'dob': dob,
             'user': '2',
+        }
+        return HttpResponse(template.render(context, request))
+    else:
+        context = {
+            'user': '3'
         }
         return HttpResponse(template.render(context, request))
 
@@ -252,6 +255,7 @@ def appointment_list(request):
         'all_appointments': all_appointments
     }
     return HttpResponse(template.render(context, request))
+
 
 class EditMedicalRecordView(View):
     """

@@ -16,18 +16,16 @@
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
         <li><a class="" href="/accounts/profile"> My Profile  </a></li>
         <li><a class="" href="/accounts/logout"> Logout  </a></li>
-    {% endif %}
 
     <!-- Doctor -->
-    {% if user == '1' %}
+    {% elif user == '1' %}
         <li><a class="" href="/patient_list">Patient List</a></li>
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
         <li><a class="" href="/appointment_list"> Appointment List </a></li>
         <li><a class="" href="/accounts/profile"> My Profile  </a></li>
-    {% endif %}
 
      <!-- Nurse -->
-    {% if user == '2' %}
+    {% elif user == '2' %}
         <li><a class="" href="/patient_list">Patient List</a></li>
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
         <li><a class="" href="/appointment_list"> Appointment List </a></li>

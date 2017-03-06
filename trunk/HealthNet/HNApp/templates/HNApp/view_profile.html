@@ -1,8 +1,8 @@
-<!DOCTYPE html> {% load tags %}
+<!DOCTYPE html>
+{% load tags %}
 <html lang="en">
-
 <head>
-    {% include 'head.html' %}
+	{% include 'head.html' %}
     <title>Health Net | View Profile</title>
 </head>
 
@@ -10,7 +10,7 @@
     body {
         background-color: #81BCE1;
     }
-    
+
     #sectionHeading {
         background-color: #38435B;
         width: 70%;
@@ -18,7 +18,7 @@
         padding: 2% 0% 0% 0%;
         float: left;
     }
-    
+
     #sectionText {
         background-color: #475676;
         width: 70%;
@@ -26,7 +26,7 @@
         padding: 0% 0% 0% 0%;
         float: left;
     }
-    
+
     h1 {
         font-size: 8vmin;
         font-family: 'Khula', sans-serif;
@@ -34,12 +34,12 @@
         padding: 3.3% 0% 1.3% 15%;
         margin: -1% 0% 0% 0%;
     }
-    
+
     .greenText {
         color: #459F44;
     }
     /** Heading Fonts **/
-    
+
     h2 {
         display: inline-block;
         font-size: 4vmin;
@@ -49,23 +49,24 @@
         margin: 0% 0% 0% 0%;
         line-height: 10%;
     }
-    
-    p {
-        background-color: #475676;
-        border-bottom: 2px solid #38435B;
+
+p {
+    background-color: #475676;
+    border-bottom: 2px solid #38435B;
     }
 </style>
 
 <div class="wrap">
 
-    {% include 'navbar.html' %}
+	{% include 'navbar.html' %}
 
-    <div id="sectionHeading">
-        <h2>My Profile</h2>
-    </div>
+	<div id="sectionHeading">
+		<h2>My Profile</h2>
+	</div>
 
-    <div id="sectionText">
-        {% block profile %} {% if user == '0' %}
+	<div id="sectionText">
+        {% block profile %}
+        {% if user == '0' %}
         <p>Name: {{patient.user.first_name}} {{patient.user.last_name}}</p>
         <p>Username: {{ patient.user.username }}</p>
         <p>Date of Birth: (yyyy-mm-dd) {{dob}}</p>
@@ -82,8 +83,11 @@
         <p>Date of Birth: {{dob}}</p>
 
         {% else %}
-        <p>It looks like you haven't logged in. Click login.</p>
-        {% endif %} {% endblock %} {% block medical_records %} {% if user == '0' %}
+        <p>It looks like you don't have a profile. Please login to a valid account.</p>
+        {% endif %}
+        {% endblock %}
+        {% block medical_records %}
+        {% if user == '0' %}
     </div>
 
     <div id="sectionHeading">
@@ -92,9 +96,13 @@
     <div id="sectionText">
         <p>Allergies: {{patient.allergies}}</p>
     </div>
-    {% endif %} {% endblock %}
+        {% endif %}
+        {% if user == '1' or user == '2' %}
+        <a href="">Edit Patient's Medical Records</a>
+        {% endif %}
+        {% endblock %}
 
-</div>
-</div>
+	</div>
+	</div>
 
 </html>

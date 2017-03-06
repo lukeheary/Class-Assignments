@@ -31,12 +31,11 @@ def get_user_type(request):
 def get_sys_log(request):
     all_lines = []
     if hasattr(request, 'admin'):
-        pass
+        f = open('sys.txt', 'r')
+        for line in f:
+            all_lines.append(line)
     else:
         all_lines.append("It seems you are not an admin, "
                          "please login with the correct credentials.")
         return all_lines
-    f = open('sys.txt','r')
-    for line in f:
-        all_lines.append(line)
     return all_lines
