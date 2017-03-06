@@ -166,45 +166,40 @@ def register_success(request):
     return render_to_response('register_success.html')
 
 
-def profile(request, pk):
-    """
-    TODO
-    :param request:
-    :return:
-    """
+def profile_patient(request, pk):
     template = loader.get_template('HNApp/view_profile.html')
-    if hasattr(request.user, 'patient'):
-        working_user = request.user.patient
-        dob = str(request.user.patient.dob)
-        context = {
-            'patient': working_user,
-            'dob': dob,
-            'user': '0',
-        }
-        return HttpResponse(template.render(context, request))
-    elif hasattr(request.user, 'doctor'):
-        working_user = request.user.doctor
-        dob = str(request.user.doctor.dob)
-        context = {
-            'doctor': working_user,
-            'dob': dob,
-            'user': '1',
-        }
-        return HttpResponse(template.render(context, request))
-    elif hasattr(request.user, 'nurse'):
-        working_user = request.user.nurse
-        dob = str(request.user.nurse.dob)
-        context = {
-            'nurse': working_user,
-            'dob': dob,
-            'user': '2',
-        }
-        return HttpResponse(template.render(context, request))
-    else:
-        context = {
-            'user': '3'
-        }
-        return HttpResponse(template.render(context, request))
+    user = Patient.objects.get(pk=pk)
+    dob = str(user.dob)
+    context = {
+        'patient': user,
+        'dob': dob,
+        'user': '0',
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def profile_doctor(request, pk):
+    template = loader.get_template('HNApp/view_profile.html')
+    user = Doctor.objects.get(pk=pk)
+    dob = str(user.dob)
+    context = {
+        'doctor': user,
+        'dob': dob,
+        'user': '1',
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def profile_nurse(request, pk):
+    template = loader.get_template('HNApp/view_profile.html')
+    user = Nurse.objects.get(pk=pk)
+    dob = str(user.dob)
+    context = {
+        'nurse': user,
+        'dob': dob,
+        'user': '2',
+    }
+    return HttpResponse(template.render(context, request))
 
 
 def patient_list(request):
@@ -339,15 +334,10 @@ class EditMedicalRecordView(View):
             current_status = form.cleaned_data['current_status']
             current_hospital = form.cleaned_data['current_hospital']
             previous_hospitals = form.cleaned_data['previous_hospitals']
-
-           
             records.allergies = allergies
             records.current_status = current_status
             records.current_hospital = current_hospital
             records.previous_hospitals = previous_hospitals
-
-           
-
             records.save()
 
             orig_out = sys.stdout

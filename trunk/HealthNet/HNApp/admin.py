@@ -7,6 +7,7 @@ admin.site.register(Nurse)
 admin.site.register(Appointment)
 admin.site.register(MedicalRecord)
 
+
 class EmergencyContactInfoInLine(admin.TabularInline):
     """
     TODO

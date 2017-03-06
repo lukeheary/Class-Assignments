@@ -68,7 +68,7 @@
     {% include 'navbar.html' %}
 
     <div id="sectionHeading">
-        <h2>My Profile</h2>
+        <h2>Profile</h2>
         {% get_id request as id %}
         {% if user == '0' %}
         <a href="/accounts/profile/edit_patient_profile/{{ patient.id }}">(Edit Profile)</a>

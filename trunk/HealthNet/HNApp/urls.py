@@ -1,4 +1,4 @@
-from django.conf.urls import include, url, handler404
+from django.conf.urls import url
 from . import views
 
 handler404 = 'HNApp.views.handler404'
@@ -27,8 +27,17 @@ urlpatterns = [
     url(r'^accounts/loggedin/$', views.loggedin, name='loggedin'),
     # /accounts/invalid_login/
     url(r'^accounts/invalid_login/$', views.invalid_login, name='invalid_login'),
-    # /accounts/profile/
-    url(r'^accounts/profile/(?P<pk>[0-9]+)/$', views.profile, name='profile'),
+    # /accounts/profile/patient/pkid
+    url(r'^accounts/profile/patient/(?P<pk>[0-9]+)/$', views.profile_patient, name='profile_patient'),
+    # /accounts/profile/doctor/pkid
+    url(r'^accounts/profile/doctor/(?P<pk>[0-9]+)/$', views.profile_doctor, name='profile_doctor'),
+    # /accounts/profile/nurse/pkid
+    url(r'^accounts/profile/nurse/(?P<pk>[0-9]+)/$', views.profile_nurse, name='profile_nurse'),
+    # /accounts/profile/edit_patient_profile/pkid
+    url(r'accounts/profile/edit_patient_profile/(?P<pk>[0-9]+)/', views.EditProfileView.as_view(), name='edit_patient_profile'),
+    # /accounts/profile/edit_staff_profile/pkid
+    url(r'accounts/profile/edit_staff_profile/(?P<pk>[0-9]+)/$', views.EditProfileView.as_view(), name='edit_staff_profile'),
+
 
     # appointments...
     # /create-appointment
@@ -40,14 +49,15 @@ urlpatterns = [
     # /edit_appointment/time_taken
     url(r'^edit_appointment/time_taken/$', views.time_taken, name='time_taken'),
 
+
     # lists...
     # /patient-list
     url(r'^patient_list/$', views.patient_list, name='patient_list'),
     # /appointment_list
     url(r'^appointment_list', views.appointment_list, name='appointment_list'),
-    # /appointmentid/edit
-    #url(r'^(?P<appointment>[0-9]+)/edit', views.EditAppointment, name='edit_appointment')
 
+
+    # admin...
     # /admin/admin_log
     url(r'^admin/admin_log/$', views.display_log, name='admin_log'),
 
@@ -58,9 +68,5 @@ urlpatterns = [
     url(r'create_medical_records/$', views.CreateMedicalRecordView.as_view(), name='create_medical_record'),
     #accounts/view_medical_record
     url(r'medical_record/(?P<pk>[0-9]+)/$', views.medical_record, name='medical_record'),
-
-    url(r'accounts/profile/edit_patient_profile/(?P<pk>[0-9]+)/', views.EditProfileView.as_view(), name='edit_patient_profile'),
-    url(r'accounts/profile/edit_staff_profile/(?P<pk>[0-9]+)/$', views.EditProfileView.as_view(), name='edit_staff_profile')
-
     
 ]
