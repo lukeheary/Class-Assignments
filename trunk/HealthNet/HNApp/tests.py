@@ -1,6 +1,8 @@
 from django.test import TestCase
 from .models import *
 
+# NOTE: Run tests using this command: 'python.exe ./manage.py test HNApp.tests'
+
 
 class PatientModelTest(TestCase):
     def setUp(self):
@@ -62,13 +64,14 @@ class MedicalRecordsModelTest(TestCase):
         self.patient = Patient.objects.create(user=self.u1,
                                               dob="2001-01-01",
                                               contact_info="(123)-456-7890",
-                                              allergies="AllergenA, AllergenB",
+                                              allergies="AllergenA, AllergenB"
                                               )
 
         self.records = MedicalRecords.objects.create(patient=self.patient,
                                                      current_hospital="Hospital A",
                                                      current_status="Healthy",
-                                                     previous_hospitals="Hospital B")
+                                                     previous_hospitals="Hospital B"
+                                                     )
 
     def test_string_representation(self):
         self.assertEqual(str(self.records), "Jane Doe: HospitalA, Healthy")
