@@ -5,13 +5,79 @@
     {% include 'head.html' %}
     <title>Health Net | Time Taken</title>
 </head>
+
+<style>
+
+      body {
+        background-color: #81BCE1;
+    }
+
+    #sectionHeading {
+        background-color: #38435B;
+        width: 70%;
+        margin: 2% 0% 0% 15.4%;
+        padding: 2% 0% 0% 0%;
+        float: left;
+    }
+
+    #sectionText {
+        background-color: #475676;
+        width: 70%;
+        margin: 0% 0% 0% 15.4%;
+        padding: 0% 0% 5% 0%;
+        float: left;
+    }
+
+    h1 {
+        font-size: 8vmin;
+        font-family: 'Khula', sans-serif;
+        color: #81BCE1;
+        padding: 3.3% 0% 1.3% 15%;
+        margin: -1% 0% 0% 0%;
+    }
+
+    .greenText {
+        color: #459F44;
+    }
+    /** Heading Fonts **/
+
+    h2 {
+        display: inline-block;
+        font-size: 4vmin;
+        font-family: 'Open Sans', sans-serif;
+        color: white;
+        padding: 0% 0% 3% 2%;
+        margin: 0% 0% 0% 0%;
+        line-height: 10%;
+    }
+
+    p {
+        color: #fff;
+        font-size: 2vw;
+        padding: 0% 2% 2% 2%;
+        margin: 0% 0% 0% 0%;
+        line-height: 180%;
+        text-align: justify;
+    }
+
+
+</style>
+
 <body>
 
     {% include 'navbar.html' %}
 
     {% block content %}
-    <h2>That time slot has been taken! </h2><br>
-    <a href="/create_appointment">Create Appointment</a>
+
+    <div id="sectionHeading">
+        <h2>That time slot has been taken! </h2><br>
+    </div>
+
+    <div id="sectionText">
+        <p>
+        <a href="/create_appointment">Click here to try again</a>
+        </p>
+    </div>
     {% endblock %}
 
 </body>
