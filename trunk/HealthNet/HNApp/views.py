@@ -150,7 +150,7 @@ def logout(request):
     tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
     str = request.user.name + "logged out: " + tm
     print(str)
-    return render_to_response('logout.html')
+    return HttpResponseRedirect('/')
 
 
 def register(request):
@@ -347,6 +347,7 @@ class LoginTool(View):
     model = User
     form_class = SignUpForm
     template_name = 'HNApp/login.html'
+
 
 class EditProfileView(View):
     """
