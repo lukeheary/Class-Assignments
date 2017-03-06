@@ -36,3 +36,7 @@ def get_sys_log(request):
         all_lines.append("It seems you are not an admin, "
                          "please login with the correct credentials.")
         return all_lines
+    f = open('sys.txt','r')
+    for line in f:
+        all_lines.append(line)
+    return all_lines
