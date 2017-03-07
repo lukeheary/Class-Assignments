@@ -68,4 +68,6 @@ urlpatterns = [
 
     # accounts/view_medical_record
     url(r'medical_record/(?P<pk>[0-9]+)/$', views.medical_record, name='medical_record'),
+
+    url(r'^doctor_view_patient/(?P<pk>[0-9]+)/$', views.doctor_view_patient, name='doctor_view_patient'),
 ]

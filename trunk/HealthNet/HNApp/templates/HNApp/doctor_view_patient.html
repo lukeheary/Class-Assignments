@@ -65,59 +65,43 @@
 
 <div class="wrap">
 
-    {% include 'navbar.html' %}
-
+    {% include 'navbar.html' %} {% if has_record == 'no' %}
     <div id="sectionHeading">
-        <h2>Profile</h2>
-        {% get_user_type request as user %} {% if user == '0' %}
-        <a href="/accounts/profile/edit_patient_profile/{{ patient.id }}">(Edit Profile)</a> {% endif %}
+        <a href="/accounts/profile/create_medical_records/{{ patient.id }}">(Create Medical Records)</a>
     </div>
+    {% endif %}
 
 </div>
 
 
+
 <div id="sectionText">
-    {% block profile %} {% if user == '0' %}
-    <p>Name: {{patient.user.first_name}} {{patient.user.last_name}}</p>
+    {% block profile %}
+
+    <p>Patient: {{patient.user.first_name}} {{patient.user.last_name}}</p>
     <p>Username: {{ patient.user.username }}</p>
     <p>Date of Birth: {{dob}}</p>
     <p>Contact Information: {{patient.contact_info}}</p>
-    <p>Emergency Contact Information: {{patient.emergency_info}}</p>
 
-    {% elif user == '1' %}
-    <p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
-    <p>Username: {{ doctor.user.username }}</p>
-    <p>Date of Birth: {{dob}}</p>
-    <p>Specialization: {{ doctor.specialization }}</p>
-    <p>Current Hospital: {{ doctor.current_hospital }}</p>
-
-    {% elif user == '2' %}
-    <p>Name: {{nurse.first_name}} {{nurse.last_name}}</p>
-    <p>Username: {{ nurse.user.username }}</p>
-    <p>Date of Birth: {{dob}}</p>
-    <p>Specialization: {{ nurse.specialization }}</p>
-    <p>Current Hospital: {{ nurse.current_hospital }}</p>
-
-    {% else %}
-    <p>It looks like you don't have a profile. Please login to a valid account.</p>
-    {% endif %} {% endblock %} {% block medical_records %} {% if user == '0' %}
 </div>
 
+{% if has_record == 'yes' %}
 <div id="sectionHeading">
     <h2>Medical Records:</h2>
-    {% if id == '1' or id == '2' %}
-    <a href="/accounts/profile/create_medical_records/{{ patient.id }}">(Create Medical Records)</a>
-    <a href="/accounts/profile/edit_medical_records/{{ patient.id }}">(Edit Medical Records)</a> {% endif %}
-
+    <a href="/accounts/profile/edit_medical_records/{{ patient.id }}">(Edit Medical Records)</a>
 </div>
+
+
+
 <div id="sectionText">
-    <p>Allergies: {{ patient.allergies}}</p>
+    <p>Allergies: {{ record.allergies}}</p>
     <p>Current Status: {{ record.current_status }}</p>
     <p>Current Hospital: {{ record.current_hospital }}</p>
     <p>Previous Hospital: {{ record.previous_hospitals }}</p>
-    {% endif %} {% endblock %}
+</div>
+{% endif %} {% endblock %}
 
 </div>
-</div>
+
 
 </html>
