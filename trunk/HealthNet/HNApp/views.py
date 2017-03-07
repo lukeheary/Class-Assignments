@@ -299,7 +299,12 @@ class EditMedicalRecordView(View):
     form_class = EditMedicalRecordsForm
 
     def get(self, request, pk):
-        records = MedicalRecord.objects.get(pk=pk)
+        patient = Patient.objects.get(pk=pk)
+        all_records = MedicalRecord.objects.all()
+        records = MedicalRecord.objects.get(pk=1)
+        for rec in all_records:
+            if rec.patient == patient:
+                records = rec
         form = self.form_class(initial={
                                         'allergies': records.allergies,
                                         'current_hospital': records.current_hospital,
@@ -310,8 +315,12 @@ class EditMedicalRecordView(View):
     def post(self, request, pk):
         form = self.form_class(request.POST)
         if form.is_valid():
-            records = MedicalRecord.objects.get(pk=pk)
-
+            patient = Patient.objects.get(pk=pk)
+            all_records = MedicalRecord.objects.all()
+            records = MedicalRecord.objects.get(pk=1)
+            for rec in all_records:
+                if rec.patient == patient:
+                    records = rec
             allergies = form.cleaned_data['allergies']
             current_status = form.cleaned_data['current_status']
             current_hospital = form.cleaned_data['current_hospital']
@@ -390,9 +399,16 @@ def medical_record(request, pk):
     :param request:
     :return:
     """
-    template = 'HNApp/view_medical_record.html'
-    record = get_object_or_404(MedicalRecord, pk = pk)
-    return render( request, template, {'record':record})
+    #template = 'HNApp/accounts/profile/patient/' + pk
+    patient = Patient.objects.get(pk=pk)
+    all_records = MedicalRecord.objects.all()
+    records = MedicalRecord.objects.get(pk=1)
+    records.patient = patient
+    for rec in all_records:
+        if rec.patient == patient:
+            records = rec
+    return redirect('/accounts/profile/patient/' + pk)
+    #render( request, template, {'record':records})
 
 
 class CreateMedicalRecordView(View):
@@ -403,11 +419,11 @@ class CreateMedicalRecordView(View):
     template_name = 'HNApp/create_medical_records.html'
     form_class = CreateMedicalRecordsForm
 
-    def get(self, request):
+    def get(self, request, pk):
         form = self.form_class(None)
         return render(request, self.template_name, {'form': form})
 
-    def post(self, request):
+    def post(self, request, pk):
         form = self.form_class(request.POST)
         if form.is_valid():
             records = form.save(commit=False)
