@@ -240,61 +240,68 @@ def appointment_list(request):
     return HttpResponse(template.render(context, request))
 
 
-# class LoginTool(View):
-#     """
-#     TODO
-#     """
-#     model = User
-#     form_class = SignUpForm
-#     template_name = 'HNApp/login.html'
-
-
 class EditProfileView(View):
     """
-    TODO
+    Edit profile view
+    :param View: Django based view View
+    :return: If request is GET, render the form again 
+    :return: If request is POST, direct patients to view their profiles
     """
     model = User
     form_class = EditPatientProfileForm
     template_name = 'HNApp/edit_patient_profile.html'
 
     def get(self, request, pk):
+        """
+        If request is GET, render the form 'edit_patient_profile.html'
+        :param self: The View
+        :param request: HTTP Request
+        :param pk: The patient's id
+        """
         if hasattr(request.user, 'patient'):
             patient = Patient.objects.get(pk=pk)
             form_class = EditPatientProfileForm
             template_name = 'HNApp/edit_patient_profile.html'
             form = self.form_class(initial={
-                                        #'first name': patient.user.username,
-                                        #'last name': patient.user.last_name,
                                         'emergency_info' : patient.emergency_info,
                                         'contact_info': patient.contact_info,
                                         'dob': patient.dob,
                                         'allergies': patient.allergies})
             return render(request, self.template_name, {'form': form})
-        if hasattr(request.user, 'doctor') or hasattr(request.user, 'nurse'):
+            
+        #Later on will work on to let doctors and nurses to edit their profil
+        """if hasattr(request.user, 'doctor') or hasattr(request.user, 'nurse'):
 
             form = self.form_class(initial={'first name': request.user.first_name,
                                             'last_name': request.user.last_name,
                                             'specialization': request.user.specialization,
                                             'current hospital': request.user.current_hospital})
             return render(request, self.template_name, {'form': form})
+        """
 
     def post(self, request, pk):
+        """
+        If request is POST, direct patients to view their profile
+        :param self: The View
+        :param request: HTTP Request
+        :param pk: The patient's id
+        :return: Direct patient back to their profile page
+        """
         form = self.form_class(request.POST)
+
+        #If the form is valid
         if form.is_valid():
             patient = Patient.objects.get(pk=pk)
-            #first_name = form.cleaned_data['patient.user.username']
-            #last_name = form.cleaned_data['user.last_name']
             emergency_info = form.cleaned_data['emergency_info']
             contact_info = form.cleaned_data['contact_info']
             dob = form.cleaned_data['dob']
             allergies = form.cleaned_data['allergies']
-            #patient.user.username = first_name
-            #patient.user.last_name = last_name
             patient.emergency_info = emergency_info
             patient.contact_info = contact_info
             patient.dob = dob
             patient.allergies = allergies
 
+            #Later on will work on to let doctors and nurses to edit their profile
             """if meType.equals('Doctor') or meType.equals('Nurse'):
                 first_name = form.cleaned_data['first name']
                 last_name = form.cleaned_data['last name']
@@ -314,19 +321,29 @@ class EditProfileView(View):
             print(str)
             f.close()
             sys.stdout = orig_out
-
+        
         return redirect('/accounts/profile/' + pk)
 
 
 class EditMedicalRecordView(View):
     """
-    TODO
+    Edit medical record view
+    :param View: Django based view View
+    :return: If request is GET, render the form again 
+    :return: If request is POST, direct doctors or nurses to the patient list page
     """
     model = MedicalRecord
     template_name = 'HNApp/edit_medical_records.html'
     form_class = EditMedicalRecordsForm
 
     def get(self, request, pk):
+        
+        """
+        If request is GET, render the form 'edit_patient_profile.html'
+        :param self: The View
+        :param request: HTTP Request
+        :param pk: The patient's id
+        """
         patient = Patient.objects.all().filter(pk=pk)
         records = MedicalRecord.objects.all()
         print(records, patient)
@@ -338,6 +355,13 @@ class EditMedicalRecordView(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, pk):
+        
+        """
+        If request is GET, render the form 'edit_patient_profile.html'
+        :param self: The View
+        :param request: HTTP Request
+        :param pk: The patient's id
+        """
         form = self.form_class(request.POST)
         if form.is_valid():
             patient = Patient.objects.get(pk=pk)

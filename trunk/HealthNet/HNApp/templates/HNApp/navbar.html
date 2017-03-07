@@ -1,42 +1,40 @@
-{% block nav %}
-{% load tags %}
+{% block nav %} {% load tags %}
 
 <div id="textArea">
     <h1>Health<span class="greenText">Net</span></h1>
 </div>
 
-{% get_user_type request as user %}
-{% get_id request as id %}
+{% get_user_type request as user %} {% get_id request as id %}
 
 <ul>
     <li><a class="" href="/"> Home </a></li>
 
     <!-- Patient -->
     {% if user == '0' %}
-        <li><a class="" href="/appointment_list"> Appointment Calender </a></li>
-        <li><a class="" href="/create_appointment"> Create Appointment </a></li>
-        <li><a class="" href="/accounts/profile/patient/{{ request.user.patient.id }}"> My Profile  </a></li>
-        <li><a class="" href="/accounts/logout"> Logout  </a></li>
+    <li><a class="" href="/appointment_list"> Appointment Calender </a></li>
+    <li><a class="" href="/create_appointment"> Create Appointment </a></li>
+    <li><a class="" href="/accounts/profile/patient/{{ request.user.patient.id }}"> My Profile  </a></li>
+    <li><a class="" href="/accounts/logout"> Logout  </a></li>
 
     <!-- Doctor -->
     {% elif user == '1' %}
-        <li><a class="" href="/patient_list">Patient List</a></li>
-        <li><a class="" href="/create_appointment"> Create Appointment </a></li>
-        <li><a class="" href="/appointment_list"> Appointment Calender </a></li>
-        <li><a class="" href="/accounts/profile/doctor/{{ request.user.doctor.id }}"> My Profile  </a></li>
-        <li><a class="" href="/accounts/logout"> Logout  </a></li>
+    <li><a class="" href="/patient_list">Patient List</a></li>
+    <li><a class="" href="/create_appointment"> Create Appointment </a></li>
+    <li><a class="" href="/appointment_list"> Appointment Calender </a></li>
+    <li><a class="" href="/accounts/profile/doctor/{{ request.user.doctor.id }}"> My Profile  </a></li>
+    <li><a class="" href="/accounts/logout"> Logout  </a></li>
 
-     <!-- Nurse -->
+    <!-- Nurse -->
     {% elif user == '2' %}
-        <li><a class="" href="/patient_list">Patient List</a></li>
-        <li><a class="" href="/create_appointment"> Create Appointment </a></li>
-        <li><a class="" href="/appointment_list"> Appointment Calender </a></li>
-        <li><a class="" href="/accounts/profile/nurse/{{ request.user.nurse.id }}"> My Profile  </a></li>
-        <li><a class="" href="/accounts/logout"> Logout  </a></li>
+    <li><a class="" href="/patient_list">Patient List</a></li>
+    <li><a class="" href="/create_appointment"> Create Appointment </a></li>
+    <li><a class="" href="/appointment_list"> Appointment Calender </a></li>
+    <li><a class="" href="/accounts/profile/nurse/{{ request.user.nurse.id }}"> My Profile  </a></li>
+    <li><a class="" href="/accounts/logout"> Logout  </a></li>
     {% else %}
 
-        <li><a class="" href="/accounts/login">Login</a></li>
-        <li><a class="" href="/accounts/patient_signup"> Sign Up </a></li>
+    <li><a class="" href="/accounts/login">Login</a></li>
+    <li><a class="" href="/accounts/patient_signup"> Sign Up </a></li>
 
     {% endif %}
 
