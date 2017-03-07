@@ -89,11 +89,15 @@
         <p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
         <p>Username: {{ doctor.user.username }}</p>
         <p>Date of Birth: {{dob}}</p>
+        <p>Specialization: {{ doctor.specialization }}</p>
+        <p>Current Hospital: {{ doctor.current_hospital }}</p>
 
         {% elif user == '2' %}
         <p>Name: {{nurse.first_name}} {{nurse.last_name}}</p>
         <p>Username: {{ nurse.user.username }}</p>
         <p>Date of Birth: {{dob}}</p>
+        <p>Specialization: {{ nurse.specialization }}</p>
+        <p>Current Hospital: {{ nurse.current_hospital }}</p>
 
         {% else %}
         <p>It looks like you don't have a profile. Please login to a valid account.</p>
