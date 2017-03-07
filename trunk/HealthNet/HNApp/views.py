@@ -112,9 +112,10 @@ def logout(request):
 
 def register(request):
     """
-    
-    :param request:
-    :return:
+    Register Patients 
+    :param request: HTTP Request
+    :return: If request is a POST, direct user to '/accounts/register_success'
+    :return: If request is GET, render 'patient_sigup.html'
     """
     if request.method == 'POST':
         form1 = SignUpForm(data=request.POST)
@@ -130,7 +131,11 @@ def register(request):
             return HttpResponseRedirect('/accounts/register_success')
         else:
             
-            return HttpResponseRedirect(form2.is_valid())
+            return render(request, 'patient_signup.html', 
+            {
+                'form1':SignUpForm(),
+                'form2':PatientSignUp()
+            })
     else:
         return render(request, 'patient_signup.html', 
         {
