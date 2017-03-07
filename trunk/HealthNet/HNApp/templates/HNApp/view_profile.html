@@ -45,7 +45,7 @@
         font-size: 4vmin;
         font-family: 'Open Sans', sans-serif;
         color: white;
-        padding: 0% 0% 3% 2%;
+        padding: 0% 0% 3% 1%;
         margin: 0% 0% 0% 0%;
         line-height: 10%;
     }
@@ -55,7 +55,7 @@
         border-bottom: 2px solid #38435B;
         padding: 1% 0% 1% 1%;
     }
-    
+
     a {
         float: right;
         padding: 0% 3% 0% 0%;
@@ -69,41 +69,53 @@
 
     <div id="sectionHeading">
         <h2>Profile</h2>
-        {% get_id request as id %} {% if user == '0' %}
-        <a href="/accounts/profile/edit_patient_profile/{{ patient.id }}">(Edit Profile)</a> {% endif %}
+        {% get_id request as id %}
+        {% if id != '1' and id != '2' %}
+            <a href="/accounts/profile/edit_medical_records/{{ patient.id }}">(Edit Profile)</a>
+        {% endif %}
     </div>
 
 </div>
 
-ß
-</div>
 
+    <div id="sectionText">
+        {% block profile %}
 
-<div id="sectionText">
-    {% block profile %} {% if user == '0' %}
-    <p>Name: {{patient.user.first_name}} {{patient.user.last_name}}</p>
-    <p>Username: {{ patient.user.username }}</p>
-    <p>Date of Birth: {{dob}}</p>
-    <p>Contact Information: {{patient.contact_info}}</p>
+        {% if user == '0' %}
+        <p>Name: {{patient.user.first_name}} {{patient.user.last_name}}</p>
+        <p>Username: {{ patient.user.username }}</p>
+        <p>Date of Birth: {{dob}}</p>
+        <p>Contact Information: {{patient.contact_info}}</p>
 
-    {% elif user == '1' %}
-    <p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
-    <p>Username: {{ doctor.user.username }}</p>
-    <p>Date of Birth: {{dob}}</p>
+        {% elif user == '1' %}
+        <p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
+        <p>Username: {{ doctor.user.username }}</p>
+        <p>Date of Birth: {{dob}}</p>
+        <p>Specialization: {{ doctor.specialization }}</p>
+        <p>Current Hospital: {{ doctor.current_hospital }}</p>
 
-    {% elif user == '2' %}
-    <p>Name: {{nurse.first_name}} {{nurse.last_name}}</p>
-    <p>Username: {{ nurse.user.username }}</p>
-    <p>Date of Birth: {{dob}}</p>
+        {% elif user == '2' %}
+        <p>Name: {{nurse.first_name}} {{nurse.last_name}}</p>
+        <p>Username: {{ nurse.user.username }}</p>
+        <p>Date of Birth: {{dob}}</p>
+        <p>Specialization: {{ nurse.specialization }}</p>
+        <p>Current Hospital: {{ nurse.current_hospital }}</p>
 
-<<<<<<< HEAD
-    {% else %}
-    <p>It looks like you don't have a profile. Please login to a valid account.</p>
-    {% endif %} {% endblock %} {% block medical_records %} {% if user == '0' %}
-</div>
-=======
+        {% else %}
+        <p>It looks like you don't have a profile. Please login to a valid account.</p>
+        {% endif %}
+        {% endblock %}
+
+        {% block medical_records %}
+        {% if user == '0' %}
+    </div>
+
     <div id="sectionHeading">
         <h2>Medical Records:</h2>
+        {% if id == '1' or id == '2' %}
+            <a href="/accounts/profile/edit_medical_records/{{ patient.id }}">(Edit Medical Records)</a>
+        {% endif %}
+
     </div>
     <div id="sectionText">
         <p>Allergies: {{patient.allergies}}</p>
@@ -111,16 +123,9 @@
         <p>Current Hospital: {{ patient.current_hospital }}</p>
         <p>Previous Hospital: {{ patient.previous_hospitals }}</p>
         {% endif %}
->>>>>>> refs/remotes/origin/master
+        {% endblock %}
 
-<div id="sectionHeading">
-    <h2>Medical Records:</h2>
-</div>
-<div id="sectionText">
-    <p>Allergies: {{patient.allergies}}</p>
-    {% endif %} {% endblock %}
-
-</div>
+    </div>
 </div>
 
 </html>
