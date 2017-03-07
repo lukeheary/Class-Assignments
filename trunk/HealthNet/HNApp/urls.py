@@ -42,6 +42,7 @@ urlpatterns = [
     # /edit_medical_record
     url(r'accounts/profile/edit_medical_records/(?P<pk>[0-9]+)/$', views.EditMedicalRecordView.as_view(), name='edit_medical_record'),
 
+    url(r'accounts/profile/edit_patient_profile/(?P<pk>[0-9]+)/$', views.EditProfileView.as_view(), name='edit_patient_profile'),
 
     # appointments...
     # /create-appointment
