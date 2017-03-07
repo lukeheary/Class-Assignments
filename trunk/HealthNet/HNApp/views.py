@@ -130,7 +130,7 @@ def register(request):
             print(str)
             return HttpResponseRedirect('/accounts/register_success')
         else:
-            
+            #If input is invalid, render the form again
             return render(request, 'patient_signup.html', 
             {
                 'form1':SignUpForm(),
@@ -146,7 +146,7 @@ def register(request):
 
 def register_success(request):
     """
-    TODO
+    Confirm that the user has registered successfully
     :param request:
     :return:
     """
