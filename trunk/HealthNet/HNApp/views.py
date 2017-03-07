@@ -159,13 +159,20 @@ def profile_patient(request, pk):
     dob = str(user.dob)
     patient = Patient.objects.all().filter(pk=pk)
     records = MedicalRecord.objects.all().filter(patient=patient)
-    record = records[0]
-    context = {
-        'patient': user,
-        'dob': dob,
-        'user': '0',
-        'record': record,
-    }
+    if len(records) is not 0:
+        record = records[0]
+        context = {
+            'patient': user,
+            'dob': dob,
+            'user': '0',
+            'record': record,
+        }
+    else:
+        context = {
+            'patient': user,
+            'dob': dob,
+            'user': '0',
+        }
     return HttpResponse(template.render(context, request))
 
 
