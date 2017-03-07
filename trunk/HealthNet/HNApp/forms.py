@@ -6,11 +6,10 @@ import sys
 
 
 class SignUpForm(ModelForm):
+    """
+    Form used for signing up
+    """
     password = forms.CharField(widget=forms.PasswordInput())
-    
-    """
-    Form used for user sign-up.
-    """
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'password')
@@ -45,9 +44,6 @@ class PatientSignUp(ModelForm):
         Saves the information filled out by a new user.
         :param cUser: the current user
         :return: the new user (patient)
-        """
-        """
-        Because 'cUser' is a User class and a foreign key, it has to be saved as attribute 'user'
         """
         user = super(PatientSignUp, self).save(commit=False)
         user.user = cUser
