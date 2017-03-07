@@ -1,0 +1,107 @@
+<!DOCTYPE html> {% load tags %}
+<html lang="en">
+
+<head>
+    {% include 'head.html' %}
+    <title>Health Net | View Profile</title>
+</head>
+
+<style>
+    body {
+        background-color: #81BCE1;
+    }
+    
+    #sectionHeading {
+        background-color: #38435B;
+        width: 70%;
+        margin: 2% 0% 0% 15.4%;
+        padding: 2% 0% 0% 0%;
+        float: left;
+    }
+    
+    #sectionText {
+        background-color: #475676;
+        width: 70%;
+        margin: 0% 0% 0% 15.4%;
+        padding: 0% 0% 0% 0%;
+        float: left;
+    }
+    
+    h1 {
+        font-size: 8vmin;
+        font-family: 'Khula', sans-serif;
+        color: #81BCE1;
+        padding: 3.3% 0% 1.3% 15%;
+        margin: -1% 0% 0% 0%;
+    }
+    
+    .greenText {
+        color: #459F44;
+    }
+    /** Heading Fonts **/
+    
+    h2 {
+        display: inline-block;
+        font-size: 4vmin;
+        font-family: 'Open Sans', sans-serif;
+        color: white;
+        padding: 0% 0% 3% 1%;
+        margin: 0% 0% 0% 0%;
+        line-height: 10%;
+    }
+    
+    p {
+        background-color: #475676;
+        border-bottom: 2px solid #38435B;
+        padding: 1% 0% 1% 1%;
+    }
+    
+    a {
+        float: right;
+        padding: 0% 3% 0% 0%;
+        font-family: 'Open Sans', sans-serif;
+    }
+</style>
+
+<div class="wrap">
+
+    {% include 'navbar.html' %} {% if has_record == 'no' %}
+    <div id="sectionHeading">
+        <a href="/accounts/profile/create_medical_records/{{ patient.id }}">(Create Medical Records)</a>
+    </div>
+    {% endif %}
+
+</div>
+
+
+
+<div id="sectionText">
+    {% block profile %}
+
+    <p>Patient: {{patient.user.first_name}} {{patient.user.last_name}}</p>
+    <p>Username: {{ patient.user.username }}</p>
+    <p>Date of Birth: {{dob}}</p>
+    <p>Contact Information: {{patient.contact_info}}</p>
+
+</div>
+
+{% if has_record == 'yes' %}
+<div id="sectionHeading">
+    <h2>Medical Records:</h2>
+    <a href="/accounts/profile/edit_medical_records/{{ patient.id }}">(Edit Medical Records)</a>
+</div>
+
+
+
+<div id="sectionText">
+    <p>Allergies: {{ record.allergies}}</p>
+    <p>Current Status: {{ record.current_status }}</p>
+    <p>Current Hospital: {{ record.current_hospital }}</p>
+    <p>Previous Hospital: {{ record.previous_hospitals }}</p>
+</div>
+{% endif %} {% endblock %}
+
+</div>
+
+
+</html>

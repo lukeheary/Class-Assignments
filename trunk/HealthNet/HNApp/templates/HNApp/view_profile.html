@@ -78,37 +78,33 @@
 </div>
 
 
-    <div id="sectionText">
-        {% block profile %}
-
-        {% if user == '0' %}
+<div id="sectionText">
+    {% block profile %}
+    {% if user == '0' %}
         <p>Name: {{patient.user.first_name}} {{patient.user.last_name}}</p>
         <p>Username: {{ patient.user.username }}</p>
         <p>Date of Birth: {{dob}}</p>
         <p>Contact Information: {{patient.contact_info}}</p>
+        <p>Emergency Contact Information: {{patient.emergency_info}}</p>
 
-        {% elif user == '1' %}
+    {% elif user == '1' %}
         <p>Name: {{doctor.first_name}} {{doctor.last_name}}</p>
         <p>Username: {{ doctor.user.username }}</p>
         <p>Date of Birth: {{dob}}</p>
         <p>Specialization: {{ doctor.specialization }}</p>
         <p>Current Hospital: {{ doctor.current_hospital }}</p>
 
-        {% elif user == '2' %}
+    {% elif user == '2' %}
         <p>Name: {{nurse.first_name}} {{nurse.last_name}}</p>
         <p>Username: {{ nurse.user.username }}</p>
         <p>Date of Birth: {{dob}}</p>
         <p>Specialization: {{ nurse.specialization }}</p>
         <p>Current Hospital: {{ nurse.current_hospital }}</p>
 
-        {% else %}
+    {% else %}
         <p>It looks like you don't have a profile. Please login to a valid account.</p>
-        {% endif %}
-        {% endblock %}
-
-        {% block medical_records %}
-        {% if user == '0' %}
-    </div>
+    {% endif %} {% endblock %} {% block medical_records %} {% if user == '0' %}
+</div>
 
     <div id="sectionHeading">
         <h2>Medical Records:</h2>
