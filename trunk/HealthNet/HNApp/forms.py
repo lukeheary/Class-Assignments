@@ -84,7 +84,7 @@ class CreateMedicalRecordsForm(ModelForm):
         allergies = forms.CharField()
         current_hospital = forms.CharField()
         previous_hospitals = forms.CharField()
-        fields = [ 'patient', 'allergies','current_status','current_hospital',  'previous_hospitals'] 
+        fields = ['patient', 'allergies', 'current_status', 'current_hospital', 'previous_hospitals']
 
 
 class EditPatientProfileForm(ModelForm):
@@ -119,4 +119,4 @@ class EditMedicalRecordsForm(ModelForm):
     """
     class Meta:
         model = MedicalRecord
-        fields = [ 'allergies','current_hospital', 'current_status', 'previous_hospitals']
+        fields = ['allergies', 'current_hospital', 'current_status', 'previous_hospitals']
