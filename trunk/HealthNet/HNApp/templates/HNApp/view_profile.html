@@ -69,9 +69,9 @@
 
     <div id="sectionHeading">
         <h2>Profile</h2>
-        {% get_id request as id %}
-        {% if id != '1' and id != '2' %}
-            <a href="/accounts/profile/edit_medical_records/{{ patient.id }}">(Edit Profile)</a>
+        {% get_user_type request as user %}
+        {% if user == '0' %}
+            <a href="/accounts/profile/edit_patient_profile/{{ patient.id }}">(Edit Profile)</a>
         {% endif %}
     </div>
 
