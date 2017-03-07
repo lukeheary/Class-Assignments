@@ -286,7 +286,7 @@ class EditProfileView(View):
         """
         form = self.form_class(request.POST)
 
-        #If the form is valid
+        # If the form is valid
         if form.is_valid():
             patient = Patient.objects.get(pk=pk)
             emergency_info = form.cleaned_data['emergency_info']
@@ -298,7 +298,7 @@ class EditProfileView(View):
             patient.dob = dob
             patient.allergies = allergies
 
-            #Later on will work on to let doctors and nurses to edit their profile
+            # Later on will work on to let doctors and nurses to edit their profile
             """if meType.equals('Doctor') or meType.equals('Nurse'):
                 first_name = form.cleaned_data['first name']
                 last_name = form.cleaned_data['last name']

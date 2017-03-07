@@ -4,6 +4,7 @@ from django.contrib.auth.models import AnonymousUser
 
 register = template.Library()
 
+
 @register.assignment_tag
 def get_user_type(request):
     """
@@ -24,6 +25,7 @@ def get_user_type(request):
     else:
         return ''
 
+
 @register.assignment_tag
 def get_sys_log(request):
     """
@@ -37,6 +39,7 @@ def get_sys_log(request):
         all_lines.append(line)
     return all_lines
 
+
 @register.assignment_tag
 def get_id(request):
     """
@@ -48,3 +51,19 @@ def get_id(request):
         return str(request.user.id)
     else:
         return ''
+
+
+@register.assignment_tag
+def get_num_of_appt(user, all_appointments, request):
+    """
+    get_id gets the id of the user who is currently logged in
+    :param request: the request of the user who is on the site
+    :return: users id
+    """
+    if user == '1' or user == '2':
+        return '-1'
+    for appointment in all_appointments:
+        count = 0
+        if appointment.patient.user.id == int(user):
+            count += 1
+        return count

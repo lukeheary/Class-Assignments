@@ -98,7 +98,8 @@
     {% get_user_type request as user %}
     {% get_id request as id %}
     {% if user == '0' or user == '1' or user == '2' %}
-        {% if all_appointments %}
+    {% get_num_of_appt user all_appointments request as num %}
+    {% if all_appointments and num != 0 %}
         <table class="table table-hover" style="width:70%">
             <thead>
                 <tr>
