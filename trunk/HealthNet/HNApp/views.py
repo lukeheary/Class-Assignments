@@ -151,7 +151,7 @@ def register_success(request):
 def profile_patient(request, pk):
     template = loader.get_template('HNApp/view_profile.html')
     user = Patient.objects.get(pk=pk)
-    dob = str(user.patient.dob)
+    dob = str(user.dob)
     context = {
         'patient': user,
         'dob': dob,
@@ -163,7 +163,7 @@ def profile_patient(request, pk):
 def profile_doctor(request, pk):
     template = loader.get_template('HNApp/view_profile.html')
     user = Doctor.objects.get(pk=pk)
-    dob = str(user.doctor.dob)
+    dob = str(user.dob)
     context = {
         'doctor': user,
         'dob': dob,
@@ -175,7 +175,7 @@ def profile_doctor(request, pk):
 def profile_nurse(request, pk):
     template = loader.get_template('HNApp/view_profile.html')
     user = Nurse.objects.get(pk=pk)
-    dob = str(user.nurse.dob)
+    dob = str(user.dob)
     context = {
         'nurse': user,
         'dob': dob,
