@@ -65,16 +65,13 @@
 
 <div class="wrap">
 
-    {% include 'navbar.html' %} {% if has_record == 'no' %}
-    <div id="sectionHeading">
-        <a href="/accounts/profile/create_medical_records/{{ patient.id }}">(Create Medical Records)</a>
-    </div>
-    {% endif %}
+    {% include 'navbar.html' %}
 
 </div>
 
-
-
+<div id="sectionHeading">
+    <h2>Profile:</h2>
+</div>
 <div id="sectionText">
     {% block profile %}
 
@@ -82,8 +79,18 @@
     <p>Username: {{ patient.user.username }}</p>
     <p>Date of Birth: {{dob}}</p>
     <p>Contact Information: {{patient.contact_info}}</p>
+    <p>Emergency Information: {{patient.emergency_info}}</p>
 
 </div>
+
+{% if has_record == 'no' %}
+    <div id="sectionHeading">
+        <h2>Medical Records:</h2>
+        <a href="/accounts/profile/create_medical_records/{{ patient.id }}">(Create Medical Records)</a>
+    </div>
+    <div id="sectionText">
+        <p>No medical records available.</p>
+    {% endif %}
 
 {% if has_record == 'yes' %}
 <div id="sectionHeading">
