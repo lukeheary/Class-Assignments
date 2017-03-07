@@ -2,11 +2,10 @@ from django.http import HttpResponse
 from .forms import *
 from django.template import loader, RequestContext
 from django.views.generic import View
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.contrib import auth
-# security purpose
 from django.core.context_processors import csrf
 import time
 from django.core.urlresolvers import reverse
@@ -166,13 +165,20 @@ def profile_patient(request, pk):
     dob = str(user.dob)
     patient = Patient.objects.all().filter(pk=pk)
     records = MedicalRecord.objects.all().filter(patient=patient)
-    record = records[0]
-    context = {
-        'patient': user,
-        'dob': dob,
-        'user': '0',
-        'record': record,
-    }
+    if len(records) is not 0:
+        record = records[0]
+        context = {
+            'patient': user,
+            'dob': dob,
+            'user': '0',
+            'record': record,
+        }
+    else:
+        context = {
+            'patient': user,
+            'dob': dob,
+            'user': '0',
+        }
     return HttpResponse(template.render(context, request))
 
 

@@ -4,17 +4,14 @@ from django.contrib.auth.models import AnonymousUser
 
 register = template.Library()
 
-
-@register.simple_tag
-def active(request, pattern):
-    import re
-    print(pattern + " : " + request.path)
-    if re.search(pattern, request.path):
-        return 'active'
-    return ''
-
 @register.assignment_tag
 def get_user_type(request):
+    """
+    get_user_type determines if the person viewing the site is a
+    patient, doctor, nurse, or isn't logged in
+    :param request: the request of the user who is on the site
+    :return: a number as a string indicating who is logged in
+    """
     if hasattr(request, 'user'):
         if hasattr(request.user, 'patient'):
             return '0'
@@ -29,6 +26,11 @@ def get_user_type(request):
 
 @register.assignment_tag
 def get_sys_log(request):
+    """
+    get_sys_log returns all the lines of the sys.txt in a list
+    :param request: the request of the user who is on the site
+    :return: list of lines
+    """
     all_lines = []
     f = open('sys.txt', 'r')
     for line in f:
@@ -37,6 +39,11 @@ def get_sys_log(request):
 
 @register.assignment_tag
 def get_id(request):
+    """
+    get_id gets the id of the user who is currently logged in
+    :param request: the request of the user who is on the site
+    :return: users id
+    """
     if hasattr(request, 'user'):
         return str(request.user.id)
     else:
