@@ -116,3 +116,12 @@ Abbysuccessfully registered: Mon, 06 Mar 2017 21:56:17 EST(-0500)
 abysigned in.Mon, 06 Mar 2017 21:56:23 EST(-0500)
 [<MedicalRecord: My Tran: sv, sa>, <MedicalRecord: My Tran: A, Haha>, <MedicalRecord: My Tran: jklerjel, nfefw>, <MedicalRecord: My Tran: kjhjkh, ghjgjk>, <MedicalRecord: My Tran: kjhjkh, ghjgjk>, <MedicalRecord: My Tran: hey, ghjgjk>, <MedicalRecord: My Tran: fklwejfw, fkslj>] [<Patient: Abby Tran>]
 [<MedicalRecord: My Tran: sv, sa>, <MedicalRecord: My Tran: A, Haha>, <MedicalRecord: My Tran: jklerjel, nfefw>, <MedicalRecord: My Tran: kjhjkh, ghjgjk>, <MedicalRecord: My Tran: kjhjkh, ghjgjk>, <MedicalRecord: My Tran: hey, ghjgjk>, <MedicalRecord: My Tran: fklwejfw, fkslj>] [<Patient: Abby Tran>]
+
+Brandonsuccessfully registered: Mon, 06 Mar 2017 21:58:15 EST(-0500)
+brandonsigned in.Mon, 06 Mar 2017 21:58:27 EST(-0500)
+brandonlogged out: Mon, 06 Mar 2017 22:01:38 EST(-0500)
+Brandonsuccessfully registered: Mon, 06 Mar 2017 22:02:01 EST(-0500)
+brandon1signed in.Mon, 06 Mar 2017 22:02:09 EST(-0500)
+brandon1 edited their profile: Mon, 06 Mar 2017 22:03:57 EST(-0500)
+brandon1 edited their profile: Mon, 06 Mar 2017 22:05:27 EST(-0500)
+

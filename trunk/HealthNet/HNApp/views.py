@@ -54,6 +54,7 @@ def auth_view(request):
     else:
         return HttpResponseRedirect('/accounts/invalid_login')
 
+
 def loggedin(request):
     """
     Confirm that user is loggedin and redirect them to the homepage
@@ -274,16 +275,6 @@ class EditProfileView(View):
                                         'dob': patient.dob,
                                         'allergies': patient.allergies})
             return render(request, self.template_name, {'form': form})
-            
-        #Later on will work on to let doctors and nurses to edit their profil
-        """if hasattr(request.user, 'doctor') or hasattr(request.user, 'nurse'):
-
-            form = self.form_class(initial={'first name': request.user.first_name,
-                                            'last_name': request.user.last_name,
-                                            'specialization': request.user.specialization,
-                                            'current hospital': request.user.current_hospital})
-            return render(request, self.template_name, {'form': form})
-        """
 
     def post(self, request, pk):
         """
@@ -328,7 +319,7 @@ class EditProfileView(View):
             f.close()
             sys.stdout = orig_out
         
-        return redirect('/accounts/profile/' + pk)
+        return redirect('/accounts/profile/patient/' + pk)
 
 
 class EditMedicalRecordView(View):
