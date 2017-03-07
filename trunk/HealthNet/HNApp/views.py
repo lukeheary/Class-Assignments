@@ -214,9 +214,9 @@ def profile_nurse(request, pk):
 
 def patient_list(request):
     """
-    TODO
+    Display the list of patients
     :param request: HTTP Request
-    :return: HttpResponse
+    :return: HttpResponse rendered 'patient_list.html'
     """
     all_patients = Patient.objects.all()
     template = loader.get_template('HNApp/patient_list.html')
@@ -228,9 +228,9 @@ def patient_list(request):
 
 def appointment_list(request):
     """
-    TODO
+    Display the list of appointments of each doctor
     :param request: HTTP Request
-    :return: HttpResponse
+    :return: HttpResponse rendered 'appointment_list.html'
     """
     all_appointments = Appointment.objects.all()
     template = loader.get_template('HNApp/appointment_list.html')
@@ -240,13 +240,13 @@ def appointment_list(request):
     return HttpResponse(template.render(context, request))
 
 
-class LoginTool(View):
-    """
-    TODO
-    """
-    model = User
-    form_class = SignUpForm
-    template_name = 'HNApp/login.html'
+# class LoginTool(View):
+#     """
+#     TODO
+#     """
+#     model = User
+#     form_class = SignUpForm
+#     template_name = 'HNApp/login.html'
 
 
 class EditProfileView(View):
