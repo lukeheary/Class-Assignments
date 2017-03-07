@@ -69,8 +69,10 @@
 
     <div id="sectionHeading">
         <h2>Profile</h2>
-        {% get_id request as id %} {% if user == '0' %}
-        <a href="/accounts/profile/edit_patient_profile/{{ patient.id }}">(Edit Profile)</a> {% endif %}
+        {% get_id request as id %}
+        {% if id == '0' %}
+            <a href="/accounts/profile/edit_patient_profile/{{ patient.id }}">(Edit Profile)</a>
+        {% endif %}
     </div>
 
 </div>
@@ -110,6 +112,10 @@
 
     <div id="sectionHeading">
         <h2>Medical Records:</h2>
+        {% if id == '1' or id == '2' %}
+            <a href="/accounts/profile/edit_medical_records/{{ patient.id }}">(Edit Medical Records)</a>
+        {% endif %}
+
     </div>
     <div id="sectionText">
         <p>Allergies: {{patient.allergies}}</p>
@@ -119,7 +125,7 @@
         {% endif %}
         {% endblock %}
 
-</div>
+    </div>
 </div>
 
 </html>

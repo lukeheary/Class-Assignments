@@ -107,7 +107,7 @@
             {% if all_patients %}
                 {% for patient in all_patients %}
                     <tr>
-                        <td><a href="/accounts/profile/patient/{{ patient.id }}">{{ patient.user.first_name }} {{ patient.user.last_name }}</a></td>
+                        <td><a href="/accounts/profile/patient/{{ patient.user.id }}">{{ patient.user.first_name }} {{ patient.user.last_name }}</a></td>
                         <td>{{ patient.dob }}</td>
                         <td>{{ patient.contact_info }}</td>
                     </tr>
