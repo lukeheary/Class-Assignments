@@ -2,11 +2,10 @@ from django.http import HttpResponse
 from .forms import *
 from django.template import loader, RequestContext
 from django.views.generic import View
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.contrib import auth
-# security purpose
 from django.core.context_processors import csrf
 import time
 from django.core.urlresolvers import reverse
