@@ -146,14 +146,21 @@ def register(request):
 
 def register_success(request):
     """
-    Confirm that the user has registered successfully
-    :param request:
-    :return:
+    Confirm that the user has registered successfully.
+    :param request: HTTP Request
+    :return: If input is valid, direct user to 'register_success.html' page and then immediately lead to the Login page
+    :return: If input is invalid, render the signup form again
     """
     return render_to_response('register_success.html')
 
 
 def profile_patient(request, pk):
+    """
+    Rendered view_profile.html to help patients view their profile
+    :param request: HTTP Request
+    :param pk: the id of the Patient object
+    :return: HttpResponse rendered 'view_profile.html'
+    """
     template = loader.get_template('HNApp/view_profile.html')
     user = Patient.objects.get(pk=pk)
     dob = str(user.dob)
@@ -166,6 +173,12 @@ def profile_patient(request, pk):
 
 
 def profile_doctor(request, pk):
+    """
+    Rendered view_profile.html to help doctors view their profile
+    :param request: HTTP Request
+    :param pk: the id of the Doctor object
+    :return: HttpResponse rendered 'view_profile.html'
+    """
     template = loader.get_template('HNApp/view_profile.html')
     user = Doctor.objects.get(pk=pk)
     dob = str(user.dob)
@@ -178,6 +191,12 @@ def profile_doctor(request, pk):
 
 
 def profile_nurse(request, pk):
+    """
+    Rendered view_profile.html to help nurses view their profile
+    :param request: HTTP Request
+    :param pk: the id of the Nurse object
+    :return: HttpResponse rendered 'view_profile.html'
+    """
     template = loader.get_template('HNApp/view_profile.html')
     user = Nurse.objects.get(pk=pk)
     dob = str(user.dob)
