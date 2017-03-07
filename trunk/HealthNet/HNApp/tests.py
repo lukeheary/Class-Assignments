@@ -235,3 +235,86 @@ class PatientSignUpTest(TestCase):
     def test_validity(self):
         self.assertTrue(self.PSU.is_valid())
 
+
+class CreateMedicalRecordsFormTest(TestCase):
+    """
+    Unit tests for CreateMedicalRecordsForm.
+    NOTE: Gives issues presently
+    """
+    def setUp(self):
+        self.u1 = User.objects.create(username="JD123",
+                                      password="password",
+                                      first_name="Jane",
+                                      last_name="Doe"
+                                      )
+
+        self.patient = Patient.objects.create(user=self.u1,
+                                              dob="2001-01-01",
+                                              contact_info="(123)-456-7890",
+                                              emergency_info="info",
+                                              allergies="AllergenA, AllergenB",
+                                              )
+
+        self.form_data = {'patient': Patient.objects.get(pk=1),
+                          'allergies': self.patient.allergies,
+                          'current_status': 'Injured',
+                          'current_hospital': 'HospitalC',
+                          'previous_hospitals': 'HospitalA, HospitalB'}
+
+        self.form = CreateMedicalRecordsForm(data=self.form_data)
+
+    def test_validity(self):
+        print(self.form)
+        self.assertTrue(self.form.is_valid())
+
+    def tearDown(self):
+        self.patient.delete()
+        self.u1.delete()
+
+
+class EditPatientProfileFormTest(TestCase):
+    """
+    Unit tests for EditPatientProfileForm
+    """
+    def setUp(self):
+        self.form_data = {'dob': '2001-01-01',
+                          'contact_info': '123-4567',
+                          'emergency_info': 'info',
+                          'allergies': 'AllergenA, AllergenB'}
+
+        self.form = EditPatientProfileForm(data=self.form_data)
+
+    def test_validity(self):
+        self.assertTrue(self.form.is_valid())
+
+
+class EditStaffProfileFormTest(TestCase):
+    """
+    Unit tests for EditStaffProfileForm
+    """
+    def setUp(self):
+        self.form_data = {'first_name': 'Jane',
+                          'last_name': 'Doe',
+                          'specialization': 'Cardiology',
+                          'current_hospital': 'HospitalA'}
+
+        self.form = EditStaffProfileForm(data=self.form_data)
+
+    def test_validity(self):
+        self.assertTrue(self.form.is_valid())
+
+
+class EditMedicalRecordsFormTest(TestCase):
+    """
+    Unit tests for EditMedicalRecordsForm
+    """
+    def setUp(self):
+        self.form_data = {'allergies': 'Whatever',
+                          'current_status': 'Injured',
+                          'current_hospital': 'HospitalC',
+                          'previous_hospitals': 'HospitalA, HospitalB'}
+
+        self.form = EditMedicalRecordsForm(data=self.form_data)
+
+    def test_validity(self):
+        self.assertTrue(self.form.is_valid())
