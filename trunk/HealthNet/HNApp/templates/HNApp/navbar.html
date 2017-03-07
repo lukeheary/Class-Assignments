@@ -23,7 +23,7 @@
         <li><a class="" href="/patient_list">Patient List</a></li>
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
         <li><a class="" href="/appointment_list"> Appointment Calender </a></li>
-        <li><a class="" href="/accounts/profile/doctor/{{ request.doctor.id }}"> My Profile  </a></li>
+        <li><a class="" href="/accounts/profile/doctor/{{ request.user.doctor.id }}"> My Profile  </a></li>
         <li><a class="" href="/accounts/logout"> Logout  </a></li>
 
      <!-- Nurse -->
@@ -31,7 +31,7 @@
         <li><a class="" href="/patient_list">Patient List</a></li>
         <li><a class="" href="/create_appointment"> Create Appointment </a></li>
         <li><a class="" href="/appointment_list"> Appointment Calender </a></li>
-        <li><a class="" href="/accounts/profile/nurse/{{ request.nurse.id }}"> My Profile  </a></li>
+        <li><a class="" href="/accounts/profile/nurse/{{ request.user.nurse.id }}"> My Profile  </a></li>
         <li><a class="" href="/accounts/logout"> Logout  </a></li>
     {% else %}
 
