@@ -3,13 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-"""
-- Patient applies a OneToOne relationship with Django built-in User class
-- User class already has: first_name, last_name, username, password
-- Patient class extends with: dob, contact_info, emergency_info, allergies, preferred_hospital(currently not working)
-"""
-
-
 class Patient(models.Model):
     """
     Holds personal information related to a Patient user.

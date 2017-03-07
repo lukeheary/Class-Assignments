@@ -164,10 +164,14 @@ def profile_patient(request, pk):
     template = loader.get_template('HNApp/view_profile.html')
     user = Patient.objects.get(pk=pk)
     dob = str(user.dob)
+    patient = Patient.objects.all().filter(pk=pk)
+    records = MedicalRecord.objects.all().filter(patient=patient)
+    record = records[0]
     context = {
         'patient': user,
         'dob': dob,
         'user': '0',
+        'record': record,
     }
     return HttpResponse(template.render(context, request))
 
@@ -323,52 +327,40 @@ class EditMedicalRecordView(View):
     form_class = EditMedicalRecordsForm
 
     def get(self, request, pk):
-        patient = Patient.objects.get(pk=pk)
-        all_records = MedicalRecord.objects.all()
-        records = MedicalRecord.objects.get(pk=1)
-        for rec in all_records:
-            if rec.patient == patient:
-                records = rec
+        patient = Patient.objects.all().filter(pk=pk)
+        records = MedicalRecord.objects.all()
+        print(records, patient)
         form = self.form_class(initial={
-                                        'allergies': records.allergies,
-                                        'current_hospital': records.current_hospital,
-                                        'previous_hospitals': records.previous_hospitals,
-                                        'current_status': records.current_status})
+                                        'allergies': records[0].allergies,
+                                        'current_hospital': records[0].current_hospital,
+                                        'previous_hospitals': records[0].previous_hospitals,
+                                        'current_status': records[0].current_status})
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, pk):
         form = self.form_class(request.POST)
         if form.is_valid():
             patient = Patient.objects.get(pk=pk)
-            all_records = MedicalRecord.objects.all()
-            records = MedicalRecord.objects.get(pk=1)
-            for rec in all_records:
-                if rec.patient == patient:
-                    records = rec
+            records = MedicalRecord.objects.all().filter(patient=patient)
             allergies = form.cleaned_data['allergies']
             current_status = form.cleaned_data['current_status']
             current_hospital = form.cleaned_data['current_hospital']
             previous_hospitals = form.cleaned_data['previous_hospitals']
-
-           
-            records.allergies = allergies
-            records.current_status = current_status
-            records.current_hospital = current_hospital
-            records.previous_hospitals = previous_hospitals
-
-           
-
-            records.save()
+            records[0].allergies = allergies
+            records[0].current_status = current_status
+            records[0].current_hospital = current_hospital
+            records[0].previous_hospitals = previous_hospitals
+            records[0].save()
 
             orig_out = sys.stdout
             f = open('sys.txt', 'a')
             sys.stdout = f
             tm = time.strftime('%a, %d %b %Y %H:%M:%S %Z(%z)')
-            str = request.user.username + " edited the record of: " + records.patient.user.username + tm
+            str = request.user.username + " edited the record of: " + records[0].patient.user.username + tm
             print(str)
             f.close()
             sys.stdout = orig_out
-        return redirect('/medical_record/' + pk)
+        return redirect('/patient_list')
 
 
 class CreateAppointmentView(View):
@@ -423,16 +415,14 @@ def medical_record(request, pk):
     :param request:
     :return:
     """
-    #template = 'HNApp/accounts/profile/patient/' + pk
-    patient = Patient.objects.get(pk=pk)
-    all_records = MedicalRecord.objects.all()
-    records = MedicalRecord.objects.get(pk=1)
-    records.patient = patient
-    for rec in all_records:
-        if rec.patient == patient:
-            records = rec
-    return redirect('/accounts/profile/patient/' + pk)
-    #render( request, template, {'record':records})
+    # patient = Patient.objects.get(pk=pk)
+    # all_records = MedicalRecord.objects.all()
+    # records = MedicalRecord.objects.all().filter(patient=patient)
+    # records.patient = patient
+    # for rec in all_records:
+    #     if rec.patient == patient:
+    #         records = rec
+    return redirect('/patient_list/')
 
 
 class CreateMedicalRecordView(View):
@@ -459,7 +449,7 @@ class CreateMedicalRecordView(View):
             previous_hospitals = form.cleaned_data['previous_hospitals']
 
             records.patient = patient
-            records.allergies = allergies
+            records.patient.allergies = allergies
             records.current_status = current_status
             records.current_hospital = current_hospital
             records.previous_hospitals = previous_hospitals

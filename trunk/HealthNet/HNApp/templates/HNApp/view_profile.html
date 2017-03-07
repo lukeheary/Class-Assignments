@@ -113,15 +113,16 @@
     <div id="sectionHeading">
         <h2>Medical Records:</h2>
         {% if id == '1' or id == '2' %}
+            <a href="/accounts/profile/create_medical_records/{{ patient.id }}">(Create Medical Records)</a>
             <a href="/accounts/profile/edit_medical_records/{{ patient.id }}">(Edit Medical Records)</a>
         {% endif %}
 
     </div>
     <div id="sectionText">
-        <p>Allergies: {{patient.allergies}}</p>
-        <p>Current Status: {{ patient.current_status }}</p>
-        <p>Current Hospital: {{ patient.current_hospital }}</p>
-        <p>Previous Hospital: {{ patient.previous_hospitals }}</p>
+        <p>Allergies: {{ record.allergies}}</p>
+        <p>Current Status: {{ record.current_status }}</p>
+        <p>Current Hospital: {{ record.current_hospital }}</p>
+        <p>Previous Hospital: {{ record.previous_hospitals }}</p>
         {% endif %}
         {% endblock %}
 
